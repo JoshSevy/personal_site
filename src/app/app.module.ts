@@ -12,6 +12,7 @@ import { AppComponent } from './app.component';
 import { SimpleHeaderComponent } from './header/simple-header/simple-header.component';
 import { StayTunedModule } from './homepage/stay-tuned/stay-tuned.module';
 import { FooterComponent } from './footer/footer/footer.component';
+import { LoaderModule } from './components/loader/loader.module';
 
 const materialModules = [
   MatCommonModule,
@@ -26,6 +27,7 @@ const materialModules = [
     AppRoutingModule,
     BrowserAnimationsModule,
     ...materialModules,
+    LoaderModule,
     StayTunedModule,
   ],
   providers: [],
