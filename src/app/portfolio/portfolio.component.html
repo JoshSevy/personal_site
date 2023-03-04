@@ -1,1 +1,13 @@
-<p>portfolio works!</p>
+	<div class="spinner_container" *ngIf="loading$ | async; else article">
+		<mat-spinner></mat-spinner>
+	</div>
+	<ng-template #article>
+		<h1 class="article__header">{{ tempData.header }}</h1>
+		<p class="article__micro-copy">{{tempData.microCopy }}</p>
+		<div>
+			<p class="article__body">{{tempData.paragraph}}</p>
+			<p class="article__body">{{tempData.paragraph}}</p>
+			<p class="article__body">{{tempData.paragraph}}</p>
+		</div>
+	</ng-template>
+
