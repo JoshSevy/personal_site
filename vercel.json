@@ -1,8 +1,0 @@
-{
-  "redirects": [
-    { "source": "http://www.joshuasevy.com", "destination": "https://www.joshuasevy.com", "permanent": true }
-  ],
-  "routes": [
-    { "src": "/(.*)", "dest": "/" }
-  ]
-}
