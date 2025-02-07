@@ -1,40 +1,42 @@
 <header class="bg-gray-900 text-white py-4 px-6 shadow-md">
   <div class="max-w-7xl mx-auto flex items-center justify-between">
-    <!-- Logo / Title -->
-    <h1 class="text-2xl font-bold">{{ title }}</h1>
 
-    <!-- Navigation Menu -->
+    <!-- Logo -->
+    <a routerLink="/" class="flex items-center">
+      <img src="/logo.png" alt="Joshua Sevy Logo" class="h-14 w-auto">
+    </a>
+
+    <!-- Navigation Menu (Desktop) -->
     <nav aria-label="Main navigation" class="hidden md:flex space-x-6">
-      <a routerLink="/"
-         class="text-gray-300 hover:text-white transition duration-300"
-         aria-label="Home">
-        Home
-      </a>
-      <a routerLink="/about"
-         class="text-gray-300 hover:text-white transition duration-300"
-         aria-label="About">
-        About
-      </a>
-      <a routerLink="/resume"
-         class="text-gray-300 hover:text-white transition duration-300"
-         aria-label="Resume">
-        Resume
-      </a>
-      <a routerLink="/contact"
-         class="text-gray-300 hover:text-white transition duration-300"
-         aria-label="Contact">
-        Contact
-      </a>
+      <a routerLink="/" class="nav-link" aria-label="Home">Home</a>
+      <a routerLink="/about" class="nav-link" aria-label="About">About</a>
+      <a routerLink="/resume" class="nav-link" aria-label="Resume">Resume</a>
+      <a routerLink="/contact" class="nav-link" aria-label="Contact">Contact</a>
     </nav>
-    <button (click)="toggleDarkMode()"
-            class="bg-gray-200 dark:bg-gray-800 text-gray-800 dark:text-gray-200 px-4 py-2 rounded-md shadow-md transition duration-300 hover:scale-105">
-      🌞 / 🌙
-    </button>
-    <!-- Mobile Menu Button (Optional) -->
-    <button class="md:hidden text-white focus:outline-none">
+
+    <!-- Dark Mode Toggle -->
+    <div class="dark-mode-container">
+      <input type="checkbox" id="darkModeToggle" (change)="toggleDarkMode()" class="hidden">
+      <label for="darkModeToggle" class="dark-mode-switch">
+        <span class="icon">🌞</span>
+        <span class="slider"></span>
+        <span class="icon">🌙</span>
+      </label>
+    </div>
+
+    <!-- Mobile Menu Button -->
+    <button class="block md:hidden text-white focus:outline-none" (click)="toggleMobileMenu()">
       <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16m-7 6h7"></path>
       </svg>
     </button>
   </div>
+
+  <!-- Mobile Navigation (Dropdown) -->
+  <nav *ngIf="mobileMenuOpen" class="block md:hidden bg-gray-800 text-white py-4 px-6 space-y-3">
+    <a routerLink="/" class="block nav-link">Home</a>
+    <a routerLink="/about" class="block nav-link">About</a>
+    <a routerLink="/resume" class="block nav-link">Resume</a>
+    <a routerLink="/contact" class="block nav-link">Contact</a>
+  </nav>
 </header>

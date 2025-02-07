@@ -11,8 +11,12 @@ import { DarkModeService } from '../services/dark-mode.service';
   styleUrl: './header.component.css'
 })
 export class HeaderComponent {
-  title = 'Joshua Sevy';
+  mobileMenuOpen = false;
   constructor(private darkModeService: DarkModeService) {}
+
+  toggleMobileMenu() {
+    this.mobileMenuOpen = !this.mobileMenuOpen;
+  }
 
   toggleDarkMode() {
     this.darkModeService.toggleDarkMode();
