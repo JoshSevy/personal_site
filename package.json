@@ -1,6 +1,6 @@
 {
-  "name": "plans",
-  "version": "0.0.0",
+  "name": "personal-website",
+  "version": "0.0.1",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
