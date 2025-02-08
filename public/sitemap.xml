@@ -3,28 +3,49 @@
   
   <url>
     <loc>https://www.joshuasevy.com/</loc>
-    <lastmod>2025-02-07</lastmod>
+    <lastmod>2025-02-08</lastmod>
     <priority>1.0</priority>
   </url>
   
 
   <url>
     <loc>https://www.joshuasevy.com/about</loc>
-    <lastmod>2025-02-07</lastmod>
+    <lastmod>2025-02-08</lastmod>
     <priority>0.8</priority>
   </url>
   
 
   <url>
     <loc>https://www.joshuasevy.com/resume</loc>
-    <lastmod>2025-02-07</lastmod>
+    <lastmod>2025-02-08</lastmod>
     <priority>0.8</priority>
   </url>
   
 
   <url>
     <loc>https://www.joshuasevy.com/contact</loc>
-    <lastmod>2025-02-07</lastmod>
+    <lastmod>2025-02-08</lastmod>
+    <priority>0.6</priority>
+  </url>
+  
+
+  <url>
+    <loc>https://www.joshuasevy.com/blog</loc>
+    <lastmod>2025-02-08</lastmod>
+    <priority>0.7</priority>
+  </url>
+  
+
+  <url>
+    <loc>https://www.joshuasevy.com/blog/1</loc>
+    <lastmod>2025-02-08</lastmod>
+    <priority>0.6</priority>
+  </url>
+  
+
+  <url>
+    <loc>https://www.joshuasevy.com/blog/2</loc>
+    <lastmod>2025-01-15</lastmod>
     <priority>0.6</priority>
   </url>
   
