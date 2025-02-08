@@ -20,7 +20,7 @@ export class HeaderComponent {
     this.mobileMenuOpen = !this.mobileMenuOpen;
   }
 
-  toggleDarkMode() {
-    this.darkModeService.toggleDarkMode();
+  closeMobileMenu() {
+    this.mobileMenuOpen = false;
   }
 }

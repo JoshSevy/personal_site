@@ -1,42 +1,131 @@
-<header class="bg-gray-900 text-white py-4 px-6 shadow-md">
-  <div class="max-w-7xl mx-auto flex items-center justify-between">
-
-    <!-- Logo -->
-    <a routerLink="/" class="flex items-center">
-      <img src="/logo.png" alt="Joshua Sevy Logo" class="h-14 w-auto">
-    </a>
-
-    <!-- Navigation Menu (Desktop) -->
-    <nav aria-label="Main navigation" class="hidden md:flex space-x-6">
-      <a routerLink="/" class="nav-link" aria-label="Home">Home</a>
-      <a routerLink="/about" class="nav-link" aria-label="About">About</a>
-      <a routerLink="/resume" class="nav-link" aria-label="Resume">Resume</a>
-      <a routerLink="/contact" class="nav-link" aria-label="Contact">Contact</a>
-    </nav>
-
-    <!-- Dark Mode Toggle -->
-    <div class="dark-mode-container">
-      <input type="checkbox" id="darkModeToggle" (change)="toggleDarkMode()" class="hidden">
-      <label for="darkModeToggle" class="dark-mode-switch">
-        <span class="icon">🌞</span>
-        <span class="slider"></span>
-        <span class="icon">🌙</span>
-      </label>
+<header class="bg-gray-900 text-white shadow-md">
+  <nav
+    class="mx-auto flex max-w-7xl items-center justify-between p-6"
+    aria-label="Global"
+  >
+    <!-- Left Section: Logo -->
+    <div class="flex items-center">
+      <a href="/" class="flex items-center space-x-2">
+        <img
+          class="h-8 w-auto"
+          src="/logo.png"
+          alt="Joshua Sevy Logo"
+        />
+      </a>
     </div>
 
-    <!-- Mobile Menu Button -->
-    <button class="block md:hidden text-white focus:outline-none" (click)="toggleMobileMenu()">
-      <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16m-7 6h7"></path>
-      </svg>
-    </button>
-  </div>
+    <!-- Right Section: Navigation Links or Hamburger Menu -->
+    <div class="hidden lg:flex lg:gap-x-12">
+      <a
+        routerLink="/"
+        class="text-sm font-semibold text-gray-300 hover:text-white transition"
+      >Home</a
+      >
+      <a
+        routerLink="/about"
+        class="text-sm font-semibold text-gray-300 hover:text-white transition"
+      >About</a
+      >
+      <a
+        routerLink="/resume"
+        class="text-sm font-semibold text-gray-300 hover:text-white transition"
+      >Resume</a
+      >
+      <a
+        routerLink="/contact"
+        class="text-sm font-semibold text-gray-300 hover:text-white transition"
+      >Contact</a
+      >
+    </div>
 
-  <!-- Mobile Navigation (Dropdown) -->
-  <nav *ngIf="mobileMenuOpen" class="block md:hidden bg-gray-800 text-white py-4 px-6 space-y-3">
-    <a routerLink="/" class="block nav-link">Home</a>
-    <a routerLink="/about" class="block nav-link">About</a>
-    <a routerLink="/resume" class="block nav-link">Resume</a>
-    <a routerLink="/contact" class="block nav-link">Contact</a>
+    <!-- Hamburger Menu (Mobile Only) -->
+    <div class="flex lg:hidden">
+      <button
+        (click)="toggleMobileMenu()"
+        type="button"
+        class="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-300 hover:text-white"
+        aria-label="Open main menu"
+      >
+        <svg
+          class="h-6 w-6"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="1.5"
+          stroke="currentColor"
+          aria-hidden="true"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
+          />
+        </svg>
+      </button>
+    </div>
   </nav>
+
+  <!-- Mobile Menu -->
+  <div
+    *ngIf="mobileMenuOpen"
+    class="lg:hidden fixed inset-0 z-10 bg-gray-900 text-white p-6 overflow-y-auto"
+    role="dialog"
+    aria-modal="true"
+  >
+    <div class="flex items-center justify-between">
+      <a href="/" class="flex items-center space-x-2">
+        <img
+          class="h-8 w-auto"
+          src="/logo.png"
+          alt="Joshua Sevy Logo"
+        />
+      </a>
+      <button
+        type="button"
+        class="-m-2.5 rounded-md p-2.5 text-gray-300 hover:text-white"
+        (click)="toggleMobileMenu()"
+        aria-label="Close menu"
+      >
+        <svg
+          class="h-6 w-6"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="1.5"
+          stroke="currentColor"
+          aria-hidden="true"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M6 18 18 6M6 6l12 12"
+          />
+        </svg>
+      </button>
+    </div>
+    <div class="mt-6">
+      <a
+        routerLink="/"
+        (click)="closeMobileMenu()"
+        class="block rounded-lg px-3 py-2 text-base font-semibold text-gray-300 hover:bg-gray-800 hover:text-white transition"
+      >Home</a
+      >
+      <a
+        routerLink="/about"
+        (click)="closeMobileMenu()"
+        class="block rounded-lg px-3 py-2 text-base font-semibold text-gray-300 hover:bg-gray-800 hover:text-white transition"
+      >About</a
+      >
+      <a
+        routerLink="/resume"
+        (click)="closeMobileMenu()"
+        class="block rounded-lg px-3 py-2 text-base font-semibold text-gray-300 hover:bg-gray-800 hover:text-white transition"
+      >Resume</a
+      >
+      <a
+        routerLink="/contact"
+        (click)="closeMobileMenu()"
+        class="block rounded-lg px-3 py-2 text-base font-semibold text-gray-300 hover:bg-gray-800 hover:text-white transition"
+      >Contact</a
+      >
+    </div>
+  </div>
 </header>

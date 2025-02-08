@@ -1,6 +1,6 @@
 @import "tailwindcss";
 
-/* Smooth Transition */
+/* Smooth Transition for Dark Mode */
 html {
   transition: background-color 0.5s ease, color 0.5s ease;
 }
@@ -21,30 +21,42 @@ input:focus, textarea:focus {
   transition: transform 0.3s ease-in-out;
 }
 
-/* Dark Mode Fixes */
-.bg-light {
-  background-color: #f9fafb;
-  color: #1a202c;
+/* Dark Mode Base Styles */
+body {
+  background-color: #1a202c; /* Dark background */
+  color: #e2e8f0; /* Light text */
 }
 
-.dark .bg-light {
+h1, h2, h3, p, li {
+  color: #e2e8f0; /* Uniform heading and text color */
+}
+
+a {
+  color: #63b3ed; /* Blue links */
+  transition: color 0.3s ease-in-out;
+}
+
+a:hover {
+  color: #4299e1; /* Darker blue on hover */
+}
+
+.bg-gray-900 {
   background-color: #1a202c;
+}
+
+.bg-card {
+  background-color: #2d3748;
   color: #e2e8f0;
+  border: 1px solid #4a5568;
 }
 
-/* Work Experience Timeline Styling */
-.border-l-4 {
-  position: relative;
-}
-
-.border-l-4::before {
-  content: "";
-  position: absolute;
-  left: -8px;
-  top: 0;
-  width: 4px;
-  height: 100%;
-  background-color: #3b82f6; /* Blue timeline line */
+/* Glassmorphism Effect */
+.glass-card {
+  background: rgba(0, 0, 0, 0.65); /* Dark glass effect */
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.25);
 }
 
 /* Progress Bar Animation */
@@ -53,115 +65,34 @@ input:focus, textarea:focus {
   transition: width 1.5s ease-in-out;
 }
 
-/* ✅ Dark Mode Fixes */
-.dark {
-  background-color: #1a202c;
-  color: white;
-}
-
-.dark h1, .dark h2, .dark p, .dark li {
-  color: #e2e8f0;
-}
-
-.dark a {
-  color: #63b3ed;
-}
-
-.dark a:hover {
-  color: #4299e1;
-}
-
-.dark .bg-gray-100 {
-  background-color: #2d3748;
-}
-
-.dark .bg-gray-900 {
-  background-color: #1a202c;
-}
-
-/* ✅ Text Readability Improvements */
+/* Text Readability */
 .text-primary {
-  color: #1a202c; /* Strong contrast in light mode */
-}
-
-.dark .text-primary {
-  color: #e2e8f0;
+  color: #e2e8f0; /* Default light text */
 }
 
 .text-secondary {
-  color: #374151; /* Slightly softer than primary */
+  color: #cbd5e0; /* Softer gray for secondary text */
 }
 
-.dark .text-secondary {
-  color: #cbd5e0;
-}
-
-/* ✅ Fix Faded Text */
 .text-faded {
-  color: #2d3748 !important;
-  opacity: 1 !important;
+  color: #a0aec0; /* Faded gray text */
 }
 
-.dark .text-faded {
-  color: #e2e8f0 !important;
-}
-
-/* ✅ Improve Backgrounds for Cards */
-.bg-card {
-  background-color: #ffffff;
-  color: #1a202c;
-  border: 1px solid #d1d5db;
-}
-
-.dark .bg-card {
-  background-color: #2d3748;
-  color: #e2e8f0;
-  border-color: #4a5568;
-}
-
-/* ✅ Glassmorphism Effect */
-.glass-card {
-  background: rgba(255, 255, 255, 0.75);
-  border-radius: 12px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-  backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.5);
-}
-
-.dark .glass-card {
-  background: rgba(0, 0, 0, 0.65);
-  border: 1px solid rgba(255, 255, 255, 0.25);
-}
-
-/* ✅ Improve Headings */
+/* Headings */
 h2, h3 {
-  color: #1a202c;
-}
-
-.dark h2, .dark h3 {
-  color: #f8fafc;
+  color: #f8fafc; /* Slightly lighter for emphasis */
 }
 
 .subheading {
-  color: #374151;
+  color: #cbd5e0; /* Muted heading for subheadings */
 }
 
-.dark .subheading {
-  color: #cbd5e0;
-}
-
-/* ✅ Neon Glow Effect (Balanced) */
+/* Neon Glow Effect */
 .neon-text {
-  text-shadow: 0 0 3px #00eaff, 0 0 6px #00eaff;
-  color: #1a202c;
-}
-
-.dark .neon-text {
   text-shadow: 0 0 5px #00eaff, 0 0 10px #00eaff;
   color: #e2e8f0;
 }
 
-/* ✅ Neon Hover Effect */
 .neon-hover {
   transition: all 0.3s ease-in-out;
 }
@@ -170,7 +101,7 @@ h2, h3 {
   text-shadow: 0 0 8px #00eaff, 0 0 16px #00eaff;
 }
 
-/* ✅ Animations */
+/* Animations */
 @keyframes fadeInUp {
   from {
     opacity: 0;
@@ -186,11 +117,6 @@ h2, h3 {
   animation: fadeInUp 0.6s ease-out;
 }
 
-/* ✅ Resume Download Button */
-.bg-blue-500:hover {
-  background-color: #2563eb;
-}
-
 /* Navigation Link Styling */
 .nav-link {
   color: #cbd5e0;
@@ -202,117 +128,27 @@ h2, h3 {
   transform: scale(1.05);
 }
 
-/* 🌓 Dark Mode Toggle Styling */
-.dark-mode-container {
-  display: flex;
-  align-items: center;
-}
-
-.dark-mode-switch {
-  display: flex;
-  align-items: center;
-  position: relative;
-  width: 50px;
-  height: 24px;
-  background: #e2e8f0;
-  border-radius: 50px;
-  cursor: pointer;
-  transition: background 0.3s ease-in-out;
-}
-
-.dark .dark-mode-switch {
-  background: #2d3748;
-}
-
-.dark-mode-switch .icon {
-  position: absolute;
-  font-size: 16px;
-  transition: opacity 0.3s ease-in-out;
-}
-
-.dark-mode-switch .icon:first-child {
-  left: 6px;
-  opacity: 1;
-}
-
-.dark .dark-mode-switch .icon:first-child {
-  opacity: 0;
-}
-
-.dark-mode-switch .icon:last-child {
-  right: 6px;
-  opacity: 0;
-}
-
-.dark .dark-mode-switch .icon:last-child {
-  opacity: 1;
-}
-
-.slider {
-  position: absolute;
-  left: 4px;
-  width: 18px;
-  height: 18px;
-  background: white;
-  border-radius: 50%;
-  transition: transform 0.3s ease-in-out;
-}
-
-.dark .slider {
-  transform: translateX(26px);
-}
-
-/* CTA Button Styles */
+/* Button Styling */
 a {
-  transition: all 0.3s ease-in-out;
+  color: white !important;
 }
 
-/* 🟦 Blue Button (Higher Contrast) */
 .bg-blue-700 {
-  background-color: #1d4ed8; /* Darker Blue for better contrast */
+  background-color: #1d4ed8; /* Dark blue */
 }
 
 .hover\:bg-blue-800:hover {
   background-color: #1e40af; /* Even darker blue on hover */
 }
 
-.focus\:ring-blue-400:focus {
-  box-shadow: 0 0 8px rgba(59, 130, 246, 0.6); /* Improved focus ring */
-}
-
-/* ⚫ Black Button (Higher Contrast) */
 .bg-gray-900 {
   background-color: #111827; /* True dark gray */
 }
 
 .hover\:bg-gray-950:hover {
-  background-color: #0a0e17; /* Slightly darker on hover */
+  background-color: #0a0e17; /* Slightly darker gray */
 }
 
-.focus\:ring-gray-500:focus {
-  box-shadow: 0 0 8px rgba(107, 114, 128, 0.6); /* Improved focus ring */
+.transition {
+  transition: all 0.3s ease-in-out;
 }
-
-/* Force text-white on buttons */
-a {
-  color: white !important;
-}
-
-/* Ensure text stays white in dark mode */
-.dark a {
-  color: white !important;
-}
-
-/* Improved Hover & Focus Effects */
-.transition-colors {
-  transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
-}
-
-.bg-blue-700 {
-  background-color: #1d4ed8 !important;
-}
-
-.bg-gray-900 {
-  background-color: #111827 !important;
-}
-
