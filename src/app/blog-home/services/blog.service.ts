@@ -1,38 +1,46 @@
 import { Injectable } from '@angular/core';
-import { BlogPost } from './../blog-post.model';
+import { Apollo, gql } from 'apollo-angular';
+
+const GET_POSTS = gql`
+  query GetPosts {
+    posts {
+      id
+      title
+      content
+      author
+      publish_date
+    }
+  }
+`;
+
+const GET_POST_BY_ID = gql`
+  query GetPostById($id: ID!) {
+    post(id: $id) {
+      id
+      title
+      content
+      author
+      publish_date
+    }
+  }
+`;
 
 @Injectable({
   providedIn: 'root',
 })
 export class BlogService {
-  private posts: BlogPost[] = [
-    {
-      id: 1,
-      title: 'Getting Started with Angular',
-      excerpt: 'A quick guide to understanding Angular and its core concepts.',
-      content: '<p>Angular is a powerful framework for building...</p>',
-      author: 'Joshua Sevy',
-      publishDate: '2025-02-08',
-      tags: ['Angular', 'Frontend', 'Tutorial'],
-      imageUrl: 'assets/angular-guide.jpg',
-    },
-    {
-      id: 2,
-      title: 'Improving App Performance',
-      excerpt: 'Learn how to optimize your Angular app for better performance.',
-      content: '<p>Performance optimization is crucial for...</p>',
-      author: 'Joshua Sevy',
-      publishDate: '2025-01-15',
-      tags: ['Performance', 'Optimization', 'Angular'],
-      imageUrl: 'assets/performance-tips.jpg',
-    },
-  ];
+  constructor(private apollo: Apollo) {}
 
-  getAllPosts(): BlogPost[] {
-    return this.posts;
+  getPosts() {
+    return this.apollo.watchQuery<any>({
+      query: GET_POSTS,
+    }).valueChanges;
   }
 
-  getPostById(id: number): BlogPost | undefined {
-    return this.posts.find(post => post.id === id);
+  getPostById(id: number) {
+    return this.apollo.watchQuery<any>({
+      query: GET_POST_BY_ID,
+      variables: { id },
+    }).valueChanges;
   }
 }

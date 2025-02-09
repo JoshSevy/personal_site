@@ -3,6 +3,8 @@ import { ActivatedRoute } from '@angular/router';
 import { BlogService } from '../services/blog.service';
 import { BlogPost } from '../blog-post.model';
 import { NgIf } from '@angular/common';
+import { ApolloQueryResult } from '@apollo/client';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-blog-post',
@@ -12,7 +14,7 @@ import { NgIf } from '@angular/common';
   templateUrl: './blog-post.component.html',
 })
 export class BlogPostComponent implements OnInit {
-  post: BlogPost | undefined;
+  post: any;
 
   constructor(
     private route: ActivatedRoute,
