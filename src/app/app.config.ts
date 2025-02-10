@@ -18,6 +18,10 @@ export const appConfig: ApplicationConfig = {
       return {
         link: httpLink.create({ uri: 'https://www.joshuasevy.com/graphql' }),
         cache: new InMemoryCache(),
+        method: 'POST', // Explicitly use POST
+        headers: {
+          'Content-Type': 'application/json', // Ensure JSON format
+        },
       };
     }),
   ],
