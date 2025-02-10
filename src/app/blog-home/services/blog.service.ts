@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Apollo, gql } from 'apollo-angular';
+import { BlogPost } from '../blog-post.model';
+import { map } from 'rxjs';
 
 const GET_POSTS = gql`
   query GetPosts {
@@ -32,15 +34,19 @@ export class BlogService {
   constructor(private apollo: Apollo) {}
 
   getPosts() {
-    return this.apollo.watchQuery<any>({
+    return this.apollo.watchQuery<{ posts: BlogPost[] }>({
       query: GET_POSTS,
-    }).valueChanges;
+    }).valueChanges.pipe(
+      map(result => result.data.posts)
+    );
   }
 
-  getPostById(id: number) {
-    return this.apollo.watchQuery<any>({
+  getPostById(id: string | null) {
+    return this.apollo.watchQuery<{ post: BlogPost }>({
       query: GET_POST_BY_ID,
       variables: { id },
-    }).valueChanges;
+    }).valueChanges.pipe(
+      map(result => result.data.post)
+    );
   }
 }
