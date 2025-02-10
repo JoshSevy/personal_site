@@ -16,7 +16,7 @@ export const appConfig: ApplicationConfig = {
       const httpLink = inject(HttpLink);
 
       return {
-        link: httpLink.create({ uri: 'https://www.joshuasevy.com/graphql' }),
+        link: httpLink.create({ uri: 'https://joshuasevy.com/graphql' }),
         cache: new InMemoryCache(),
         method: 'POST', // Explicitly use POST
         headers: {
