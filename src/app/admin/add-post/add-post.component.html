@@ -1,0 +1,7 @@
+<h2>Add New Post</h2>
+<form (ngSubmit)="addPost()">
+  <input [(ngModel)]="post.title" name="title" placeholder="Title" required class="input" />
+  <textarea [(ngModel)]="post.content" name="content" placeholder="Content" required class="input"></textarea>
+  <input [(ngModel)]="post.author" name="author" placeholder="Author" class="input" />
+  <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">Add Post</button>
+</form>
