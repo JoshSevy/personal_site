@@ -14,5 +14,11 @@ export const routes: Routes = [
   { path: 'resume', component: ResumeComponent },
   { path: 'blog', component: BlogHomeComponent },
   { path: 'blog/:id', component: BlogPostComponent },
+  { path: 'admin', component: AdminDashboardComponent, children: [
+      { path: 'posts', component: ManagePostsComponent },
+      { path: 'posts/add', component: AddPostComponent },
+      { path: 'posts/edit/:id', component: EditPostComponent },
+    ]
+  },
   { path: '**', component: PageNotFoundComponent}
 ];

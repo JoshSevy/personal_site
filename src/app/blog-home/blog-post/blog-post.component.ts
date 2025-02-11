@@ -3,7 +3,6 @@ import { ActivatedRoute } from '@angular/router';
 import { BlogService } from '../services/blog.service';
 import { BlogPost } from '../blog-post.model';
 import { AsyncPipe, NgIf } from '@angular/common';
-import { ApolloQueryResult } from '@apollo/client';
 import { Observable } from 'rxjs';
 
 @Component({

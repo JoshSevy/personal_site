@@ -49,4 +49,45 @@ export class BlogService {
       map(result => result.data.post)
     );
   }
+
+  createPost(post: any) {
+    return this.apollo.mutate({
+      mutation: gql`
+      mutation CreatePost($title: String!, $content: String!, $author: String) {
+        createPost(title: $title, content: $content, author: $author) {
+          id
+          title
+        }
+      }
+    `,
+      variables: post,
+    });
+  }
+
+  updatePost(id: string, post: any) {
+    return this.apollo.mutate({
+      mutation: gql`
+      mutation UpdatePost($id: ID!, $title: String, $content: String, $author: String) {
+        updatePost(id: $id, title: $title, content: $content, author: $author) {
+          id
+          title
+        }
+      }
+    `,
+      variables: { id, ...post },
+    });
+  }
+
+  deletePost(id: string) {
+    return this.apollo.mutate({
+      mutation: gql`
+      mutation DeletePost($id: ID!) {
+        deletePost(id: $id) {
+          id
+        }
+      }
+    `,
+      variables: { id },
+    });
+  }
 }
