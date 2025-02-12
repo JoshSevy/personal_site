@@ -1,4 +1,4 @@
-<header class="bg-gray-900 text-white shadow-md">
+<header class="bg-teal-800 text-white shadow-md">
   <nav
     class="mx-auto flex max-w-7xl items-center justify-between p-6"
     aria-label="Global"
@@ -14,26 +14,26 @@
       </a>
     </div>
 
-    <!-- Right Section: Navigation Links or Hamburger Menu -->
+    <!-- Right Section: Navigation Links (Desktop Only) -->
     <div class="hidden lg:flex lg:gap-x-12">
       <a
         routerLink="/"
-        class="text-sm font-semibold text-gray-300 hover:text-white transition"
+        class="text-sm font-semibold text-gray-200 hover:text-teal-300 transition"
       >Home</a
       >
       <a
         routerLink="/about"
-        class="text-sm font-semibold text-gray-300 hover:text-white transition"
+        class="text-sm font-semibold text-gray-200 hover:text-teal-300 transition"
       >About</a
       >
       <a
         routerLink="/resume"
-        class="text-sm font-semibold text-gray-300 hover:text-white transition"
+        class="text-sm font-semibold text-gray-200 hover:text-teal-300 transition"
       >Resume</a
       >
       <a
         routerLink="/contact"
-        class="text-sm font-semibold text-gray-300 hover:text-white transition"
+        class="text-sm font-semibold text-gray-200 hover:text-teal-300 transition"
       >Contact</a
       >
     </div>
@@ -43,7 +43,7 @@
       <button
         (click)="toggleMobileMenu()"
         type="button"
-        class="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-300 hover:text-white"
+        class="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-300 hover:text-teal-300"
         aria-label="Open main menu"
       >
         <svg
@@ -67,7 +67,7 @@
   <!-- Mobile Menu -->
   <div
     *ngIf="mobileMenuOpen"
-    class="lg:hidden fixed inset-0 z-10 bg-gray-900 text-white p-6 overflow-y-auto"
+    class="lg:hidden fixed inset-0 z-10 bg-teal-800 text-white p-6 overflow-y-auto"
     role="dialog"
     aria-modal="true"
   >
@@ -81,7 +81,7 @@
       </a>
       <button
         type="button"
-        class="-m-2.5 rounded-md p-2.5 text-gray-300 hover:text-white"
+        class="-m-2.5 rounded-md p-2.5 text-gray-300 hover:text-teal-300"
         (click)="toggleMobileMenu()"
         aria-label="Close menu"
       >
@@ -101,29 +101,29 @@
         </svg>
       </button>
     </div>
-    <div class="mt-6">
+    <div class="mt-6 space-y-4">
       <a
         routerLink="/"
         (click)="closeMobileMenu()"
-        class="block rounded-lg px-3 py-2 text-base font-semibold text-gray-300 hover:bg-gray-800 hover:text-white transition"
+        class="block rounded-lg px-3 py-2 text-base font-semibold text-gray-200 hover:bg-teal-700 hover:text-white transition"
       >Home</a
       >
       <a
         routerLink="/about"
         (click)="closeMobileMenu()"
-        class="block rounded-lg px-3 py-2 text-base font-semibold text-gray-300 hover:bg-gray-800 hover:text-white transition"
+        class="block rounded-lg px-3 py-2 text-base font-semibold text-gray-200 hover:bg-teal-700 hover:text-white transition"
       >About</a
       >
       <a
         routerLink="/resume"
         (click)="closeMobileMenu()"
-        class="block rounded-lg px-3 py-2 text-base font-semibold text-gray-300 hover:bg-gray-800 hover:text-white transition"
+        class="block rounded-lg px-3 py-2 text-base font-semibold text-gray-200 hover:bg-teal-700 hover:text-white transition"
       >Resume</a
       >
       <a
         routerLink="/contact"
         (click)="closeMobileMenu()"
-        class="block rounded-lg px-3 py-2 text-base font-semibold text-gray-300 hover:bg-gray-800 hover:text-white transition"
+        class="block rounded-lg px-3 py-2 text-base font-semibold text-gray-200 hover:bg-teal-700 hover:text-white transition"
       >Contact</a
       >
     </div>

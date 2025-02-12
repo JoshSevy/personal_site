@@ -152,3 +152,14 @@ a {
 .transition {
   transition: all 0.3s ease-in-out;
 }
+
+input::placeholder {
+  color: #a5a8b1; /* A medium gray color */
+  opacity: 1; /* Ensures visibility */
+}
+
+input:focus::placeholder {
+  color: #6b7280; /* Slightly darker gray when focused */
+}
+
+
