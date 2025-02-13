@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import 'quill/dist/quill.snow.css';
 
 /* Smooth Transition for Dark Mode */
 html {
@@ -141,10 +142,6 @@ a {
   background-color: #1e40af; /* Even darker blue on hover */
 }
 
-.bg-gray-900 {
-  background-color: #111827; /* True dark gray */
-}
-
 .hover\:bg-gray-950:hover {
   background-color: #0a0e17; /* Slightly darker gray */
 }
@@ -160,6 +157,15 @@ input::placeholder {
 
 input:focus::placeholder {
   color: #6b7280; /* Slightly darker gray when focused */
+}
+
+.ql-syntax {
+  background-color: #2d2d2d; /* Dark theme */
+  color: #f8f8f2;
+  font-family: 'Fira Code', monospace;
+  padding: 10px;
+  border-radius: 5px;
+  overflow-x: auto;
 }
 
 

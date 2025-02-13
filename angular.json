@@ -28,9 +28,12 @@
               "src/assets"
             ],
             "styles": [
+              "node_modules/highlight.js/styles/github-dark.css",
               "src/styles.css"
             ],
-            "scripts": []
+            "scripts": [
+              "node_modules/highlight.js/lib/index.js"
+            ]
           },
           "configurations": {
             "production": {

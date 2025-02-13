@@ -1,7 +1,53 @@
-<h2>Edit Post</h2>
-<form (ngSubmit)="updatePost()">
-  <input [(ngModel)]="post.title" name="title" placeholder="Title" required class="input" />
-  <textarea [(ngModel)]="post.content" name="content" placeholder="Content" required class="input"></textarea>
-  <input [(ngModel)]="post.author" name="author" placeholder="Author" class="input" />
-  <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">Update Post</button>
-</form>
+<div class="container mx-auto max-w-4xl p-6 bg-gray-900 text-white rounded-lg shadow-lg">
+  <h1 class="text-3xl font-bold mb-6">Edit Post</h1>
+
+  <!-- Title -->
+  <div class="mb-4">
+    <label for="title" class="block text-lg font-semibold mb-2">Title</label>
+    <input
+      id="title"
+      type="text"
+      [(ngModel)]="post.title"
+      [ngModelOptions]="{ standalone: true }"
+      class="w-full p-3 rounded bg-gray-800 text-white focus:ring focus:ring-blue-500"
+      placeholder="Enter post title"
+    />
+  </div>
+
+  <!-- Quill Editor -->
+  <div class="mb-4">
+    <label for="content" class="block text-lg font-semibold mb-2">Content</label>
+    <quill-editor
+      *ngIf="contentLoaded"
+      id="content"
+      [ngModel]="post.content"
+      [ngModelOptions]="{ standalone: true }"
+      [modules]="modules"
+      [style]="{ height: '300px' }"
+      placeholder="Write your content here..."
+    ></quill-editor>
+  </div>
+
+  <!-- Author -->
+  <div class="mb-4">
+    <label for="author" class="block text-lg font-semibold mb-2">Author</label>
+    <input
+      id="author"
+      type="text"
+      [(ngModel)]="post.author"
+      [ngModelOptions]="{ standalone: true }"
+      class="w-full p-3 rounded bg-gray-800 text-white focus:ring focus:ring-blue-500"
+      placeholder="Enter author name"
+    />
+  </div>
+
+  <!-- Submit Button -->
+  <div class="mt-6">
+    <button
+      (click)="updatePost()"
+      class="px-6 py-3 bg-blue-700 text-white font-semibold rounded shadow-md hover:bg-blue-800 transition"
+    >
+      Update Post
+    </button>
+  </div>
+</div>

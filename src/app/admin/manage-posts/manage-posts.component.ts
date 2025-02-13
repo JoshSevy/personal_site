@@ -1,13 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { BlogService } from '../../blog-home/services/blog.service';
 import { RouterLink } from '@angular/router';
+import { NgForOf } from "@angular/common";
 
 @Component({
   selector: 'app-manage-posts',
   templateUrl: './manage-posts.component.html',
-  imports: [
-    RouterLink
-  ]
+    imports: [
+        RouterLink,
+        NgForOf
+    ]
 })
 export class ManagePostsComponent implements OnInit {
   posts: any[] = [];

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { BlogService } from '../../blog-home/services/blog.service';
 import { FormsModule } from '@angular/forms';
 import { NgForOf } from '@angular/common';
+import { Router, RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-admin-dashboard',
@@ -9,7 +10,8 @@ import { NgForOf } from '@angular/common';
   styleUrls: [ './admin-dashboard.component.css' ],
   imports: [
     FormsModule,
-    NgForOf
+    NgForOf,
+    RouterOutlet
   ]
 })
 export class AdminDashboardComponent implements OnInit {
@@ -20,7 +22,7 @@ export class AdminDashboardComponent implements OnInit {
     author: '',
   };
 
-  constructor(private blogService: BlogService) {}
+  constructor(private blogService: BlogService, private router: Router) {}
 
   ngOnInit(): void {
     this.loadPosts();
@@ -40,6 +42,8 @@ export class AdminDashboardComponent implements OnInit {
   }
 
   editPost(post: any) {
+
+    this.router.navigate(['/admin/posts/edit', post.id]);
     // Navigate to a post edit form or show a modal
   }
 
