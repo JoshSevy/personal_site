@@ -3,7 +3,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { BlogService } from '../../blog-home/services/blog.service';
 import { FormsModule } from '@angular/forms';
 import { BlogPost } from '../../blog-home/blog-post.model';
-import { environment } from '../../../environments/environment';
 import { EditorComponent } from "@tinymce/tinymce-angular";
 
 import * as Prism from 'prismjs';
