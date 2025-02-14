@@ -15,6 +15,12 @@ import 'prismjs/components/prism-c';
 import 'prismjs/components/prism-csharp';
 import 'prismjs/components/prism-php';
 
+declare var process: {
+  env: {
+    [key: string]: string;
+  };
+};
+
 @Component({
   selector: 'app-edit-post',
   templateUrl: './edit-post.component.html',
