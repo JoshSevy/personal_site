@@ -2,42 +2,62 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BlogService } from '../../blog-home/services/blog.service';
 import { FormsModule } from '@angular/forms';
-import { QuillEditorComponent } from 'ngx-quill';
-import hljs from 'highlight.js';
-import { AsyncPipe, NgIf } from '@angular/common';
 import { BlogPost } from '../../blog-home/blog-post.model';
-import { Observable } from 'rxjs';
+import { environment } from '../../../environments/environment';
+import { EditorComponent } from "@tinymce/tinymce-angular";
+
+import * as Prism from 'prismjs';
+import 'prismjs/components/prism-typescript';
+import 'prismjs/components/prism-javascript';
+import 'prismjs/components/prism-css';
+import 'prismjs/components/prism-python';
+import 'prismjs/components/prism-java';
+import 'prismjs/components/prism-c';
+import 'prismjs/components/prism-csharp';
+import 'prismjs/components/prism-php';
 
 @Component({
   selector: 'app-edit-post',
   templateUrl: './edit-post.component.html',
-  imports: [ FormsModule, QuillEditorComponent, NgIf, AsyncPipe ],
+  imports: [ FormsModule, EditorComponent ],
 })
 export class EditPostComponent implements OnInit {
   post = {} as BlogPost;
-  contentLoaded = false; // Flag to track when content is loaded
-  modules = {
-    toolbar: [
-      ['bold', 'italic', 'underline', 'strike'], // toggled buttons
-      ['blockquote', 'code-block'],
-      [{ header: 1 }, { header: 2 }], // custom button values
-      [{ list: 'ordered' }, { list: 'bullet' }],
-      [{ script: 'sub' }, { script: 'super' }], // superscript/subscript
-      [{ indent: '-1' }, { indent: '+1' }], // outdent/indent
-      [{ direction: 'rtl' }], // text direction
+  mce_key=environment.mdcKey;
 
-      [{ size: ['small', false, 'large', 'huge'] }], // custom dropdown
-      [{ header: [1, 2, 3, 4, 5, 6, false] }],
-
-      [{ color: [] }, { background: [] }], // dropdown with defaults from theme
-      [{ font: [] }],
-      [{ align: [] }],
-
-      ['clean'], // remove formatting button
-
-      ['link', 'image', 'video'], // link and image, video
+  editorConfig = {
+    height: 500,
+    menubar: 'insert',
+    plugins: [
+      'advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'preview', 'anchor',
+      'searchreplace', 'visualblocks', 'code', 'fullscreen',
+      'insertdatetime', 'media', 'table', 'code', 'help', 'wordcount', 'codesample'
     ],
-    syntax: true
+    toolbar:
+        'undo redo | formatselect | bold italic underline | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | codesample image | removeformat | help',
+    codesample_languages: [
+      { text: 'HTML/XML', value: 'markup' },
+      { text: 'JavaScript', value: 'javascript' },
+      { text: 'TypeScript', value: 'typescript' },
+      { text: 'CSS', value: 'css' },
+      { text: 'Python', value: 'python' },
+      { text: 'Java', value: 'java' },
+      { text: 'C', value: 'c' },
+      { text: 'C#', value: 'csharp' },
+      { text: 'PHP', value: 'php' },
+    ],
+    setup: (editor: any) => {
+      editor.on('init', () => {
+        editor.contentDocument.querySelectorAll('pre code').forEach((block: HTMLElement) => {
+          Prism.highlightElement(block);
+        });
+      });
+      editor.on('SetContent', () => {
+        editor.contentDocument.querySelectorAll('pre code').forEach((block: HTMLElement) => {
+          Prism.highlightElement(block);
+        });
+      });
+    }
   };
 
   constructor(
@@ -55,12 +75,15 @@ export class EditPostComponent implements OnInit {
 
     // Fetch the post by ID and populate form
     this.blogService.getPostById(id).subscribe((post) => {
-      this.post = post;
-      this.contentLoaded = true; // Content is loaded
+      if (post && post.content) {
+        this.post = post;
+      } else {
+        console.error('Post content is missing.');
+      }
     });
 
     // Configure highlight.js globally
-    hljs.configure({ languages: ['javascript', 'typescript', 'html', 'css'] });
+    console.log('Quill editor initialized'); // Log to verify initialization
   }
 
   updatePost() {

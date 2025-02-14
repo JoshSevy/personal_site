@@ -1,105 +1,75 @@
 @import "tailwindcss";
-@import 'quill/dist/quill.snow.css';
 
 /* Smooth Transition for Dark Mode */
 html {
   transition: background-color 0.5s ease, color 0.5s ease;
 }
 
-/* Contact Form Styling */
+/* Body Base Styles */
+body {
+  background-color: #1a202c;
+  color: #e2e8f0;
+}
+
+/* General Links */
+a {
+  color: #63b3ed;
+  transition: color 0.3s ease-in-out;
+}
+a:hover {
+  color: #4299e1;
+}
+
+/* Forms */
 input, textarea {
   transition: border 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
 }
-
 input:focus, textarea:focus {
-  border-color: #3b82f6; /* Blue highlight */
+  border-color: #3b82f6;
   box-shadow: 0 0 8px rgba(59, 130, 246, 0.5);
 }
-
-/* Hover Effects */
-.bg-card:hover {
-  transform: scale(1.05);
-  transition: transform 0.3s ease-in-out;
+input::placeholder {
+  color: #737b88; /* Increased contrast for accessibility */
 }
 
-/* Dark Mode Base Styles */
-body {
-  background-color: #1a202c; /* Dark background */
-  color: #e2e8f0; /* Light text */
-}
-
-h1, h2, h3, p, li {
-  color: #e2e8f0; /* Uniform heading and text color */
-}
-
-a {
-  color: #63b3ed; /* Blue links */
-  transition: color 0.3s ease-in-out;
-}
-
-a:hover {
-  color: #4299e1; /* Darker blue on hover */
-}
-
-.bg-gray-900 {
-  background-color: #1a202c;
-}
-
+/* Cards */
 .bg-card {
   background-color: #2d3748;
   color: #e2e8f0;
   border: 1px solid #4a5568;
 }
+.bg-card:hover {
+  transform: scale(1.05);
+  transition: transform 0.3s ease-in-out;
+}
 
 /* Glassmorphism Effect */
 .glass-card {
-  background: rgba(0, 0, 0, 0.65); /* Dark glass effect */
+  background: rgba(0, 0, 0, 0.65);
   border-radius: 12px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
   backdrop-filter: blur(12px);
   border: 1px solid rgba(255, 255, 255, 0.25);
 }
 
-/* Progress Bar Animation */
-.progress-bar {
-  width: 0%;
-  transition: width 1.5s ease-in-out;
+/* Navigation */
+.nav-link {
+  color: #cbd5e0;
+  transition: color 0.3s ease, transform 0.2s ease-in-out;
+}
+.nav-link:hover {
+  color: #ffffff;
+  transform: scale(1.05);
 }
 
-/* Text Readability */
-.text-primary {
-  color: #e2e8f0; /* Default light text */
+/* Buttons */
+.button-primary {
+  background-color: #1d4ed8;
+  color: white;
+  transition: background-color 0.3s ease-in-out;
 }
-
-.text-secondary {
-  color: #cbd5e0; /* Softer gray for secondary text */
-}
-
-.text-faded {
-  color: #a0aec0; /* Faded gray text */
-}
-
-/* Headings */
-h2, h3 {
-  color: #f8fafc; /* Slightly lighter for emphasis */
-}
-
-.subheading {
-  color: #cbd5e0; /* Muted heading for subheadings */
-}
-
-/* Neon Glow Effect */
-.neon-text {
-  text-shadow: 0 0 5px #00eaff, 0 0 10px #00eaff;
-  color: #e2e8f0;
-}
-
-.neon-hover {
-  transition: all 0.3s ease-in-out;
-}
-
-.neon-hover:hover {
-  text-shadow: 0 0 8px #00eaff, 0 0 16px #00eaff;
+.button-primary:hover {
+  background-color: #1e40af;
 }
 
 /* Animations */
@@ -117,55 +87,3 @@ h2, h3 {
 .fade-in {
   animation: fadeInUp 0.6s ease-out;
 }
-
-/* Navigation Link Styling */
-.nav-link {
-  color: #cbd5e0;
-  transition: color 0.3s ease, transform 0.2s ease-in-out;
-}
-
-.nav-link:hover {
-  color: #ffffff;
-  transform: scale(1.05);
-}
-
-/* Button Styling */
-a {
-  color: white !important;
-}
-
-.bg-blue-700 {
-  background-color: #1d4ed8; /* Dark blue */
-}
-
-.hover\:bg-blue-800:hover {
-  background-color: #1e40af; /* Even darker blue on hover */
-}
-
-.hover\:bg-gray-950:hover {
-  background-color: #0a0e17; /* Slightly darker gray */
-}
-
-.transition {
-  transition: all 0.3s ease-in-out;
-}
-
-input::placeholder {
-  color: #a5a8b1; /* A medium gray color */
-  opacity: 1; /* Ensures visibility */
-}
-
-input:focus::placeholder {
-  color: #6b7280; /* Slightly darker gray when focused */
-}
-
-.ql-syntax {
-  background-color: #2d2d2d; /* Dark theme */
-  color: #f8f8f2;
-  font-family: 'Fira Code', monospace;
-  padding: 10px;
-  border-radius: 5px;
-  overflow-x: auto;
-}
-
-

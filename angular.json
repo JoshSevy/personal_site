@@ -28,12 +28,10 @@
               "src/assets"
             ],
             "styles": [
-              "node_modules/highlight.js/styles/github-dark.css",
-              "src/styles.css"
+              "src/styles.css",
+              "node_modules/prismjs/themes/prism.css"
             ],
-            "scripts": [
-              "node_modules/highlight.js/lib/index.js"
-            ]
+            "scripts": []
           },
           "configurations": {
             "production": {
