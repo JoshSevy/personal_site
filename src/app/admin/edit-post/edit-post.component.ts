@@ -23,7 +23,7 @@ import 'prismjs/components/prism-php';
 })
 export class EditPostComponent implements OnInit {
   post = {} as BlogPost;
-  mce_key=environment.mdcKey;
+  mce_key=environment.mdcKey ?? process.env['MDC_KEY'];
 
   editorConfig = {
     height: 500,
