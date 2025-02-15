@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { BlogService } from '../../blog-home/services/blog.service';
 import { FormsModule } from '@angular/forms';
 import { NgForOf } from '@angular/common';
-import { Router, RouterOutlet } from '@angular/router';
+import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-admin-dashboard',
@@ -10,8 +10,9 @@ import { Router, RouterOutlet } from '@angular/router';
   styleUrls: [ './admin-dashboard.component.css' ],
   imports: [
     FormsModule,
-    NgForOf,
-    RouterOutlet
+    RouterOutlet,
+    RouterLink,
+    RouterLinkActive
   ]
 })
 export class AdminDashboardComponent implements OnInit {

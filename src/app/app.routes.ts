@@ -23,6 +23,7 @@ export const routes: Routes = [
   { path: 'privacy-policy', component: PrivacyPolicyComponent },
   { path: 'terms-of-service', component: TermsOfServiceComponent },
   { path: 'admin', component: AdminDashboardComponent, children: [
+      { path: '', redirectTo: 'posts', pathMatch: 'full' },
       { path: 'posts', component: ManagePostsComponent },
       { path: 'posts/add', component: AddPostComponent },
       { path: 'posts/edit/:id', component: EditPostComponent },

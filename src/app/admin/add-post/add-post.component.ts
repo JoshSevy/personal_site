@@ -1,10 +1,14 @@
 import { Component } from '@angular/core';
 import { BlogService } from '../../blog-home/services/blog.service';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-add-post',
   templateUrl: './add-post.component.html',
-  styleUrls: ['./add-post.component.css'],
+  styleUrls: [ './add-post.component.css' ],
+  imports: [
+    FormsModule
+  ]
 })
 export class AddPostComponent {
   newPost = { title: '', content: '', author: '' };

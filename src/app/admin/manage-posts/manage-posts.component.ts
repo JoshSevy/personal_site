@@ -1,10 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { BlogService } from '../../blog-home/services/blog.service';
+import { NgForOf } from '@angular/common';
 
 @Component({
   selector: 'app-manage-posts',
   templateUrl: './manage-posts.component.html',
-  styleUrls: ['./manage-posts.component.css'],
+  styleUrls: [ './manage-posts.component.css' ],
+  imports: [
+    NgForOf
+  ]
 })
 export class ManagePostsComponent implements OnInit {
   posts: any[] = [];
