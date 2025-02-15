@@ -3,8 +3,9 @@
   "version": "0.0.2",
   "scripts": {
     "ng": "ng",
-    "start": "node generate-env.js && ng serve",
-    "build": "node generate-env.js && ng build",
+    "generate-env": "node generate-env.js",
+    "build": "npm run generate-env && ng build",
+    "start": "npm run generate-env.js && ng serve",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "generate:sitemap": "node generate-sitemap.js"
