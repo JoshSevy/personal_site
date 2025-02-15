@@ -1,5 +1,6 @@
 const fs = require('fs');
 const dotenv = require('dotenv');
+const path = require('path');
 
 // Load the .env file
 const envConfig = dotenv.config().parsed;
@@ -7,6 +8,15 @@ const envConfig = dotenv.config().parsed;
 if (!envConfig) {
   console.error('Error: .env file is missing or empty. Cannot generate environment files.');
   process.exit(1);
+}
+
+// Define paths
+const envDir = path.join(__dirname, 'src', 'environments');
+
+// Ensure the `src/environments` directory exists
+if (!fs.existsSync(envDir)) {
+  console.log(`Creating directory: ${envDir}`);
+  fs.mkdirSync(envDir, { recursive: true });
 }
 
 // Helper function to generate environment file content
@@ -26,3 +36,4 @@ console.log(`✅ Generated: ${devPath}`);
 const prodPath = './src/environments/environment.prod.ts';
 fs.writeFileSync(prodPath, generateEnvContent(true));
 console.log(`✅ Generated: ${prodPath}`);
+
