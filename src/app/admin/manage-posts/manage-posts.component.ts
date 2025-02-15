@@ -1,15 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { BlogService } from '../../blog-home/services/blog.service';
-import { RouterLink } from '@angular/router';
-import { NgForOf } from "@angular/common";
 
 @Component({
   selector: 'app-manage-posts',
   templateUrl: './manage-posts.component.html',
-    imports: [
-        RouterLink,
-        NgForOf
-    ]
+  styleUrls: ['./manage-posts.component.css'],
 })
 export class ManagePostsComponent implements OnInit {
   posts: any[] = [];
@@ -17,14 +12,24 @@ export class ManagePostsComponent implements OnInit {
   constructor(private blogService: BlogService) {}
 
   ngOnInit() {
+    this.loadPosts();
+  }
+
+  loadPosts() {
     this.blogService.getPosts().subscribe((data: any) => {
-      this.posts = data.posts;
+      this.posts = data;
     });
   }
 
-  deletePost(id: string) {
-    this.blogService.deletePost(id).subscribe(() => {
-      this.posts = this.posts.filter((post) => post.id !== id);
-    });
+  editPost(post: any) {
+    // Navigate to edit post page with post ID
+  }
+
+  confirmDelete(id: string) {
+    if (confirm('Are you sure you want to delete this post?')) {
+      this.blogService.deletePost(id).subscribe(() => {
+        this.loadPosts();
+      });
+    }
   }
 }

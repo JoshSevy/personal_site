@@ -1,21 +1,32 @@
-<h2>Manage Posts</h2>
-<a routerLink="add" class="bg-blue-500 text-white px-4 py-2 rounded">Add New Post</a>
-<table class="table-auto w-full mt-4">
-  <thead>
-  <tr>
-    <th class="text-left px-4 py-2">Title</th>
-    <th class="text-left px-4 py-2">Author</th>
-    <th class="text-left px-4 py-2">Actions</th>
-  </tr>
-  </thead>
-  <tbody>
-  <tr *ngFor="let post of posts">
-    <td class="px-4 py-2">{{ post.title }}</td>
-    <td class="px-4 py-2">{{ post.author }}</td>
-    <td class="px-4 py-2">
-      <a [routerLink]="['edit', post.id]" class="text-blue-500 hover:underline">Edit</a>
-      <button (click)="deletePost(post.id)" class="text-red-500 hover:underline ml-2">Delete</button>
-    </td>
-  </tr>
-  </tbody>
-</table>
+<section>
+  <h2 class="text-2xl font-semibold mb-4">Manage Blog Posts</h2>
+  <table class="w-full border-collapse border border-gray-300">
+    <thead>
+    <tr class="bg-gray-100">
+      <th class="border border-gray-300 px-4 py-2 text-left">Title</th>
+      <th class="border border-gray-300 px-4 py-2 text-left">Author</th>
+      <th class="border border-gray-300 px-4 py-2 text-left">Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let post of posts" class="hover:bg-gray-100">
+      <td class="border border-gray-300 px-4 py-2">{{ post.title }}</td>
+      <td class="border border-gray-300 px-4 py-2">{{ post.author }}</td>
+      <td class="border border-gray-300 px-4 py-2">
+        <button
+          (click)="editPost(post)"
+          class="text-blue-500 hover:underline"
+        >
+          Edit
+        </button>
+        <button
+          (click)="confirmDelete(post.id)"
+          class="text-red-500 hover:underline ml-4"
+        >
+          Delete
+        </button>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</section>

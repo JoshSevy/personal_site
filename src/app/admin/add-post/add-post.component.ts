@@ -1,20 +1,28 @@
 import { Component } from '@angular/core';
 import { BlogService } from '../../blog-home/services/blog.service';
-import { FormsModule } from '@angular/forms';
 
 @Component({
-  imports: [FormsModule],
   selector: 'app-add-post',
   templateUrl: './add-post.component.html',
+  styleUrls: ['./add-post.component.css'],
 })
 export class AddPostComponent {
-  post = { title: '', content: '', author: '' };
+  newPost = { title: '', content: '', author: '' };
 
   constructor(private blogService: BlogService) {}
 
-  addPost() {
-    this.blogService.createPost(this.post).subscribe(() => {
-      // Navigate to the manage posts page
+  createPost() {
+    this.blogService.createPost(this.newPost).subscribe(() => {
+      alert('Post added successfully!');
+      this.newPost = { title: '', content: '', author: '' };
     });
+  }
+
+  uploadImage(event: Event) {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files[0]) {
+      const file = input.files[0];
+      // Handle file upload logic here
+    }
   }
 }
