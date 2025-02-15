@@ -14,12 +14,7 @@ import 'prismjs/components/prism-java';
 import 'prismjs/components/prism-c';
 import 'prismjs/components/prism-csharp';
 import 'prismjs/components/prism-php';
-
-declare var process: {
-  env: {
-    [key: string]: string;
-  };
-};
+import { environment } from "../../../environments/environment";
 
 @Component({
   selector: 'app-edit-post',
@@ -28,7 +23,7 @@ declare var process: {
 })
 export class EditPostComponent implements OnInit {
   post = {} as BlogPost;
-  mce_key= process.env['MDC_KEY'];
+  mdc_key= environment.MDC_KEY;
 
   editorConfig = {
     height: 500,
@@ -78,6 +73,8 @@ export class EditPostComponent implements OnInit {
       return;
     }
 
+    console.log(environment?.MDC_KEY);
+
     // Fetch the post by ID and populate form
     this.blogService.getPostById(id).subscribe((post) => {
       if (post && post.content) {
@@ -86,9 +83,6 @@ export class EditPostComponent implements OnInit {
         console.error('Post content is missing.');
       }
     });
-
-    // Configure highlight.js globally
-    console.log('Quill editor initialized'); // Log to verify initialization
   }
 
   updatePost() {
