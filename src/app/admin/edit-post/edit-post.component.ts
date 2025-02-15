@@ -23,7 +23,7 @@ import { environment } from "../../../environments/environment";
 })
 export class EditPostComponent implements OnInit {
   post = {} as BlogPost;
-  mdc_key= environment.MDC_KEY;
+  mdc_key= environment.mdcKey;
 
   editorConfig = {
     height: 500,
