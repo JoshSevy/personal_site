@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { BlogService } from '../../blog-home/services/blog.service';
 import { NgForOf } from '@angular/common';
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { BlogService } from '../../blog-home/services/blog.service';
 
 @Component({
   selector: 'app-manage-posts',
@@ -13,7 +14,7 @@ import { NgForOf } from '@angular/common';
 export class ManagePostsComponent implements OnInit {
   posts: any[] = [];
 
-  constructor(private blogService: BlogService) {}
+  constructor(private blogService: BlogService, private router: Router) {}
 
   ngOnInit() {
     this.loadPosts();
@@ -26,7 +27,7 @@ export class ManagePostsComponent implements OnInit {
   }
 
   editPost(post: any) {
-    // Navigate to edit post page with post ID
+    this.router.navigate(['/admin/posts/edit', post.id]);
   }
 
   confirmDelete(id: string) {

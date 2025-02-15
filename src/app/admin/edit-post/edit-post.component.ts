@@ -10,10 +10,6 @@ import 'prismjs/components/prism-typescript';
 import 'prismjs/components/prism-javascript';
 import 'prismjs/components/prism-css';
 import 'prismjs/components/prism-python';
-import 'prismjs/components/prism-java';
-import 'prismjs/components/prism-c';
-import 'prismjs/components/prism-csharp';
-import 'prismjs/components/prism-php';
 import { environment } from "../../../environments/environment";
 
 @Component({
@@ -94,7 +90,7 @@ export class EditPostComponent implements OnInit {
     this.blogService.updatePost(id, this.post).subscribe(
       () => {
         console.log('Post updated successfully.');
-        this.router.navigate(['/admin/manage-posts']); // Navigate back to manage posts page
+        this.router.navigate(['/admin/posts']); // Navigate back to manage posts page
       },
       (error) => {
         console.error('Error updating post:', error);
