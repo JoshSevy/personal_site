@@ -73,8 +73,6 @@ export class EditPostComponent implements OnInit {
       return;
     }
 
-    console.log(environment?.MDC_KEY);
-
     // Fetch the post by ID and populate form
     this.blogService.getPostById(id).subscribe((post) => {
       if (post && post.content) {
