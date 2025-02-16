@@ -17,7 +17,8 @@ export class EditPostComponent implements OnInit {
     private blogService: BlogService,
     private route: ActivatedRoute,
     private router: Router
-  ) {}
+  ) {
+  }
 
   ngOnInit() {
     const id = this.route.snapshot.paramMap.get('id');
@@ -26,10 +27,11 @@ export class EditPostComponent implements OnInit {
       return;
     }
 
-    // Fetch the post by ID and populate form
+    // Fetch the post by ID and populate the form
     this.blogService.getPostById(id).subscribe((post) => {
       if (post && post.content) {
-        this.post = post;
+        // Create a mutable copy of the post object
+        this.post = { ...post };
       } else {
         console.error('Post content is missing.');
       }
@@ -43,11 +45,20 @@ export class EditPostComponent implements OnInit {
       return;
     }
 
-    // Update post
-    this.blogService.updatePost(id, this.post).subscribe(
+    // Extract only the fields needed for the update
+    const updatedPost = {
+      title: this.post.title,
+      content: this.post.content,
+      author: this.post.author,
+    };
+
+    console.log('Updated Post:', updatedPost); // Debug log
+
+    // Call the service with the cleaned object
+    this.blogService.updatePost(id, updatedPost).subscribe(
       () => {
         console.log('Post updated successfully.');
-        this.router.navigate(['/admin/posts']); // Navigate back to manage posts page
+        this.router.navigate([ '/admin/posts' ]); // Navigate back to manage posts page
       },
       (error) => {
         console.error('Error updating post:', error);
