@@ -1,7 +1,5 @@
 # 🌐 Joshua Sevy - Personal Website
 
-![Website Preview](assets/website-preview.png) <!-- Optional: Add a screenshot -->
-
 ## 📝 About
 This is my **personal portfolio website**, built using **Angular**, **Tailwind CSS**, and **TypeScript**. It showcases my **work, skills, and projects**, and includes a contact form for networking opportunities.
 
