@@ -23,7 +23,8 @@
         <h3 class="text-2xl font-semibold">Senior Software Engineer | Spectrum</h3>
         <p class="text-sm text-gray-600 dark:text-gray-400">March 2023 - Present</p>
         <p class="text-secondary">
-          Led the development of <strong>Angular & Ionic applications</strong>, designed scalable <strong>Micro Frontend architectures</strong>,
+          Led the development of <strong>Angular & Ionic applications</strong>, designed scalable <strong>Micro Frontend
+          architectures</strong>,
           and provided mentorship to software engineers.
         </p>
       </div>
@@ -31,14 +32,16 @@
         <h3 class="text-2xl font-semibold">Software Engineer | Spectrum</h3>
         <p class="text-sm text-gray-600 dark:text-gray-400">November 2021 - March 2023</p>
         <p class="text-secondary">
-          Built centralized authentication systems and <strong>federated login solutions</strong>, enhancing security and user experience.
+          Built centralized authentication systems and <strong>federated login solutions</strong>, enhancing security
+          and user experience.
         </p>
       </div>
       <div class="bg-card dark:bg-gray-800 p-6 rounded-lg shadow-md transition hover:scale-105">
         <h3 class="text-2xl font-semibold">Managing Partner | The Tatarian</h3>
         <p class="text-sm text-gray-600 dark:text-gray-400">November 2017 - March 2020</p>
         <p class="text-secondary">
-          Managed an award-winning <strong>craft cocktail bar</strong>, leading high-performance teams and driving operational excellence.
+          Managed an award-winning <strong>craft cocktail bar</strong>, leading high-performance teams and driving
+          operational excellence.
         </p>
       </div>
     </div>
@@ -54,9 +57,23 @@
       <span class="bg-card px-4 py-2 rounded-lg shadow-md text-center">Micro Frontends</span>
       <span class="bg-card px-4 py-2 rounded-lg shadow-md text-center">GraphQL (Apollo)</span>
       <span class="bg-card px-4 py-2 rounded-lg shadow-md text-center">Datadog</span>
-      <span class="bg-card px-4 py-2 rounded-lg shadow-md text-center">OpenSearch</span>
       <span class="bg-card px-4 py-2 rounded-lg shadow-md text-center">Splunk Enterprise</span>
+      <span class="bg-card px-4 py-2 rounded-lg shadow-md text-center">Deno / Node</span>
+      <span class="bg-card px-4 py-2 rounded-lg shadow-md text-center">RxJS</span>
+      <span class="bg-card px-4 py-2 rounded-lg shadow-md text-center">Jest / Jasmine</span>
+      <span class="bg-card px-4 py-2 rounded-lg shadow-md text-center">NGRX</span>
+      <span class="bg-card px-4 py-2 rounded-lg shadow-md text-center">Python</span>
     </div>
+  </section>
+
+  <section class="max-w-4xl mx-auto mt-12">
+    <h2 class="text-3xl font-semibold mb-4 subheading">Github Trophies</h2>
+    <div *ngIf="trophies$ | async as trophies; else loading">
+      <div [innerHTML]="trophies | sanitizeHtml"></div>
+    </div>
+    <ng-template #loading>
+      <p>Loading GitHub trophies...</p>
+    </ng-template>
   </section>
 
   <!-- Education -->

@@ -23,7 +23,7 @@ export class HeaderComponent {
   async checkAdminLogin() {
     const { data: user } = await this.supabase.getUser();
     console.log('User:', user);
-    this.isAdminLoggedIn = !!user; // Set to true if the user is logged in
+    this.isAdminLoggedIn = !!(user.user && user.user.role === 'authenticated'); // Set to true if the user is logged in
   }
 
   async logout() {
