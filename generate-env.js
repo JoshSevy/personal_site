@@ -11,6 +11,8 @@ const environmentFileContent = `
 export const environment = {
   production: ${process.env['NODE_ENV'] === 'production'},
   mdcKey: "${process.env['MDC_KEY'] || ''}",
+  superbaseUrl: "${process.env['SUPABASE_URL'] || ''}",
+  superbaseKey: "${process.env['SUPABASE_ANON_KEY'] || ''}",
   appVersion: "${process.env['APP_VERSION'] || '1.0.0'}",
 };
 `;
@@ -18,7 +20,7 @@ export const environment = {
 // Ensure the environments directory exists
 const environmentsDir = path.join(__dirname, 'src', 'environments');
 if (!fs.existsSync(environmentsDir)) {
-  fs.mkdirSync(environmentsDir, { recursive: true });
+  fs.mkdirSync(environmentsDir, {recursive: true});
 }
 
 // Write the environment.ts file

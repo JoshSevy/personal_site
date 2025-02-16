@@ -1,0 +1,36 @@
+<div class="max-w-md mx-auto mt-20 p-6 bg-gray-100 rounded-lg shadow-md">
+  <h2 class="text-2xl font-bold text-center mb-6">Admin Login</h2>
+  <form (ngSubmit)="login()" class="space-y-4">
+    <div>
+      <label for="email" class="block text-sm font-medium">Email</label>
+      <input
+        id="email"
+        type="email"
+        [(ngModel)]="email"
+        name="email"
+        class="w-full px-4 py-2 border rounded-md"
+        required
+      />
+    </div>
+    <div>
+      <label for="password" class="block text-sm font-medium">Password</label>
+      <input
+        id="password"
+        type="password"
+        [(ngModel)]="password"
+        name="password"
+        class="w-full px-4 py-2 border rounded-md"
+        required
+      />
+    </div>
+    <button
+      type="submit"
+      class="w-full px-4 py-2 bg-blue-700 text-white font-semibold rounded-lg hover:bg-blue-800"
+    >
+      Log In
+    </button>
+  </form>
+  <p class="text-sm text-center mt-4">
+    Forgot your password? <a href="#" class="text-blue-500 hover:underline">Reset it</a>
+  </p>
+</div>
