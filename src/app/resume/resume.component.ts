@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Apollo, gql } from 'apollo-angular';
-import { map, Observable, tap } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { AsyncPipe, NgIf } from '@angular/common';
 import { SanitizeHtmlPipe } from '../pipes/sanitize-html.pipe';
 
@@ -35,7 +35,6 @@ export class ResumeComponent implements OnInit {
       query: GET_TROPHIES,
       variables: { username },
     }).valueChanges.pipe(
-      tap(result => console.log('Result:', result)),
       map(result => result.data.trophies) // Map directly to trophies
     );
   }
