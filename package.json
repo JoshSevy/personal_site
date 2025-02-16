@@ -26,6 +26,7 @@
     "@fortawesome/free-brands-svg-icons": "^6.7.2",
     "@fortawesome/free-solid-svg-icons": "^6.7.2",
     "@tailwindcss/postcss": "^4.0.3",
+    "@tailwindcss/typography": "^0.5.16",
     "@tinymce/tinymce-angular": "^8.0.1",
     "apollo-angular": "^8.0.2",
     "graphql": "^16.10.0",

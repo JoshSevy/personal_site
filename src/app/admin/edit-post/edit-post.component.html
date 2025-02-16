@@ -1,59 +1,34 @@
-<div class="container mx-auto max-w-4xl p-6 bg-gray-900 text-white rounded-lg shadow-lg">
-    <h1 class="text-3xl font-bold mb-6">Edit Post</h1>
-
-    <!-- Title -->
-    <div class="mb-4">
-        <label for="title" class="block text-lg font-semibold mb-2">Title</label>
-        <input
-                id="title"
-                type="text"
-                [(ngModel)]="post.title"
-                [ngModelOptions]="{ standalone: true }"
-                class="w-full p-3 rounded bg-gray-800 text-white focus:ring focus:ring-blue-500"
-                placeholder="Enter post title"
-        />
-    </div>
-
-    <!--Editor -->
+<div class="max-w-7xl mx-auto p-6">
+  <h1 class="text-3xl font-bold mb-6">Edit Blog Post</h1>
+  <form (ngSubmit)="updatePost()" class="space-y-6">
     <div>
-        <h2>Edit Post</h2>
-        <form (ngSubmit)="updatePost()">
-            <label for="title">Title:</label>
-            <input id="title" [(ngModel)]="post.title" name="title" class="form-control" required />
-
-            <label for="content">Content:</label>
-            <editor
-                    id="content"
-                    [apiKey]="mdc_key"
-                    [(ngModel)]="post.content"
-                    [init]="editorConfig"
-                    name="content"
-            ></editor>
-
-            <button type="submit" class="btn btn-primary mt-3">Save Post</button>
-        </form>
+      <label for="title" class="block text-sm font-medium">Title</label>
+      <input
+        id="title"
+        name="title"
+        [(ngModel)]="post.title"
+        class="w-full px-4 py-2 border rounded-md"
+        required
+      />
     </div>
-
-    <!-- Author -->
-    <div class="mb-4">
-        <label for="author" class="block text-lg font-semibold mb-2">Author</label>
-        <input
-                id="author"
-                type="text"
-                [(ngModel)]="post.author"
-                [ngModelOptions]="{ standalone: true }"
-                class="w-full p-3 rounded bg-gray-800 text-white focus:ring focus:ring-blue-500"
-                placeholder="Enter author name"
-        />
+    <div>
+      <label for="content" class="block text-sm font-medium">Content</label>
+      <app-editor [(content)]="post.content"></app-editor>
     </div>
-
-    <!-- Submit Button -->
-    <div class="mt-6">
-        <button
-                (click)="updatePost()"
-                class="px-6 py-3 bg-blue-700 text-white font-semibold rounded shadow-md hover:bg-blue-800 transition"
-        >
-            Update Post
-        </button>
+    <div>
+      <label for="author" class="block text-sm font-medium">Author</label>
+      <input
+        id="author"
+        name="author"
+        [(ngModel)]="post.author"
+        class="w-full px-4 py-2 border rounded-md"
+      />
     </div>
+    <button
+      type="submit"
+      class="px-6 py-2 bg-blue-700 text-white font-semibold rounded-lg hover:bg-blue-800"
+    >
+      Update Post
+    </button>
+  </form>
 </div>

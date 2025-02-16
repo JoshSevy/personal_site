@@ -3,58 +3,15 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { BlogService } from '../../blog-home/services/blog.service';
 import { FormsModule } from '@angular/forms';
 import { BlogPost } from '../../blog-home/blog-post.model';
-import { EditorComponent } from "@tinymce/tinymce-angular";
-
-import * as Prism from 'prismjs';
-import 'prismjs/components/prism-typescript';
-import 'prismjs/components/prism-javascript';
-import 'prismjs/components/prism-css';
-import 'prismjs/components/prism-python';
-import { environment } from "../../../environments/environment";
+import { EditorComponent } from '../../editor/editor.component';
 
 @Component({
   selector: 'app-edit-post',
   templateUrl: './edit-post.component.html',
-  imports: [ FormsModule, EditorComponent ],
+  imports: [ FormsModule, EditorComponent, EditorComponent ],
 })
 export class EditPostComponent implements OnInit {
   post = {} as BlogPost;
-  mdc_key= environment.mdcKey;
-
-  editorConfig = {
-    height: 500,
-    menubar: 'insert',
-    plugins: [
-      'advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'preview', 'anchor',
-      'searchreplace', 'visualblocks', 'code', 'fullscreen',
-      'insertdatetime', 'media', 'table', 'code', 'help', 'wordcount', 'codesample'
-    ],
-    toolbar:
-        'undo redo | formatselect | bold italic underline | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | codesample image | removeformat | help',
-    codesample_languages: [
-      { text: 'HTML/XML', value: 'markup' },
-      { text: 'JavaScript', value: 'javascript' },
-      { text: 'TypeScript', value: 'typescript' },
-      { text: 'CSS', value: 'css' },
-      { text: 'Python', value: 'python' },
-      { text: 'Java', value: 'java' },
-      { text: 'C', value: 'c' },
-      { text: 'C#', value: 'csharp' },
-      { text: 'PHP', value: 'php' },
-    ],
-    setup: (editor: any) => {
-      editor.on('init', () => {
-        editor.contentDocument.querySelectorAll('pre code').forEach((block: HTMLElement) => {
-          Prism.highlightElement(block);
-        });
-      });
-      editor.on('SetContent', () => {
-        editor.contentDocument.querySelectorAll('pre code').forEach((block: HTMLElement) => {
-          Prism.highlightElement(block);
-        });
-      });
-    }
-  };
 
   constructor(
     private blogService: BlogService,

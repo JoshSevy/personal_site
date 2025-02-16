@@ -31,7 +31,8 @@ const GET_POST_BY_ID = gql`
   providedIn: 'root',
 })
 export class BlogService {
-  constructor(private apollo: Apollo) {}
+  constructor(private apollo: Apollo) {
+  }
 
   getPosts() {
     return this.apollo.watchQuery<{ posts: BlogPost[] }>({
@@ -58,6 +59,8 @@ export class BlogService {
         updatePost(id: $id, title: $title, content: $content, author: $author) {
           id
           title
+          content
+          author
         }
       }
     `,

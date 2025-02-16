@@ -1,13 +1,15 @@
 import { Component } from '@angular/core';
 import { BlogService } from '../../blog-home/services/blog.service';
 import { FormsModule } from '@angular/forms';
+import { EditorComponent } from '../../editor/editor.component';
 
 @Component({
   selector: 'app-add-post',
   templateUrl: './add-post.component.html',
   styleUrls: [ './add-post.component.css' ],
   imports: [
-    FormsModule
+    FormsModule,
+    EditorComponent
   ]
 })
 export class AddPostComponent {

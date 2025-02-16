@@ -2,17 +2,23 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { BlogService } from '../services/blog.service';
 import { BlogPost } from '../blog-post.model';
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe, DatePipe, NgForOf, NgIf } from '@angular/common';
 import { Observable } from 'rxjs';
 import { FormsModule } from '@angular/forms';
+import { SanitizeHtmlPipe } from '../../pipes/sanitize-html.pipe';
+import { HighlightCodeDirective } from '../../directives/highlight-syntax.directive';
 
 @Component({
   selector: 'app-blog-post',
   imports: [
     NgIf,
     AsyncPipe,
-    RouterLink,
     FormsModule,
+    DatePipe,
+    SanitizeHtmlPipe,
+    HighlightCodeDirective,
+    NgForOf,
+    RouterLink,
   ],
   templateUrl: './blog-post.component.html',
 })

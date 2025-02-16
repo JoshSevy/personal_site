@@ -1,15 +1,12 @@
-<div class="max-w-4xl mx-auto p-6">
-  <h1 class="text-3xl font-bold mb-6">Blog</h1>
-  {{ posts$ | async | json }}
-  <div *ngFor="let post of (posts$ | async)" class="mb-8">
-    <img [src]="post.imageUrl" [alt]="post.title" class="w-full h-48 object-cover rounded-lg mb-4" />
-    <h2 class="text-2xl font-semibold">{{ post.title }}</h2>
-    <p class="text-sm text-gray-500">Published on {{ post.publishDate }} by {{ post.author }}</p>
-    <p class="mt-2 text-gray-300">{{ post.excerpt }}</p>
-    <a
-      [routerLink]="['/blog', post.id]"
-      class="inline-block mt-4 text-blue-500 hover:text-blue-700 font-medium"
-    >
+<div class="max-w-7xl mx-auto p-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+  <div
+    *ngFor="let blog of posts$ | async"
+    class="bg-card p-6 rounded-lg shadow hover:shadow-lg transition"
+  >
+    <h2 class="text-2xl font-bold mb-2">{{ blog.title }}</h2>
+    <p class="text-sm text-gray-500 mb-4">By {{ blog.author }}</p>
+    <p class="text-sm line-clamp-3" [innerHTML]="blog.content | sanitizeHtml"></p>
+    <a [routerLink]="'/blog/' + blog.id" class="text-blue-500 hover:underline">
       Read More
     </a>
   </div>

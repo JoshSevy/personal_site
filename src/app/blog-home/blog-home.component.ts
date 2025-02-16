@@ -2,9 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { BlogPost } from './blog-post.model';
 import { BlogService } from './services/blog.service';
-import { AsyncPipe, JsonPipe, NgFor } from '@angular/common';
-import { ApolloQueryResult } from '@apollo/client';
+import { AsyncPipe, NgFor } from '@angular/common';
 import { Observable } from 'rxjs';
+import { SanitizeHtmlPipe } from '../pipes/sanitize-html.pipe';
 
 @Component({
   selector: 'app-blog-home',
@@ -12,7 +12,7 @@ import { Observable } from 'rxjs';
     NgFor,
     RouterLink,
     AsyncPipe,
-    JsonPipe
+    SanitizeHtmlPipe
   ],
   templateUrl: './blog-home.component.html',
 })
