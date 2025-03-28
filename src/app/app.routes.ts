@@ -4,42 +4,72 @@ import { AboutComponent } from './about/about.component';
 import { ContactComponent } from './contact/contact.component';
 import { ResumeComponent } from './resume/resume.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
-import { BlogHomeComponent } from './blog-home/blog-home.component';
-import { BlogPostComponent } from './blog-home/blog-post/blog-post.component';
-import { AdminDashboardComponent } from './admin/admin-dashboard/admin-dashboard.component';
-import { ManagePostsComponent } from './admin/manage-posts/manage-posts.component';
-import { AddPostComponent } from './admin/add-post/add-post.component';
-import { EditPostComponent } from './admin/edit-post/edit-post.component';
-import { PrivacyPolicyComponent } from './privacy-policy/privacy-policy.component';
-import { TermsOfServiceComponent } from './terms-of-services/terms-of-service.component';
 import { TrailingSlashGuard } from './guards/trailing-slash.guard';
 import { AuthGuard } from './guards/admin/auth.guard';
-import { LoginComponent } from './auth/login/login.component';
 
 export const routes: Routes = [
-  // Public Routes
+  // Public Routes - Eager loaded for immediate access
   { path: '', component: HomeComponent },
   { path: 'about', component: AboutComponent },
   { path: 'contact', component: ContactComponent },
   { path: 'resume', component: ResumeComponent },
-  { path: 'blog', component: BlogHomeComponent, canActivate: [ TrailingSlashGuard ] },
-  { path: 'blog/:id', component: BlogPostComponent },
-  { path: 'privacy-policy', component: PrivacyPolicyComponent },
-  { path: 'terms-of-service', component: TermsOfServiceComponent },
-  // Login
-  { path: 'login', component: LoginComponent, canActivate: [ TrailingSlashGuard ] },
-
-  // Admin Routes
+  
+  // Secret Terminal Route - Lazy loaded
+  { 
+    path: 'terminal', 
+    loadComponent: () => import('./components/interactive-terminal/interactive-terminal.component').then(m => m.InteractiveTerminalComponent)
+  },
+  
+  // Blog Routes - Lazy loaded
+  { 
+    path: 'blog', 
+    loadComponent: () => import('./blog-home/blog-home.component').then(m => m.BlogHomeComponent),
+    canActivate: [TrailingSlashGuard]
+  },
+  {
+    path: 'blog/:id',
+    loadComponent: () => import('./blog-home/blog-post/blog-post.component').then(m => m.BlogPostComponent),
+    canActivate: [TrailingSlashGuard]
+  },
+  
+  // Admin Routes - Lazy loaded
   {
     path: 'admin',
-    component: AdminDashboardComponent,
-    canActivate: [ AuthGuard ],
+    loadComponent: () => import('./admin/admin-dashboard/admin-dashboard.component').then(m => m.AdminDashboardComponent),
+    canActivate: [AuthGuard],
     children: [
       { path: '', redirectTo: 'posts', pathMatch: 'full' },
-      { path: 'posts', component: ManagePostsComponent, canActivate: [ TrailingSlashGuard ] },
-      { path: 'posts/add', component: AddPostComponent },
-      { path: 'posts/edit/:id', component: EditPostComponent },
+      { 
+        path: 'posts', 
+        loadComponent: () => import('./admin/manage-posts/manage-posts.component').then(m => m.ManagePostsComponent),
+        canActivate: [TrailingSlashGuard]
+      },
+      { 
+        path: 'posts/add', 
+        loadComponent: () => import('./admin/add-post/add-post.component').then(m => m.AddPostComponent)
+      },
+      { 
+        path: 'posts/edit/:id', 
+        loadComponent: () => import('./admin/edit-post/edit-post.component').then(m => m.EditPostComponent)
+      },
     ],
+  },
+
+  // Legal Routes - Lazy loaded
+  { 
+    path: 'privacy-policy', 
+    loadComponent: () => import('./privacy-policy/privacy-policy.component').then(m => m.PrivacyPolicyComponent)
+  },
+  { 
+    path: 'terms-of-service', 
+    loadComponent: () => import('./terms-of-services/terms-of-service.component').then(m => m.TermsOfServiceComponent)
+  },
+
+  // Auth Routes - Lazy loaded
+  { 
+    path: 'login', 
+    loadComponent: () => import('./auth/login/login.component').then(m => m.LoginComponent),
+    canActivate: [TrailingSlashGuard]
   },
 
   // Catch-All Route (404)
