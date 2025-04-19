@@ -4,6 +4,8 @@ import { provideHttpClient } from '@angular/common/http';
 import { provideApollo } from 'apollo-angular';
 import { HttpLink } from 'apollo-angular/http';
 import { InMemoryCache, TypePolicy, FieldPolicy } from '@apollo/client/core';
+import { provideServiceWorker } from '@angular/service-worker';
+import { environment } from '../environments/environment';
 
 import { routes } from './app.routes';
 
@@ -50,6 +52,10 @@ export const appConfig: ApplicationConfig = {
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
     provideHttpClient(),
+    provideServiceWorker('ngsw-worker.js', {
+      enabled: environment.production,
+      registrationStrategy: 'registerWhenStable:30000'
+    }),
     provideApollo(() => {
       const httpLink = inject(HttpLink);
 
