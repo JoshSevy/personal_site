@@ -3,49 +3,56 @@
   
   <url>
     <loc>https://www.joshuasevy.com/</loc>
-    <lastmod>2025-02-20</lastmod>
+    <lastmod>2025-04-19</lastmod>
     <priority>1.0</priority>
   </url>
   
 
   <url>
     <loc>https://www.joshuasevy.com/about</loc>
-    <lastmod>2025-02-20</lastmod>
+    <lastmod>2025-04-19</lastmod>
     <priority>0.8</priority>
   </url>
   
 
   <url>
     <loc>https://www.joshuasevy.com/resume</loc>
-    <lastmod>2025-02-20</lastmod>
+    <lastmod>2025-04-19</lastmod>
     <priority>0.8</priority>
   </url>
   
 
   <url>
     <loc>https://www.joshuasevy.com/contact</loc>
-    <lastmod>2025-02-20</lastmod>
+    <lastmod>2025-04-19</lastmod>
     <priority>0.6</priority>
   </url>
   
 
   <url>
     <loc>https://www.joshuasevy.com/blog</loc>
-    <lastmod>2025-02-20</lastmod>
+    <lastmod>2025-04-19</lastmod>
     <priority>0.7</priority>
   </url>
   
 
   <url>
     <loc>https://www.joshuasevy.com/blog/12e57cff-ce89-4bb6-862f-254f61278d65</loc>
-    <lastmod>2025-02-08</lastmod>
+    <lastmod>2025-02-13T08:07:54.832874</lastmod>
     <priority>0.6</priority>
   </url>
   
 
   <url>
     <loc>https://www.joshuasevy.com/blog/bfb8eae5-986a-4058-b34e-108f750d344f</loc>
-    <lastmod>2025-02-19</lastmod>
+    <lastmod>2025-02-20T06:07:53.068424</lastmod>
+    <priority>0.6</priority>
+  </url>
+  
+
+  <url>
+    <loc>https://www.joshuasevy.com/blog/54315ac0-bee8-4312-9340-f5fb71c08fb3</loc>
+    <lastmod>2025-02-28T04:32:48.243462</lastmod>
     <priority>0.6</priority>
   </url>
   
