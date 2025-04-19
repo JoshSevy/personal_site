@@ -7,11 +7,11 @@ const BASE_URL = "https://www.joshuasevy.com";
 
 // Define static pages (make sure they match `app-routing.module.ts`)
 const staticPages = [
-  {path: "/", priority: "1.0"},
-  {path: "/about", priority: "0.8"},
-  {path: "/resume", priority: "0.8"},
-  {path: "/contact", priority: "0.6"},
-  {path: "/blog", priority: "0.7"} // Add blog home page
+  { path: "/", priority: "1.0" },
+  { path: "/about", priority: "0.8" },
+  { path: "/resume", priority: "0.8" },
+  { path: "/contact", priority: "0.6" },
+  { path: "/blog", priority: "0.7" } // Add blog home page
 ];
 
 // GraphQL query to fetch all blog posts
@@ -73,8 +73,8 @@ const generateSitemap = async () => {
     const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   ${allPages
-    .map(
-      ({path, priority, lastmod}) => `
+  .map(
+    ({ path, priority, lastmod }) => `
   <url>
     <loc>${BASE_URL}${path}</loc>
     <lastmod>${lastmod || new Date().toISOString().split("T")[0]}</lastmod>
