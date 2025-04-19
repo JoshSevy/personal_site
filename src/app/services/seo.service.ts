@@ -2,14 +2,23 @@ import { Injectable } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
 
 interface MetaTag {
-  name?: string;
-  property?: string;
+  name: string;
   content: string;
 }
 
 interface OpenGraphTag {
   property: string;
   content: string;
+}
+
+type Tag = MetaTag | OpenGraphTag;
+
+function isMetaTag(tag: Tag): tag is MetaTag {
+  return 'name' in tag;
+}
+
+function isOpenGraphTag(tag: Tag): tag is OpenGraphTag {
+  return 'property' in tag;
 }
 
 @Injectable({
@@ -63,9 +72,9 @@ export class SeoService {
 
     // Update meta tags
     [...metaTags, ...ogTags, ...twitterTags].forEach(tag => {
-      if (tag.name) {
+      if (isMetaTag(tag)) {
         this.meta.updateTag({ name: tag.name, content: tag.content });
-      } else if (tag.property) {
+      } else if (isOpenGraphTag(tag)) {
         this.meta.updateTag({ property: tag.property, content: tag.content });
       }
     });
