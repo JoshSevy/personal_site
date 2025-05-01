@@ -5,14 +5,20 @@ import { BlogService } from './services/blog.service';
 import { AsyncPipe, NgFor } from '@angular/common';
 import { Observable } from 'rxjs';
 import { SanitizeHtmlPipe } from '../pipes/sanitize-html.pipe';
+import { ApolloModule } from 'apollo-angular';
 
 @Component({
   selector: 'app-blog-home',
+  standalone: true,
   imports: [
     NgFor,
     RouterLink,
     AsyncPipe,
-    SanitizeHtmlPipe
+    SanitizeHtmlPipe,
+    ApolloModule
+  ],
+  providers: [
+    BlogService
   ],
   templateUrl: './blog-home.component.html',
 })

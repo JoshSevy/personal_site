@@ -1,100 +1,112 @@
 import { Injectable } from '@angular/core';
 import { Apollo, gql } from 'apollo-angular';
+import { Observable } from 'rxjs';
 import { BlogPost } from '../blog-post.model';
 import { map } from 'rxjs';
 
-const GET_POSTS = gql`
-  query GetPosts {
-    posts {
-      id
-      title
-      content
-      author
-      publish_date
-    }
-  }
-`;
-
-const GET_POST_BY_ID = gql`
-  query GetPostById($id: ID!) {
-    post(id: $id) {
-      id
-      title
-      content
-      author
-      publish_date
-    }
-  }
-`;
-
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class BlogService {
-  constructor(private apollo: Apollo) {
-  }
+  constructor(private apollo: Apollo) {}
 
-  getPosts() {
-    return this.apollo.watchQuery<{ posts: BlogPost[] }>({
-      query: GET_POSTS,
-    }).valueChanges.pipe(
-      map(result => result.data.posts)
-    );
-  }
-
-  getPostById(id: string | null) {
-    return this.apollo.watchQuery<{ post: BlogPost }>({
-      query: GET_POST_BY_ID,
-      variables: { id },
-    }).valueChanges.pipe(
-      map(result => result.data.post)
-    );
-  }
-
-
-  updatePost(id: string, post: any) {
-    return this.apollo.mutate({
-      mutation: gql`
-      mutation UpdatePost($id: ID!, $title: String, $content: String, $author: String) {
-        updatePost(id: $id, title: $title, content: $content, author: $author) {
+  getPosts(): Observable<BlogPost[]> {
+    const query = gql`
+      query GetPosts {
+        posts {
           id
           title
           content
           author
         }
       }
-    `,
-      variables: { id, ...post },
-    });
+    `;
+
+    return this.apollo
+      .watchQuery({
+        query,
+      })
+      .valueChanges.pipe(
+        map((result: any) => result.data.posts)
+      );
   }
 
-  createPost(post: any) {
-    return this.apollo.mutate({
-      mutation: gql`
-      mutation CreatePost($title: String!, $content: String!, $author: String) {
-        createPost(title: $title, content: $content, author: $author) {
+  getPostById(id: string): Observable<BlogPost> {
+    const query = gql`
+      query GetPost($id: ID!) {
+        post(id: $id) {
           id
           title
           content
           author
-          publish_date
         }
       }
-    `,
-      variables: post,
-    });
+    `;
+
+    return this.apollo
+      .watchQuery({
+        query,
+        variables: { id },
+      })
+      .valueChanges.pipe(
+        map((result: any) => result.data.post)
+      );
   }
 
-  deletePost(id: string) {
-    return this.apollo.mutate({
-      mutation: gql`
+  updatePost(id: string, post: Partial<BlogPost>): Observable<any> {
+    const mutation = gql`
+      mutation UpdatePost($id: ID!, $input: UpdatePostInput!) {
+        updatePost(id: $id, input: $input) {
+          id
+          title
+          content
+          author
+        }
+      }
+    `;
+
+    return this.apollo
+      .mutate({
+        mutation,
+        variables: {
+          id,
+          input: post,
+        },
+      });
+  }
+
+  createPost(post: Partial<BlogPost>): Observable<any> {
+    const mutation = gql`
+      mutation CreatePost($input: CreatePostInput!) {
+        createPost(input: $input) {
+          id
+          title
+          content
+          author
+        }
+      }
+    `;
+
+    return this.apollo
+      .mutate({
+        mutation,
+        variables: {
+          input: post,
+        },
+      });
+  }
+
+  deletePost(id: string): Observable<any> {
+    const mutation = gql`
       mutation DeletePost($id: ID!) {
-        deletePost(id: $id) {
-          id
-        }
+        deletePost(id: $id)
       }
-    `,
-      variables: { id },
-    });
+    `;
+
+    return this.apollo
+      .mutate({
+        mutation,
+        variables: { id },
+      });
   }
 }

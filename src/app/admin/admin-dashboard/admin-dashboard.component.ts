@@ -1,63 +1,56 @@
 import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { BlogService } from '../../blog-home/services/blog.service';
-import { FormsModule } from '@angular/forms';
-import { NgForOf } from '@angular/common';
-import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { BlogPost } from '../../blog-home/blog-post.model';
+import { Observable } from 'rxjs';
+import { RouterLink } from '@angular/router';
+import { ApolloModule } from 'apollo-angular';
 
 @Component({
   selector: 'app-admin-dashboard',
+  standalone: true,
+  imports: [CommonModule, RouterLink, ApolloModule],
+  providers: [BlogService],
   templateUrl: './admin-dashboard.component.html',
-  styleUrls: [ './admin-dashboard.component.css' ],
-  imports: [
-    FormsModule,
-    RouterOutlet,
-    RouterLink,
-    RouterLinkActive
-  ]
+  styleUrls: ['./admin-dashboard.component.css']
 })
 export class AdminDashboardComponent implements OnInit {
-  posts: any[] = [];
+  posts$: Observable<BlogPost[]> | undefined;
   newPost = {
     title: '',
     content: '',
     author: '',
   };
 
-  constructor(private blogService: BlogService, private router: Router) {}
+  constructor(private blogService: BlogService) {}
 
   ngOnInit(): void {
-    this.loadPosts();
-  }
-
-  loadPosts() {
-    this.blogService.getPosts().subscribe((data: any) => {
-      this.posts = data;
-    })
+    this.posts$ = this.blogService.getPosts();
   }
 
   createPost() {
     this.blogService.createPost(this.newPost).subscribe(() => {
       this.newPost = { title: '', content: '', author: '' }; // Reset form
-      this.loadPosts(); // Reload posts
+      this.posts$ = this.blogService.getPosts(); // Reload posts
     });
   }
 
   editPost(post: any) {
-
-    this.router.navigate(['/admin/posts/edit', post.id]);
     // Navigate to a post edit form or show a modal
   }
 
-  confirmDelete(id: string) {
+  deletePost(id: string): void {
     if (confirm('Are you sure you want to delete this post?')) {
-      this.deletePost(id);
+      this.blogService.deletePost(id).subscribe({
+        next: () => {
+          // Refresh the posts list
+          this.posts$ = this.blogService.getPosts();
+        },
+        error: (error) => {
+          console.error('Error deleting post:', error);
+        }
+      });
     }
-  }
-
-  deletePost(id: string) {
-    this.blogService.deletePost(id).subscribe(() => {
-      this.loadPosts(); // Reload posts
-    });
   }
 
   uploadImage(event: any) {

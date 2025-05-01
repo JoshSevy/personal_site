@@ -7,9 +7,11 @@ import { Observable } from 'rxjs';
 import { FormsModule } from '@angular/forms';
 import { SanitizeHtmlPipe } from '../../pipes/sanitize-html.pipe';
 import { HighlightCodeDirective } from '../../directives/highlight-syntax.directive';
+import { ApolloModule } from 'apollo-angular';
 
 @Component({
   selector: 'app-blog-post',
+  standalone: true,
   imports: [
     NgIf,
     AsyncPipe,
@@ -19,12 +21,13 @@ import { HighlightCodeDirective } from '../../directives/highlight-syntax.direct
     HighlightCodeDirective,
     NgForOf,
     RouterLink,
+    ApolloModule
   ],
+  providers: [BlogService],
   templateUrl: './blog-post.component.html',
 })
 export class BlogPostComponent implements OnInit {
   post$: Observable<BlogPost> | undefined;
-
 
   constructor(
     private route: ActivatedRoute,
@@ -33,6 +36,8 @@ export class BlogPostComponent implements OnInit {
 
   ngOnInit(): void {
     const postId = this.route.snapshot.paramMap.get('id');
-    this.post$ = this.blogService.getPostById(postId);
+    if (postId) {
+      this.post$ = this.blogService.getPostById(postId);
+    }
   }
 }
