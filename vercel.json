@@ -1,0 +1,15 @@
+{
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist/plans/browser",
+  "framework": null,
+  "installCommand": "npm install --legacy-peer-deps",
+  "devCommand": "npm run start",
+  "nodeVersion": "20.x",
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ]
+}
+
