@@ -8,7 +8,7 @@
   "scripts": {
     "ng": "ng",
     "generate-env": "node generate-env.js",
-    "build": "npm run generate-env && npx ng build",
+    "build": "npm run generate-env && node_modules/.bin/ng build",
     "start": "npm run generate-env && npx ng serve",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
