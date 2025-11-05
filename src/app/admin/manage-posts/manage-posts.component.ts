@@ -5,11 +5,12 @@ import { BlogService } from '../../blog-home/services/blog.service';
 
 @Component({
   selector: 'app-manage-posts',
-  templateUrl: './manage-posts.component.html',
-  styleUrls: [ './manage-posts.component.css' ],
+  standalone: true,
   imports: [
     NgForOf
-  ]
+  ],
+  templateUrl: './manage-posts.component.html',
+  styleUrls: ['./manage-posts.component.css']
 })
 export class ManagePostsComponent implements OnInit {
   posts: any[] = [];

@@ -4,13 +4,11 @@ import { BlogService } from '../../blog-home/services/blog.service';
 import { FormsModule } from '@angular/forms';
 import { BlogPost } from '../../blog-home/blog-post.model';
 import { EditorComponent } from '../../editor/editor.component';
-import { ApolloModule } from 'apollo-angular';
 
 @Component({
   selector: 'app-edit-post',
   standalone: true,
-  imports: [FormsModule, EditorComponent, ApolloModule],
-  providers: [BlogService],
+  imports: [FormsModule, EditorComponent],
   templateUrl: './edit-post.component.html',
 })
 export class EditPostComponent implements OnInit {

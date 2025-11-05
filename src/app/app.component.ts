@@ -4,12 +4,11 @@ import { Router, RouterOutlet } from '@angular/router';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 import { ErrorBoundaryComponent } from './components/error-boundary/error-boundary.component';
-import { ApolloModule } from 'apollo-angular';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, RouterOutlet, HeaderComponent, FooterComponent, ErrorBoundaryComponent, ApolloModule],
+  imports: [CommonModule, RouterOutlet, HeaderComponent, FooterComponent, ErrorBoundaryComponent],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })

@@ -5,12 +5,13 @@ import { EditorComponent } from '../../editor/editor.component';
 
 @Component({
   selector: 'app-add-post',
-  templateUrl: './add-post.component.html',
-  styleUrls: [ './add-post.component.css' ],
+  standalone: true,
   imports: [
     FormsModule,
     EditorComponent
-  ]
+  ],
+  templateUrl: './add-post.component.html',
+  styleUrls: ['./add-post.component.css']
 })
 export class AddPostComponent {
   newPost = { title: '', content: '', author: '' };

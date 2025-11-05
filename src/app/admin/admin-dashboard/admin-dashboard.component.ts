@@ -3,14 +3,12 @@ import { CommonModule } from '@angular/common';
 import { BlogService } from '../../blog-home/services/blog.service';
 import { BlogPost } from '../../blog-home/blog-post.model';
 import { Observable } from 'rxjs';
-import { RouterLink } from '@angular/router';
-import { ApolloModule } from 'apollo-angular';
+import { RouterLink, RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-admin-dashboard',
   standalone: true,
-  imports: [CommonModule, RouterLink, ApolloModule],
-  providers: [BlogService],
+  imports: [CommonModule, RouterLink, RouterOutlet],
   templateUrl: './admin-dashboard.component.html',
   styleUrls: ['./admin-dashboard.component.css']
 })

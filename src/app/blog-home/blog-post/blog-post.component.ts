@@ -7,7 +7,6 @@ import { Observable } from 'rxjs';
 import { FormsModule } from '@angular/forms';
 import { SanitizeHtmlPipe } from '../../pipes/sanitize-html.pipe';
 import { HighlightCodeDirective } from '../../directives/highlight-syntax.directive';
-import { ApolloModule } from 'apollo-angular';
 
 @Component({
   selector: 'app-blog-post',
@@ -20,10 +19,8 @@ import { ApolloModule } from 'apollo-angular';
     SanitizeHtmlPipe,
     HighlightCodeDirective,
     NgForOf,
-    RouterLink,
-    ApolloModule
+    RouterLink
   ],
-  providers: [BlogService],
   templateUrl: './blog-post.component.html',
 })
 export class BlogPostComponent implements OnInit {

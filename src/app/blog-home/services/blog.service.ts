@@ -55,8 +55,8 @@ export class BlogService {
 
   updatePost(id: string, post: Partial<BlogPost>): Observable<any> {
     const mutation = gql`
-      mutation UpdatePost($id: ID!, $input: UpdatePostInput!) {
-        updatePost(id: $id, input: $input) {
+      mutation UpdatePost($id: ID!, $title: String, $content: String, $author: String) {
+        updatePost(id: $id, title: $title, content: $content, author: $author) {
           id
           title
           content
@@ -70,15 +70,17 @@ export class BlogService {
         mutation,
         variables: {
           id,
-          input: post,
+          title: post.title,
+          content: post.content,
+          author: post.author,
         },
       });
   }
 
   createPost(post: Partial<BlogPost>): Observable<any> {
     const mutation = gql`
-      mutation CreatePost($input: CreatePostInput!) {
-        createPost(input: $input) {
+      mutation CreatePost($title: String!, $content: String!, $author: String) {
+        createPost(title: $title, content: $content, author: $author) {
           id
           title
           content
@@ -91,7 +93,9 @@ export class BlogService {
       .mutate({
         mutation,
         variables: {
-          input: post,
+          title: post.title,
+          content: post.content,
+          author: post.author,
         },
       });
   }
