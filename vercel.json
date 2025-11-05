@@ -2,7 +2,7 @@
   "buildCommand": "npm run build",
   "outputDirectory": "dist/plans/browser",
   "framework": null,
-  "installCommand": "npm install --legacy-peer-deps",
+  "installCommand": "NODE_ENV=development npm install --legacy-peer-deps",
   "devCommand": "npm run start",
   "rewrites": [
     {
