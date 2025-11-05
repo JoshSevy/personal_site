@@ -1,4 +1,6 @@
 @import "tailwindcss";
+/* PrismJS theme - loaded globally but only used when code blocks are displayed */
+@import "prismjs/themes/prism-tomorrow.css";
 
 /* Smooth Transition for Dark Mode */
 html {

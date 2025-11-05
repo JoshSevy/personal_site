@@ -11,7 +11,7 @@ interface Command {
 @Component({
   selector: 'app-interactive-terminal',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [FormsModule],
   template: `
     <div class="bg-black text-green-400 p-4 rounded-lg font-mono h-[500px] overflow-y-auto border border-green-500/20">
       <div class="flex items-center mb-4">
@@ -21,13 +21,15 @@ interface Command {
       </div>
       
       <div class="space-y-2">
-        <div *ngFor="let command of commands" class="mb-2">
-          <div class="flex items-center">
-            <span class="text-green-500 mr-2">></span>
-            <span>{{ command.input }}</span>
+        @for (command of commands; track $index) {
+          <div class="mb-2">
+            <div class="flex items-center">
+              <span class="text-green-500 mr-2">></span>
+              <span>{{ command.input }}</span>
+            </div>
+            <div class="ml-4 text-gray-300" [innerHTML]="command.output"></div>
           </div>
-          <div class="ml-4 text-gray-300" [innerHTML]="command.output"></div>
-        </div>
+        }
         
         <div class="flex items-center">
           <span class="text-green-500 mr-2">></span>

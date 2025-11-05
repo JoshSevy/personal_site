@@ -1,18 +1,25 @@
 import { Routes } from '@angular/router';
-import { HomeComponent } from './home/home.component';
-import { AboutComponent } from './about/about.component';
-import { ContactComponent } from './contact/contact.component';
-import { ResumeComponent } from './resume/resume.component';
-import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { TrailingSlashGuard } from './guards/trailing-slash.guard';
 import { AuthGuard } from './guards/admin/auth.guard';
 
 export const routes: Routes = [
-  // Public Routes - Eager loaded for immediate access
-  { path: '', component: HomeComponent },
-  { path: 'about', component: AboutComponent },
-  { path: 'contact', component: ContactComponent },
-  { path: 'resume', component: ResumeComponent },
+  // Public Routes - Lazy loaded for better initial bundle size
+  { 
+    path: '', 
+    loadComponent: () => import('./home/home.component').then(m => m.HomeComponent)
+  },
+  { 
+    path: 'about', 
+    loadComponent: () => import('./about/about.component').then(m => m.AboutComponent)
+  },
+  { 
+    path: 'contact', 
+    loadComponent: () => import('./contact/contact.component').then(m => m.ContactComponent)
+  },
+  { 
+    path: 'resume', 
+    loadComponent: () => import('./resume/resume.component').then(m => m.ResumeComponent)
+  },
   
   // Secret Terminal Route - Lazy loaded
   { 
@@ -72,6 +79,9 @@ export const routes: Routes = [
     canActivate: [TrailingSlashGuard]
   },
 
-  // Catch-All Route (404)
-  { path: '**', component: PageNotFoundComponent },
+  // Catch-All Route (404) - Lazy loaded
+  { 
+    path: '**', 
+    loadComponent: () => import('./page-not-found/page-not-found.component').then(m => m.PageNotFoundComponent)
+  },
 ];
