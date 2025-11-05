@@ -68,12 +68,11 @@
 
   <section class="max-w-4xl mx-auto mt-12">
     <h2 class="text-3xl font-semibold mb-4 subheading">Github Trophies</h2>
-    <div *ngIf="trophies$ | async as trophies; else loading">
+    @if (trophies$ | async; as trophies) {
       <div [innerHTML]="trophies | sanitizeHtml"></div>
-    </div>
-    <ng-template #loading>
+    } @else {
       <p>Loading GitHub trophies...</p>
-    </ng-template>
+    }
   </section>
 
   <!-- Education -->

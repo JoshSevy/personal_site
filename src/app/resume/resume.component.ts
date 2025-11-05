@@ -1,14 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { Apollo, gql } from 'apollo-angular';
 import { map, Observable } from 'rxjs';
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { SanitizeHtmlPipe } from '../pipes/sanitize-html.pipe';
 
 @Component({
   selector: 'app-resume',
   standalone: true,
-  imports: [CommonModule, AsyncPipe, SanitizeHtmlPipe, NgIf],
+  imports: [AsyncPipe, SanitizeHtmlPipe],
   templateUrl: './resume.component.html',
   styleUrls: ['./resume.component.css']
 })

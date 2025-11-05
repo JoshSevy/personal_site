@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { Router, RouterOutlet } from '@angular/router';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
@@ -8,7 +7,7 @@ import { ErrorBoundaryComponent } from './components/error-boundary/error-bounda
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, RouterOutlet, HeaderComponent, FooterComponent, ErrorBoundaryComponent],
+  imports: [RouterOutlet, HeaderComponent, FooterComponent, ErrorBoundaryComponent],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })

@@ -1,28 +1,48 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
-import { NgIf } from '@angular/common';
 import { SupabaseService } from '../services/supabase.service';
 
 @Component({
   selector: 'app-header',
   imports: [
-    RouterLink,
-    NgIf
+    RouterLink
   ],
   templateUrl: './header.component.html',
   styleUrl: './header.component.css'
 })
-export class HeaderComponent {
+export class HeaderComponent implements OnInit {
   mobileMenuOpen = false;
   isAdminLoggedIn = false;
+  private adminCheckDone = false;
 
   constructor(private router: Router, private supabase: SupabaseService) {
-    void this.checkAdminLogin();
+    // Don't check admin login in constructor - lazy load Supabase only when needed
   }
 
+  ngOnInit() {
+    // Check admin status after a short delay to avoid blocking initial render
+    // This allows the page to load first, then check admin status
+    setTimeout(() => {
+      void this.checkAdminLogin();
+    }, 100);
+  }
+
+  /**
+   * Lazy check admin login status - only loads Supabase when called
+   */
   async checkAdminLogin() {
-    const { data: user } = await this.supabase.getUser();
-    this.isAdminLoggedIn = !!(user.user && user.user.role === 'authenticated'); // Set to true if the user is logged in
+    if (this.adminCheckDone) {
+      return;
+    }
+    
+    try {
+      const { data: user } = await this.supabase.getUser();
+      this.isAdminLoggedIn = !!(user.user && user.user.role === 'authenticated');
+      this.adminCheckDone = true;
+    } catch (error) {
+      // Supabase not loaded yet or user not authenticated - silently fail
+      this.isAdminLoggedIn = false;
+    }
   }
 
   async logout() {

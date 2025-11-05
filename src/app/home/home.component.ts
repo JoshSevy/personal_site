@@ -1,11 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { SeoService } from '../services/seo.service';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule],
+  imports: [],
   template: `
     <div class="container mx-auto px-4 py-8">
       <div class="text-center mb-12">

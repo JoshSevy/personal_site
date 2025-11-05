@@ -34,7 +34,6 @@
               "src/sw.js"
             ],
             "styles": [
-              "node_modules/prismjs/themes/prism-tomorrow.css",
               "src/styles.css"
             ],
             "scripts": []
@@ -51,6 +50,11 @@
                   "type": "anyComponentStyle",
                   "maximumWarning": "4kB",
                   "maximumError": "8kB"
+                },
+                {
+                  "type": "bundle",
+                  "maximumWarning": "2MB",
+                  "maximumError": "5MB"
                 }
               ],
               "outputHashing": "all",

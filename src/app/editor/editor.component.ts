@@ -1,12 +1,31 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { EditorModule } from '@tinymce/tinymce-angular';
-import * as Prism from 'prismjs';
-import 'prismjs/components/prism-typescript';
-import 'prismjs/components/prism-javascript';
-import 'prismjs/components/prism-css';
-import 'prismjs/components/prism-python';
 import { environment } from "../../environments/environment";
 import { FormsModule } from '@angular/forms';
+
+// Dynamically import PrismJS only when needed
+let prismPromise: Promise<typeof import('prismjs')> | null = null;
+
+async function loadPrism() {
+  if (!prismPromise) {
+    prismPromise = (async () => {
+      const prism = await import('prismjs');
+      // Load only the languages we need for the editor (side-effect imports)
+      await Promise.all([
+        // @ts-expect-error - PrismJS component modules don't have type definitions
+        import('prismjs/components/prism-typescript'),
+        // @ts-expect-error
+        import('prismjs/components/prism-javascript'),
+        // @ts-expect-error
+        import('prismjs/components/prism-css'),
+        // @ts-expect-error
+        import('prismjs/components/prism-python')
+      ]);
+      return prism;
+    })();
+  }
+  return prismPromise;
+}
 
 @Component({
   selector: 'app-editor',
@@ -41,15 +60,18 @@ export class EditorComponent {
       { text: 'PHP', value: 'php' },
     ],
     setup: (editor: any) => {
-      editor.on('init', () => {
+      const highlightCode = async () => {
+        const Prism = await loadPrism();
         editor.contentDocument.querySelectorAll('pre code').forEach((block: HTMLElement) => {
           Prism.highlightElement(block);
         });
+      };
+      
+      editor.on('init', () => {
+        void highlightCode();
       });
       editor.on('SetContent', () => {
-        editor.contentDocument.querySelectorAll('pre code').forEach((block: HTMLElement) => {
-          Prism.highlightElement(block);
-        });
+        void highlightCode();
       });
     }
   };
