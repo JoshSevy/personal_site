@@ -1,6 +1,6 @@
 import { inject } from '@angular/core';
 import { provideApollo } from 'apollo-angular';
-import { HttpLink } from 'apollo-angular/http';
+import { provideHttpLink } from 'apollo-angular/http';
 import { InMemoryCache, TypePolicy, FieldPolicy } from '@apollo/client/core';
 
 // Define type policies for better cache handling
@@ -47,11 +47,11 @@ const typePolicies: Record<string, TypePolicy> = {
  * The bundler should code-split Apollo since it's not in app.config.ts
  */
 export function createApolloProvider() {
-  return provideApollo(() => {
-    const httpLink = inject(HttpLink);
-
-    return {
-      link: httpLink.create({ uri: 'https://api.joshuasevy.com/graphql' }),
+  return [
+    provideHttpLink({
+      uri: 'https://api.joshuasevy.com/graphql',
+    }),
+    provideApollo(() => ({
       cache: new InMemoryCache({
         typePolicies,
         // Enable field-level caching
@@ -85,10 +85,6 @@ export function createApolloProvider() {
           errorPolicy: 'all',
         },
       },
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    };
-  });
+    }),
+  ];
 }

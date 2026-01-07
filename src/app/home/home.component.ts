@@ -14,7 +14,7 @@ import { SeoService } from '../services/seo.service';
       
       <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
         <div class="bg-white p-6 rounded-lg shadow-lg">
-          <h2 class="text-2xl font-bold mb-4">About Me</h2>
+          <h2 class="text-2xl font-bold mb-4 text-gray-600">About Me</h2>
           <p class="text-gray-600">
             I'm a passionate full-stack developer with expertise in modern web technologies.
             I love creating elegant solutions to complex problems.
@@ -22,7 +22,7 @@ import { SeoService } from '../services/seo.service';
         </div>
         
         <div class="bg-white p-6 rounded-lg shadow-lg">
-          <h2 class="text-2xl font-bold mb-4">Skills</h2>
+          <h2 class="text-2xl font-bold mb-4 text-gray-600">Skills</h2>
           <ul class="list-disc list-inside text-gray-600">
             <li>Frontend: Angular, React, TypeScript</li>
             <li>Backend: Node.js, Python</li>

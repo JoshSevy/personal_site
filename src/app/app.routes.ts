@@ -2,6 +2,7 @@ import { Routes } from '@angular/router';
 import { TrailingSlashGuard } from './guards/trailing-slash.guard';
 import { AuthGuard } from './guards/admin/auth.guard';
 import { createApolloProvider } from './config/apollo.config';
+import { BlogService } from './blog-home/services/blog.service';
 
 export const routes: Routes = [
   // Public Routes - Lazy loaded for better initial bundle size
@@ -20,7 +21,7 @@ export const routes: Routes = [
   { 
     path: 'resume', 
     loadComponent: () => import('./resume/resume.component').then(m => m.ResumeComponent),
-    providers: [createApolloProvider()]
+    providers: [...createApolloProvider()]
   },
   
   // Secret Terminal Route - Lazy loaded
@@ -34,13 +35,13 @@ export const routes: Routes = [
     path: 'blog', 
     loadComponent: () => import('./blog-home/blog-home.component').then(m => m.BlogHomeComponent),
     canActivate: [TrailingSlashGuard],
-    providers: [createApolloProvider()]
+    providers: [...createApolloProvider(), BlogService]
   },
   {
     path: 'blog/:id',
     loadComponent: () => import('./blog-home/blog-post/blog-post.component').then(m => m.BlogPostComponent),
     canActivate: [TrailingSlashGuard],
-    providers: [createApolloProvider()]
+    providers: [...createApolloProvider(), BlogService]
   },
   
   // Admin Routes - Lazy loaded
@@ -48,7 +49,7 @@ export const routes: Routes = [
     path: 'admin',
     loadComponent: () => import('./admin/admin-dashboard/admin-dashboard.component').then(m => m.AdminDashboardComponent),
     canActivate: [AuthGuard],
-    providers: [createApolloProvider()],
+    providers: [...createApolloProvider()],
     children: [
       { path: '', redirectTo: 'posts', pathMatch: 'full' },
       { 

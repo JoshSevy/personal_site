@@ -4,9 +4,7 @@ import { Observable } from 'rxjs';
 import { BlogPost } from '../blog-post.model';
 import { map } from 'rxjs';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class BlogService {
   constructor(private apollo: Apollo) {}
 
