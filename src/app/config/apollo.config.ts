@@ -1,6 +1,6 @@
 import { inject } from '@angular/core';
 import { provideApollo } from 'apollo-angular';
-import { provideHttpLink } from 'apollo-angular/http';
+import { HttpLink } from 'apollo-angular/http';
 import { InMemoryCache, TypePolicy, FieldPolicy } from '@apollo/client/core';
 
 // Define type policies for better cache handling
@@ -48,43 +48,46 @@ const typePolicies: Record<string, TypePolicy> = {
  */
 export function createApolloProvider() {
   return [
-    provideHttpLink({
-      uri: 'https://api.joshuasevy.com/graphql',
-    }),
-    provideApollo(() => ({
-      cache: new InMemoryCache({
-        typePolicies,
-        // Enable field-level caching
-        possibleTypes: {
-          Post: ['Post'],
-          Query: ['Query'],
-          Mutation: ['Mutation']
-        },
-        // Cache configuration
-        dataIdFromObject: (object: any) => {
-          if (object.id) {
-            return `${object.__typename}:${object.id}`;
+    HttpLink,
+    provideApollo(() => {
+      const httpLink = inject(HttpLink);
+
+      return {
+        link: httpLink.create({ uri: 'https://api.joshuasevy.com/graphql' }),
+        cache: new InMemoryCache({
+          typePolicies,
+          // Enable field-level caching
+          possibleTypes: {
+            Post: ['Post'],
+            Query: ['Query'],
+            Mutation: ['Mutation']
+          },
+          // Cache configuration
+          dataIdFromObject: (object: any) => {
+            if (object.id) {
+              return `${object.__typename}:${object.id}`;
+            }
+            return false;
           }
-          return false;
-        }
-      }),
-      // Default options for all queries
-      defaultOptions: {
-        watchQuery: {
-          fetchPolicy: 'cache-and-network', // Use cache but also fetch fresh data
-          errorPolicy: 'all', // Handle both network and GraphQL errors
-          notifyOnNetworkStatusChange: true, // Notify on loading states
-          pollInterval: 0, // Disable polling by default
+        }),
+        // Default options for all queries
+        defaultOptions: {
+          watchQuery: {
+            fetchPolicy: 'cache-and-network', // Use cache but also fetch fresh data
+            errorPolicy: 'all', // Handle both network and GraphQL errors
+            notifyOnNetworkStatusChange: true, // Notify on loading states
+            pollInterval: 0, // Disable polling by default
+          },
+          query: {
+            fetchPolicy: 'cache-first', // Use cache first, then network
+            errorPolicy: 'all',
+          },
+          mutate: {
+            fetchPolicy: 'no-cache', // Don't use cache for mutations
+            errorPolicy: 'all',
+          },
         },
-        query: {
-          fetchPolicy: 'cache-first', // Use cache first, then network
-          errorPolicy: 'all',
-        },
-        mutate: {
-          fetchPolicy: 'no-cache', // Don't use cache for mutations
-          errorPolicy: 'all',
-        },
-      },
+      };
     }),
   ];
 }
