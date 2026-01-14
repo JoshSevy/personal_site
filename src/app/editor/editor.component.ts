@@ -30,7 +30,7 @@ async function loadPrism() {
 @Component({
   selector: 'app-editor',
   templateUrl: './editor.component.html',
-  styleUrls: ['./editor.component.css'], // Optional for specific styling
+  styleUrls: ['./editor.component.scss'], // Updated to reference .scss file
   imports: [ EditorModule, FormsModule ]
 })
 export class EditorComponent {
@@ -66,7 +66,7 @@ export class EditorComponent {
           Prism.highlightElement(block);
         });
       };
-      
+
       editor.on('init', () => {
         void highlightCode();
       });

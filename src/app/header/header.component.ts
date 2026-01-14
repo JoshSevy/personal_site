@@ -8,7 +8,7 @@ import { SupabaseService } from '../services/supabase.service';
     RouterLink
   ],
   templateUrl: './header.component.html',
-  styleUrls: ['./header.component.css']
+  styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit {
   mobileMenuOpen = false;

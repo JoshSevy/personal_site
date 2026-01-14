@@ -9,7 +9,7 @@ import { SanitizeHtmlPipe } from '../pipes/sanitize-html.pipe';
   standalone: true,
   imports: [AsyncPipe, SanitizeHtmlPipe],
   templateUrl: './resume.component.html',
-  styleUrls: ['./resume.component.css']
+  styleUrls: ['./resume.component.scss']
 })
 export class ResumeComponent implements OnInit {
   trophies$: Observable<any> | undefined;

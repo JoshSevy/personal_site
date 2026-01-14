@@ -11,7 +11,7 @@ import { EditorComponent } from '../../editor/editor.component';
     EditorComponent
   ],
   templateUrl: './add-post.component.html',
-  styleUrls: ['./add-post.component.css']
+  styleUrls: ['./add-post.component.scss']
 })
 export class AddPostComponent {
   newPost = { title: '', content: '', author: '' };

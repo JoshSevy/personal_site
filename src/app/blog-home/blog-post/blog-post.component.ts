@@ -18,6 +18,7 @@ import { HighlightCodeDirective } from '../../directives/highlight-syntax.direct
     RouterLink
   ],
   templateUrl: './blog-post.component.html',
+  styleUrls: ['./blog-post.component.scss']
 })
 export class BlogPostComponent implements OnInit {
   post$: Observable<BlogPost> | undefined;
