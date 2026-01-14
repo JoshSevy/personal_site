@@ -17,7 +17,8 @@
     "importHelpers": true,
     "target": "ES2022",
     "module": "ES2022",
-    "types": ["node"]
+    // Add vitest/globals and jsdom so test files recognize `describe/it/beforeEach/expect`
+    "types": ["node", "vitest", "vitest/globals", "jsdom"]
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,

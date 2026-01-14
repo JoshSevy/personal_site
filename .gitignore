@@ -5,6 +5,7 @@
 /tmp
 /out-tsc
 /bazel-out
+/.vitest-src
 
 # Node
 /node_modules

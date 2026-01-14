@@ -6,33 +6,34 @@ import { BlogService } from './blog-home/services/blog.service';
 
 export const routes: Routes = [
   // Public Routes - Lazy loaded for better initial bundle size
-  { 
-    path: '', 
-    loadComponent: () => import('./home/home.component').then(m => m.HomeComponent)
+  {
+    path: '',
+    loadComponent: () => import('./home/home.component').then(m => m.HomeComponent),
+    title: 'Home - My Personal Website'
   },
-  { 
-    path: 'about', 
+  {
+    path: 'about',
     loadComponent: () => import('./about/about.component').then(m => m.AboutComponent)
   },
-  { 
-    path: 'contact', 
+  {
+    path: 'contact',
     loadComponent: () => import('./contact/contact.component').then(m => m.ContactComponent)
   },
-  { 
-    path: 'resume', 
+  {
+    path: 'resume',
     loadComponent: () => import('./resume/resume.component').then(m => m.ResumeComponent),
     providers: [...createApolloProvider()]
   },
-  
+
   // Secret Terminal Route - Lazy loaded
-  { 
-    path: 'terminal', 
+  {
+    path: 'terminal',
     loadComponent: () => import('./components/interactive-terminal/interactive-terminal.component').then(m => m.InteractiveTerminalComponent)
   },
-  
+
   // Blog Routes - Lazy loaded
-  { 
-    path: 'blog', 
+  {
+    path: 'blog',
     loadComponent: () => import('./blog-home/blog-home.component').then(m => m.BlogHomeComponent),
     canActivate: [TrailingSlashGuard],
     providers: [...createApolloProvider(), BlogService]
@@ -43,7 +44,7 @@ export const routes: Routes = [
     canActivate: [TrailingSlashGuard],
     providers: [...createApolloProvider(), BlogService]
   },
-  
+
   // Admin Routes - Lazy loaded
   {
     path: 'admin',
@@ -52,42 +53,42 @@ export const routes: Routes = [
     providers: [...createApolloProvider()],
     children: [
       { path: '', redirectTo: 'posts', pathMatch: 'full' },
-      { 
-        path: 'posts', 
+      {
+        path: 'posts',
         loadComponent: () => import('./admin/manage-posts/manage-posts.component').then(m => m.ManagePostsComponent),
         canActivate: [TrailingSlashGuard]
       },
-      { 
-        path: 'posts/add', 
+      {
+        path: 'posts/add',
         loadComponent: () => import('./admin/add-post/add-post.component').then(m => m.AddPostComponent)
       },
-      { 
-        path: 'posts/edit/:id', 
+      {
+        path: 'posts/edit/:id',
         loadComponent: () => import('./admin/edit-post/edit-post.component').then(m => m.EditPostComponent)
       },
     ],
   },
 
   // Legal Routes - Lazy loaded
-  { 
-    path: 'privacy-policy', 
+  {
+    path: 'privacy-policy',
     loadComponent: () => import('./privacy-policy/privacy-policy.component').then(m => m.PrivacyPolicyComponent)
   },
-  { 
-    path: 'terms-of-service', 
+  {
+    path: 'terms-of-service',
     loadComponent: () => import('./terms-of-services/terms-of-service.component').then(m => m.TermsOfServiceComponent)
   },
 
   // Auth Routes - Lazy loaded
-  { 
-    path: 'login', 
+  {
+    path: 'login',
     loadComponent: () => import('./auth/login/login.component').then(m => m.LoginComponent),
     canActivate: [TrailingSlashGuard]
   },
 
   // Catch-All Route (404) - Lazy loaded
-  { 
-    path: '**', 
+  {
+    path: '**',
     loadComponent: () => import('./page-not-found/page-not-found.component').then(m => m.PageNotFoundComponent)
   },
 ];
