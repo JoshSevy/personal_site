@@ -8,7 +8,7 @@ import { SupabaseService } from '../services/supabase.service';
     RouterLink
   ],
   templateUrl: './header.component.html',
-  styleUrl: './header.component.css'
+  styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit {
   mobileMenuOpen = false;
@@ -34,7 +34,7 @@ export class HeaderComponent implements OnInit {
     if (this.adminCheckDone) {
       return;
     }
-    
+
     try {
       const { data: user } = await this.supabase.getUser();
       this.isAdminLoggedIn = !!(user.user && user.user.role === 'authenticated');

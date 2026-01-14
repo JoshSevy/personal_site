@@ -1,17 +1,19 @@
 import { TestBed } from '@angular/core/testing';
-import { CanActivateFn } from '@angular/router';
 
-import { trailingSlashGuard } from './trailing-slash.guard';
+import { TrailingSlashGuard } from './trailing-slash.guard';
+import { RouterTestingModule } from '@angular/router/testing';
 
-describe('trailingSlashGuard', () => {
-  const executeGuard: CanActivateFn = (...guardParameters) => 
-      TestBed.runInInjectionContext(() => trailingSlashGuard(...guardParameters));
+describe('TrailingSlashGuard', () => {
+  let guard: TrailingSlashGuard;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({});
+    TestBed.configureTestingModule({
+      imports: [RouterTestingModule],
+    });
+    guard = TestBed.inject(TrailingSlashGuard as any);
   });
 
   it('should be created', () => {
-    expect(executeGuard).toBeTruthy();
+    expect(guard).toBeTruthy();
   });
 });

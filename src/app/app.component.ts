@@ -14,6 +14,7 @@ import { ErrorBoundaryComponent } from './components/error-boundary/error-bounda
 export class AppComponent implements OnInit {
   private konamiCode = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
   private konamiIndex = 0;
+  public title = 'plans';
 
   constructor(private router: Router) {}
 
