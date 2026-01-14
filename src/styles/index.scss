@@ -1,4 +1,5 @@
 @forward 'variables';
 @forward 'mixins';
-@forward 'base';
+// Note: 'base' is not forwarded here to avoid duplicating global styles
+// in component SCSS files. Base styles are included only in src/styles.scss
 

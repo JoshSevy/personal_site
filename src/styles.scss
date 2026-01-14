@@ -1,4 +1,5 @@
 @use './styles/index' as styles;
+@use './styles/base'; // Base styles included globally (not forwarded to components)
 
 @import "tailwindcss";
 
