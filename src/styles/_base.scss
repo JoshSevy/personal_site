@@ -1,11 +1,4 @@
-@use './styles/index' as *;
-
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-/* PrismJS theme - loaded globally but only used when code blocks are displayed */
-@import "prismjs/themes/prism-tomorrow.css";
+@use 'variables' as *;
 
 /* Smooth Transition for Dark Mode */
 html {
@@ -17,8 +10,8 @@ body {
   display: flex; /* Enables flexbox layout for the body */
   flex-direction: column; /* Stacks header, main, and footer vertically */
   min-height: 100vh; /* Ensures body spans the full viewport height */
-  background-color: #1a202c;
-  color: #e2e8f0;
+  background-color: $bg-color;
+  color: $text-color;
   margin: 0; /* Removes default margin */
 }
 
@@ -33,12 +26,12 @@ main {
 
 /* General Links */
 a {
-  color: #63b3ed;
+  color: $link-color;
   transition: color 0.3s ease-in-out;
 }
 
 a:hover {
-  color: #4299e1;
+  color: $link-hover;
 }
 
 /* Forms */
@@ -47,7 +40,7 @@ input, textarea {
 }
 
 input:focus, textarea:focus {
-  border-color: #3b82f6;
+  border-color: $focus-color;
   box-shadow: 0 0 8px rgba(59, 130, 246, 0.5);
 }
 
@@ -57,9 +50,9 @@ input::placeholder {
 
 /* Cards */
 .bg-card {
-  background-color: #2d3748;
-  color: #e2e8f0;
-  border: 1px solid #4a5568;
+  background-color: $card-bg;
+  color: $text-color;
+  border: 1px solid $card-border;
 }
 
 .bg-card:hover {
@@ -89,13 +82,13 @@ input::placeholder {
 
 /* Buttons */
 .button-primary {
-  background-color: #1d4ed8;
+  background-color: $primary;
   color: white;
   transition: background-color 0.3s ease-in-out;
 }
 
 .button-primary:hover {
-  background-color: #1e40af;
+  background-color: $primary-dark;
 }
 
 /* Animations */
@@ -113,3 +106,4 @@ input::placeholder {
 .fade-in {
   animation: fadeInUp 0.6s ease-out;
 }
+
