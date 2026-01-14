@@ -101,7 +101,9 @@ export class BlogService {
   deletePost(id: string): Observable<any> {
     const mutation = gql`
       mutation DeletePost($id: ID!) {
-        deletePost(id: $id)
+        deletePost(id: $id) {
+          id
+        }
       }
     `;
 
