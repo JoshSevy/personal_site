@@ -52,6 +52,7 @@
     "@types/jsdom": "^27.0.0",
     "playwright": "^1.57.0",
     "postcss": "^8.5.1",
+    "sass": "^1.97.2",
     "tailwindcss": "^4.0.3",
     "typescript": "~5.9.3",
     "vitest": "^4.0.16"

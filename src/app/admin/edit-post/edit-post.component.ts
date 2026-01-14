@@ -10,6 +10,7 @@ import { EditorComponent } from '../../editor/editor.component';
   standalone: true,
   imports: [FormsModule, EditorComponent],
   templateUrl: './edit-post.component.html',
+  styleUrls: ['./edit-post.component.scss'],
 })
 export class EditPostComponent implements OnInit {
   post = {} as BlogPost;

@@ -9,7 +9,7 @@ import { ErrorBoundaryComponent } from './components/error-boundary/error-bounda
   standalone: true,
   imports: [RouterOutlet, HeaderComponent, FooterComponent, ErrorBoundaryComponent],
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css'],
+  styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit {
   private konamiCode = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];

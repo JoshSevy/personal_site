@@ -1,4 +1,6 @@
-@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 /* PrismJS theme - loaded globally but only used when code blocks are displayed */
 @import "prismjs/themes/prism-tomorrow.css";
 

@@ -15,6 +15,7 @@ import { SanitizeHtmlPipe } from '../pipes/sanitize-html.pipe';
     SanitizeHtmlPipe
   ],
   templateUrl: './blog-home.component.html',
+  styleUrls: ['./blog-home.component.scss']
 })
 export class BlogHomeComponent implements OnInit {
   posts$: Observable<BlogPost[]> | undefined;

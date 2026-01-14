@@ -10,7 +10,7 @@ import { BlogService } from '../../blog-home/services/blog.service';
     NgForOf
   ],
   templateUrl: './manage-posts.component.html',
-  styleUrls: ['./manage-posts.component.css']
+  styleUrls: ['./manage-posts.component.scss']
 })
 export class ManagePostsComponent implements OnInit {
   posts: any[] = [];
