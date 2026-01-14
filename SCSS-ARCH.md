@@ -19,6 +19,11 @@ Notes
 - Keep external CSS imports (e.g., PrismJS themes) using plain `@import` since they are not Sass modules.
 - `@use` must come before other rules in a stylesheet; place it at the top.
 
+Component-level global utilities
+- To avoid repetitive imports and make globals available, we've prepended `@use 'src/styles/index' as *;` to component-level SCSS files across the project.
+- This makes variables and mixins available to component authors without extra setup.
+- If a component is later extracted into a library or needs a different styling contract, remove the global `@use` and explicitly add a tailored import to avoid leaking global tokens.
+
 Example (component scss)
 
 @use 'src/styles/index' as *;
@@ -27,5 +32,3 @@ Example (component scss)
   background: $primary;
   @include card-shadow();
 }
-
-

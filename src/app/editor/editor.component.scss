@@ -1,6 +1,9 @@
+@use 'src/styles/index' as *;
+
 /* copied from editor.component.css */
 /* preserved styles */
 .editor {
   /* placeholder */
 }
 
+:host { display: block; }
