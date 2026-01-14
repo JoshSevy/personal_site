@@ -1,3 +1,5 @@
+@use 'src/styles/index' as *;
+
 button {
   transition: all 0.3s ease-in-out;
 }
@@ -5,4 +7,3 @@ button {
 button:hover {
   transform: scale(1.05);
 }
-
