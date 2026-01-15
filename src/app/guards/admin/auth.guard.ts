@@ -13,18 +13,18 @@ export class AuthGuard implements CanActivate {
   async canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Promise<boolean> {
     this.loaderService.setLoading(true);
     try {
-      const { data, error } = await this.supabase.getUser();
-      const user = data?.user;
+      // Use getSession instead of getUser to check for local session existence.
+      // This prevents blocking offline/cached users and avoids unnecessary network calls on navigation.
+      const { data } = await this.supabase.getSession();
+      const session = data?.session;
 
-      // If Supabase returns an error or no user is found, block access
-      if (error || !user) {
-        console.error('Authentication failed:', error?.message || 'No user found');
+      if (!session) {
+        console.warn('Access denied: No active session');
         this.router.navigate([ '/login' ], { queryParams: { returnUrl: state.url } });
         return false;
       }
 
-      // Allow access if the user exists
-      console.log('User authenticated:', user);
+      // Allow access if the session exists
       return true;
     } catch (err) {
       console.error('Unexpected error in AuthGuard:', err);
