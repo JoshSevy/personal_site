@@ -85,6 +85,10 @@ export const routes: Routes = [
     loadComponent: () => import('./auth/login/login.component').then(m => m.LoginComponent),
     canActivate: [TrailingSlashGuard]
   },
+  {
+    path: 'auth/callback',
+    loadComponent: () => import('./auth/auth-callback/auth-callback.component').then(m => m.AuthCallbackComponent),
+  },
 
   // Catch-All Route (404) - Lazy loaded
   {

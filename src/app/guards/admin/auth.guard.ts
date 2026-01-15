@@ -13,12 +13,13 @@ export class AuthGuard implements CanActivate {
   async canActivate(): Promise<boolean> {
     this.loaderService.setLoading(true);
     try {
-      const { data: user, error } = await this.supabase.getUser();
+      const { data, error } = await this.supabase.getUser();
+      const user = data?.user;
 
       // If Supabase returns an error or no user is found, block access
       if (error || !user) {
         console.error('Authentication failed:', error?.message || 'No user found');
-        this.router.navigate([ '/login' ]); // Redirect to the login page
+        this.router.navigate([ '/login' ], { queryParams: { returnUrl: this.router.url } });
         return false;
       }
 
@@ -27,7 +28,7 @@ export class AuthGuard implements CanActivate {
       return true;
     } catch (err) {
       console.error('Unexpected error in AuthGuard:', err);
-      this.router.navigate([ '/login' ]); // Redirect to the login page
+      this.router.navigate([ '/login' ], { queryParams: { returnUrl: this.router.url } });
       return false;
     } finally {
       this.loaderService.setLoading(false); // Stop loader

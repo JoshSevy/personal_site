@@ -1,5 +1,17 @@
 <div class="max-w-md mx-auto mt-20 p-6 bg-black rounded-lg shadow-md">
   <h2 class="text-2xl font-bold text-center mb-6">Admin Login</h2>
+
+  <button
+    type="button"
+    (click)="continueWithGoogle()"
+    class="w-full px-4 py-2 mb-4 bg-white text-black font-semibold rounded-lg hover:bg-gray-100"
+    [disabled]="loading"
+  >
+    Continue with Google
+  </button>
+
+  <div class="text-center text-sm opacity-60 mb-4">or</div>
+
   <form (ngSubmit)="login()" class="space-y-4">
     <div>
       <label for="email" class="block text-sm font-medium">Email</label>
@@ -23,13 +35,32 @@
         required
       />
     </div>
+
     <button
       type="submit"
       class="w-full px-4 py-2 bg-blue-700 text-white font-semibold rounded-lg hover:bg-blue-800"
+      [disabled]="loading"
     >
       Log In
     </button>
   </form>
+
+  <button
+    type="button"
+    (click)="sendMagicLink()"
+    class="w-full px-4 py-2 mt-4 bg-gray-700 text-white font-semibold rounded-lg hover:bg-gray-800"
+    [disabled]="loading || !email"
+  >
+    Send magic link
+  </button>
+
+  <div *ngIf="errorMessage" class="mt-4 text-sm text-red-400">
+    {{ errorMessage }}
+  </div>
+  <div *ngIf="infoMessage" class="mt-4 text-sm text-green-400">
+    {{ infoMessage }}
+  </div>
+
   <p class="text-sm text-center mt-4">
     Forgot your password? <a href="#" class="text-blue-500 hover:underline">Reset it</a>
   </p>
