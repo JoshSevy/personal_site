@@ -71,28 +71,25 @@ export class SupabaseService {
 
   /**
    * Used by /auth/callback to finalize OAuth/magic-link flows.
-   * Safe to call even when there's nothing to exchange.
    */
-  async maybeExchangeCodeForSession() {
+  async handleAuthCallback() {
     const supabase = await this.getSupabaseClient();
-
-    // Supabase v2 exposes exchangeCodeForSession (PKCE). If it doesn't exist or
-    // if there is no code in the URL, we just ignore.
     const anyAuth = supabase.auth as any;
-    if (typeof anyAuth.exchangeCodeForSession !== 'function') {
-      return;
-    }
 
     const hasCodeParam = typeof window !== 'undefined' && window.location?.search?.includes('code=');
-    if (!hasCodeParam) {
-      return;
+    if (hasCodeParam && typeof anyAuth.exchangeCodeForSession === 'function') {
+      try {
+        const { data, error } = await anyAuth.exchangeCodeForSession(window.location.href);
+        if (error) throw error;
+        return { data, error: null };
+      } catch (err) {
+        return { data: null, error: err };
+      }
     }
 
-    try {
-      await anyAuth.exchangeCodeForSession(window.location.href);
-    } catch {
-      // Intentionally ignore – the session might already be set.
-    }
+    // Check if we already have a session
+    const { data, error } = await supabase.auth.getSession();
+    return { data, error };
   }
 
   // Sign Out Method
