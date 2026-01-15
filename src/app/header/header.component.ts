@@ -36,8 +36,9 @@ export class HeaderComponent implements OnInit {
     }
 
     try {
-      const { data: user } = await this.supabase.getUser();
-      this.isAdminLoggedIn = !!(user.user && user.user.role === 'authenticated');
+      const { data } = await this.supabase.getUser();
+      const user = data?.user;
+      this.isAdminLoggedIn = !!(user && user.role === 'authenticated');
       this.adminCheckDone = true;
     } catch (error) {
       // Supabase not loaded yet or user not authenticated - silently fail

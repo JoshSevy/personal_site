@@ -62,13 +62,5 @@ describe('LoginComponent', () => {
     expect(router.navigateByUrl).toHaveBeenCalledWith('/admin');
   });
 
-  it('sends a magic link when email is provided', async () => {
-    component.email = 'test@example.com';
-
-    await component.sendMagicLink();
-
-    const supabase = TestBed.inject(SupabaseService) as any;
-    expect(supabase.signInWithMagicLink).toHaveBeenCalled();
-    expect(component.infoMessage).toContain('Magic link sent');
-  });
+  // Magic link intentionally disabled for this site.
 });

@@ -60,27 +60,6 @@ export class LoginComponent {
     }
   }
 
-  async sendMagicLink() {
-    this.loading = true;
-    this.errorMessage = '';
-    this.infoMessage = '';
-
-    try {
-      const callbackUrl = this.buildCallbackUrl();
-      const { error } = await this.supabase.signInWithMagicLink(this.email, callbackUrl);
-      if (error) {
-        this.errorMessage = error.message;
-        return;
-      }
-
-      this.infoMessage = 'Magic link sent. Check your email to finish signing in.';
-    } catch (e: any) {
-      this.errorMessage = e?.message ?? 'Failed to send magic link';
-    } finally {
-      this.loading = false;
-    }
-  }
-
   async continueWithGoogle() {
     this.loading = true;
     this.errorMessage = '';
