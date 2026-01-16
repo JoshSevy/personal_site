@@ -14,7 +14,11 @@
     "test": "ng test",
     "pretest:vitest": "node tools/inline-component-resources.js",
     "test:vitest": "npm run pretest:vitest && npx vitest run",
-    "generate:sitemap": "node generate-sitemap.js"
+    "generate:sitemap": "node generate-sitemap.js",
+    "apollo:download": "dotenv -- rover graph fetch Joshua-Sevys-Team@current > src/app/graphql/schema.graphql",
+    "apollo:check": "dotenv -- rover graph check Joshua-Sevys-Team@current --schema src/app/graphql/schema.graphql",
+    "codegen": "graphql-codegen --config codegen.ts",
+    "apollo:refresh": "npm run apollo:download && npm run codegen"
   },
   "private": true,
   "dependencies": {
@@ -42,6 +46,7 @@
     "@angular-devkit/build-angular": "^21.0.5",
     "@angular/cli": "^21.0.5",
     "@angular/compiler-cli": "^21.0.8",
+    "@apollo/rover": "^0.37.0",
     "@types/dotenv-webpack": "^7.0.8",
     "@types/jsdom": "^27.0.0",
     "@types/node": "^22.10.5",
@@ -49,6 +54,7 @@
     "@vitest/browser-playwright": "^4.0.16",
     "autoprefixer": "^10.4.20",
     "dotenv": "^16.4.7",
+    "dotenv-cli": "^11.0.0",
     "jsdom": "^27.4.0",
     "playwright": "^1.57.0",
     "postcss": "^8.5.1",

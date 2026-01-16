@@ -1,7 +1,7 @@
 
 import { Component, OnInit } from '@angular/core';
 import { Apollo, gql } from 'apollo-angular';
-import { map, Observable } from 'rxjs';
+import { map, Observable, of } from 'rxjs';
 import { AsyncPipe } from '@angular/common';
 import { SanitizeHtmlPipe } from '../pipes/sanitize-html.pipe';
 
@@ -22,6 +22,9 @@ export class ResumeComponent implements OnInit {
   }
 
   private getGithubTrophies(username: string): Observable<any> {
+    // Trophies query not available in current schema
+    return of(null);
+    /*
     const query = gql`
       query GetGithubTrophies($username: String!) {
         trophies(username: $username)
@@ -36,5 +39,6 @@ export class ResumeComponent implements OnInit {
       .valueChanges.pipe(
         map((result: any) => result.data.trophies)
       );
+    */
   }
 }
