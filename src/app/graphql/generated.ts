@@ -20,12 +20,13 @@ export type Scalars = {
 export type GQLMutation = {
   __typename?: 'Mutation';
   createPost?: Maybe<GQLPost>;
-  deletePost?: Maybe<Scalars['Boolean']['output']>;
+  deletePost?: Maybe<GQLPost>;
+  updatePost?: Maybe<GQLPost>;
 };
 
 
 export type GQLMutationCreatePostArgs = {
-  author: Scalars['String']['input'];
+  author?: InputMaybe<Scalars['String']['input']>;
   content: Scalars['String']['input'];
   title: Scalars['String']['input'];
 };
@@ -35,12 +36,20 @@ export type GQLMutationDeletePostArgs = {
   id: Scalars['ID']['input'];
 };
 
+
+export type GQLMutationUpdatePostArgs = {
+  author?: InputMaybe<Scalars['String']['input']>;
+  content?: InputMaybe<Scalars['String']['input']>;
+  id: Scalars['ID']['input'];
+  title?: InputMaybe<Scalars['String']['input']>;
+};
+
 export type GQLPost = {
   __typename?: 'Post';
-  author: Scalars['String']['output'];
+  author?: Maybe<Scalars['String']['output']>;
   content: Scalars['String']['output'];
   id: Scalars['ID']['output'];
-  publish_date: Scalars['String']['output'];
+  publish_date?: Maybe<Scalars['String']['output']>;
   title: Scalars['String']['output'];
 };
 
@@ -48,6 +57,7 @@ export type GQLQuery = {
   __typename?: 'Query';
   post?: Maybe<GQLPost>;
   posts?: Maybe<Array<Maybe<GQLPost>>>;
+  trophies?: Maybe<Scalars['String']['output']>;
 };
 
 
@@ -55,17 +65,32 @@ export type GQLQueryPostArgs = {
   id: Scalars['ID']['input'];
 };
 
+
+export type GQLQueryTrophiesArgs = {
+  username: Scalars['String']['input'];
+};
+
 export type GQLGetPostsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GQLGetPostsQuery = { __typename?: 'Query', posts?: Array<{ __typename?: 'Post', id: string, title: string, content: string, author: string } | null> | null };
+export type GQLGetPostsQuery = { __typename?: 'Query', posts?: Array<{ __typename?: 'Post', id: string, title: string, content: string, author?: string | null } | null> | null };
 
 export type GQLGetPostQueryVariables = Exact<{
   id: Scalars['ID']['input'];
 }>;
 
 
-export type GQLGetPostQuery = { __typename?: 'Query', post?: { __typename?: 'Post', id: string, title: string, content: string, author: string } | null };
+export type GQLGetPostQuery = { __typename?: 'Query', post?: { __typename?: 'Post', id: string, title: string, content: string, author?: string | null } | null };
+
+export type GQLUpdatePostMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+  title?: InputMaybe<Scalars['String']['input']>;
+  content?: InputMaybe<Scalars['String']['input']>;
+  author?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+
+export type GQLUpdatePostMutation = { __typename?: 'Mutation', updatePost?: { __typename?: 'Post', id: string, title: string, content: string, author?: string | null } | null };
 
 export type GQLCreatePostMutationVariables = Exact<{
   title: Scalars['String']['input'];
@@ -74,14 +99,14 @@ export type GQLCreatePostMutationVariables = Exact<{
 }>;
 
 
-export type GQLCreatePostMutation = { __typename?: 'Mutation', createPost?: { __typename?: 'Post', id: string, title: string, content: string, author: string } | null };
+export type GQLCreatePostMutation = { __typename?: 'Mutation', createPost?: { __typename?: 'Post', id: string, title: string, content: string, author?: string | null } | null };
 
 export type GQLDeletePostMutationVariables = Exact<{
   id: Scalars['ID']['input'];
 }>;
 
 
-export type GQLDeletePostMutation = { __typename?: 'Mutation', deletePost?: boolean | null };
+export type GQLDeletePostMutation = { __typename?: 'Mutation', deletePost?: { __typename?: 'Post', id: string } | null };
 
 export const GetPostsDocument = gql`
     query GetPosts {
@@ -125,6 +150,27 @@ export const GetPostDocument = gql`
       super(apollo);
     }
   }
+export const UpdatePostDocument = gql`
+    mutation UpdatePost($id: ID!, $title: String, $content: String, $author: String) {
+  updatePost(id: $id, title: $title, content: $content, author: $author) {
+    id
+    title
+    content
+    author
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class GQLUpdatePostGQL extends Apollo.Mutation<GQLUpdatePostMutation, GQLUpdatePostMutationVariables> {
+    override document = UpdatePostDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
 export const CreatePostDocument = gql`
     mutation CreatePost($title: String!, $content: String!, $author: String!) {
   createPost(title: $title, content: $content, author: $author) {
@@ -148,7 +194,9 @@ export const CreatePostDocument = gql`
   }
 export const DeletePostDocument = gql`
     mutation DeletePost($id: ID!) {
-  deletePost(id: $id)
+  deletePost(id: $id) {
+    id
+  }
 }
     `;
 
