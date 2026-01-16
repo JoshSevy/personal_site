@@ -22,9 +22,6 @@ export class ResumeComponent implements OnInit {
   }
 
   private getGithubTrophies(username: string): Observable<any> {
-    // Trophies query not available in current schema
-    return of(null);
-    /*
     const query = gql`
       query GetGithubTrophies($username: String!) {
         trophies(username: $username)
@@ -39,6 +36,5 @@ export class ResumeComponent implements OnInit {
       .valueChanges.pipe(
         map((result: any) => result.data.trophies)
       );
-    */
   }
 }
