@@ -1,0 +1,154 @@
+<div class="syntax-quiz max-w-2xl mx-auto px-4 py-10 text-slate-100">
+  <p class="text-sm text-sky-400 mb-2 flex flex-wrap gap-x-3 gap-y-1">
+    <a routerLink="/" class="hover:text-sky-300">Home</a>
+    <span class="text-slate-600">·</span>
+    <a routerLink="/fun" class="hover:text-sky-300">All games</a>
+  </p>
+
+  <h1 class="text-3xl font-bold tracking-tight mb-2">Guess the syntax</h1>
+  <p class="text-[var(--site-muted,#94a3b8)] text-sm mb-8">
+    Pick the line that fits the blank or completes the snippet. Challenges load from Supabase—add your own after signing in.
+  </p>
+
+  @if (loading()) {
+    <p class="text-center py-16 text-[var(--site-muted)]">Loading challenges…</p>
+  } @else if (loadError(); as err) {
+    <div class="rounded-lg border border-amber-500/40 bg-amber-950/30 p-4 text-sm text-amber-100/90 mb-8">
+      {{ err }}
+    </div>
+  } @else if (current(); as c) {
+    <div class="mb-6 flex flex-wrap gap-4 text-sm tabular-nums">
+      <span>Score: <strong class="text-violet-300">{{ score() }}</strong></span>
+      <span>Streak: <strong class="text-emerald-300">{{ streak() }}</strong></span>
+      <button type="button" class="text-sky-400 hover:underline" (click)="restartDeck()">Shuffle deck</button>
+    </div>
+
+    <div class="rounded-xl border border-slate-700/80 bg-slate-900/50 p-5 mb-6">
+      <div class="flex items-center justify-between gap-2 mb-3">
+        <span class="text-xs font-semibold uppercase tracking-wide text-violet-300/90">{{ c.language }}</span>
+        @if (c.source === 'community') {
+          <span class="text-xs text-slate-500">Community</span>
+        }
+      </div>
+      <p class="text-slate-200 mb-4">{{ c.question }}</p>
+      <pre class="syntax-quiz-code rounded-lg p-4 text-sm overflow-x-auto text-slate-200 border border-slate-700/60 bg-slate-950/80"><code>{{ c.code }}</code></pre>
+    </div>
+
+    @if (!showResult()) {
+      <div class="grid gap-2 sm:grid-cols-2">
+        @for (choice of c.choices; track $index) {
+          <button
+            type="button"
+            class="syntax-choice rounded-lg border border-slate-600 bg-slate-800/50 px-4 py-3 text-left text-sm hover:border-violet-500/50 hover:bg-slate-800 transition"
+            (click)="pick($index)"
+          >
+            <span class="text-violet-400/80 font-mono text-xs mr-2">{{ $index + 1 }}.</span>
+            <span class="text-slate-200">{{ choice }}</span>
+          </button>
+        }
+      </div>
+    } @else {
+      @let ok = picked() === c.correct_index;
+      <div
+        class="rounded-lg border p-4 mb-4"
+        [class.border-emerald-500/50]="ok"
+        [class.bg-emerald-950/20]="ok"
+        [class.border-red-500/50]="!ok"
+        [class.bg-red-950/20]="!ok"
+      >
+        <p class="font-semibold mb-2" [class.text-emerald-300]="ok" [class.text-red-300]="!ok">
+          {{ ok ? 'Correct!' : 'Not quite.' }}
+        </p>
+        @if (c.explanation) {
+          <p class="text-sm text-slate-300">{{ c.explanation }}</p>
+        }
+      </div>
+      <button
+        type="button"
+        class="px-5 py-2.5 rounded-lg bg-violet-600 text-white font-medium hover:bg-violet-500 transition"
+        (click)="next()"
+      >
+        Next challenge
+      </button>
+    }
+  }
+
+  <section class="mt-14 pt-10 border-t border-slate-800">
+    <h2 class="text-xl font-semibold mb-2">Add a challenge</h2>
+    <p class="text-sm text-[var(--site-muted)] mb-4">
+      @if (canSubmit()) {
+        Submissions are stored in Supabase as <code class="text-violet-300/90">source = community</code> and show up for everyone.
+      } @else {
+        <a routerLink="/login" class="text-sky-400 hover:underline">Sign in</a> to submit your own snippet (four choices required).
+      }
+    </p>
+
+    @if (canSubmit()) {
+      <form class="space-y-4 text-sm" (ngSubmit)="onSubmitForm()">
+        <div class="form-field">
+          <label class="block text-slate-400 mb-1" for="sq-lang">Language</label>
+          <input id="sq-lang" class="syntax-input" name="language" [(ngModel)]="submitForm.language" placeholder="e.g. TypeScript" />
+        </div>
+        <div class="form-field">
+          <label class="block text-slate-400 mb-1" for="sq-q">Question</label>
+          <input id="sq-q" class="syntax-input" name="question" [(ngModel)]="submitForm.question" placeholder="What keyword or operator…?" />
+        </div>
+        <div class="form-field">
+          <label class="block text-slate-400 mb-1" for="sq-code">Code snippet</label>
+          <textarea
+            id="sq-code"
+            class="syntax-input font-mono text-xs min-h-[120px]"
+            name="code"
+            [(ngModel)]="submitForm.code"
+            placeholder="Use ______ or a clear blank for the missing part."
+            rows="6"
+          ></textarea>
+        </div>
+        @for (i of [0, 1, 2, 3]; track i) {
+          <div class="form-field">
+            <label class="block text-slate-400 mb-1" [attr.for]="'sq-c' + i">Choice {{ i + 1 }}</label>
+            <input
+              [id]="'sq-c' + i"
+              class="syntax-input font-mono text-xs"
+              [name]="'choice' + i"
+              [(ngModel)]="submitForm.choices[i]"
+              [placeholder]="'Answer option ' + (i + 1)"
+            />
+          </div>
+        }
+        <div class="form-field">
+          <label class="block text-slate-400 mb-1" for="sq-correct">Correct choice</label>
+          <select id="sq-correct" class="syntax-input" name="correct_index" [(ngModel)]="submitForm.correct_index">
+            <option [ngValue]="0">1</option>
+            <option [ngValue]="1">2</option>
+            <option [ngValue]="2">3</option>
+            <option [ngValue]="3">4</option>
+          </select>
+        </div>
+        <div class="form-field">
+          <label class="block text-slate-400 mb-1" for="sq-ex">Explanation (optional)</label>
+          <textarea
+            id="sq-ex"
+            class="syntax-input text-xs min-h-[72px]"
+            name="explanation"
+            [(ngModel)]="submitForm.explanation"
+            placeholder="Why is that answer right?"
+            rows="3"
+          ></textarea>
+        </div>
+        @if (submitMessage(); as sm) {
+          <p class="text-sm" [class.text-emerald-400]="sm.startsWith('Thanks')" [class.text-amber-300]="!sm.startsWith('Thanks')">
+            {{ sm }}
+          </p>
+        }
+        <button
+          type="submit"
+          class="px-5 py-2.5 rounded-lg bg-slate-700 text-white font-medium hover:bg-slate-600 transition disabled:opacity-50"
+          [disabled]="submitBusy()"
+        >
+          {{ submitBusy() ? 'Submitting…' : 'Submit challenge' }}
+        </button>
+      </form>
+    }
+  </section>
+</div>

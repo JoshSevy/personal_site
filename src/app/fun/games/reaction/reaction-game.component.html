@@ -1,0 +1,39 @@
+<div class="reaction-page max-w-lg mx-auto px-4 py-10 text-slate-100">
+  <p class="text-sm text-sky-400 mb-2 flex flex-wrap gap-x-3 gap-y-1">
+    <a routerLink="/" class="hover:text-sky-300">Home</a>
+    <span class="text-slate-600">·</span>
+    <a routerLink="/fun" class="hover:text-sky-300">All games</a>
+  </p>
+
+  <h1 class="text-3xl font-bold tracking-tight mb-2">Lightning Tap</h1>
+  <p class="text-[var(--site-muted,#94a3b8)] text-sm mb-6">
+    When the pad turns <span class="text-emerald-400 font-medium">green</span>, tap or press Space as fast as you can.
+  </p>
+
+  <div class="stats flex flex-wrap gap-6 mb-6 text-sm tabular-nums">
+    @if (lastMs() != null) {
+      <span>Last: <strong class="text-emerald-300">{{ lastMs() }} ms</strong></span>
+    }
+    @if (bestMs() != null) {
+      <span>Best: <strong class="text-slate-200">{{ bestMs() }} ms</strong></span>
+    }
+  </div>
+
+  <button
+    type="button"
+    class="reaction-pad w-full rounded-2xl border-2 border-slate-600 min-h-[220px] flex flex-col items-center justify-center gap-2 transition-colors duration-150 select-none touch-manipulation"
+    [class.reaction-pad--wait]="phase() === 'waiting'"
+    [class.reaction-pad--go]="phase() === 'go'"
+    [class.reaction-pad--bad]="phase() === 'early'"
+    [class.reaction-pad--neutral]="phase() === 'intro' || phase() === 'result'"
+    (click)="onTap()"
+    tabindex="0"
+  >
+    <span class="text-lg font-semibold">{{ hint() }}</span>
+    @if (phase() === 'intro') {
+      <span class="text-sm text-slate-400">Tap to start</span>
+    }
+  </button>
+
+  <p class="mt-4 text-xs text-slate-500 text-center">Lower is better · Best time is saved in this browser</p>
+</div>

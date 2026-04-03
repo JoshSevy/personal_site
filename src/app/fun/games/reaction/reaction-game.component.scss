@@ -1,0 +1,36 @@
+.reaction-page {
+  min-height: 60vh;
+}
+
+.reaction-pad {
+  background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
+  color: #e2e8f0;
+  cursor: pointer;
+}
+
+.reaction-pad:focus-visible {
+  outline: 2px solid #38bdf8;
+  outline-offset: 2px;
+}
+
+.reaction-pad--wait {
+  background: linear-gradient(180deg, #7f1d1d 0%, #450a0a 100%);
+  border-color: #f87171;
+  color: #fecaca;
+}
+
+.reaction-pad--go {
+  background: linear-gradient(180deg, #059669 0%, #064e3b 100%);
+  border-color: #34d399;
+  color: #ecfdf5;
+}
+
+.reaction-pad--bad {
+  background: linear-gradient(180deg, #92400e 0%, #451a03 100%);
+  border-color: #fbbf24;
+  color: #fef3c7;
+}
+
+.reaction-pad--neutral {
+  border-color: rgba(148, 163, 184, 0.45);
+}
