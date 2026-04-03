@@ -19,24 +19,8 @@ export const routes: Routes = [
   },
   {
     path: 'fun',
-    loadComponent: () => import('./fun/fun-hub.component').then(m => m.FunHubComponent),
+    loadComponent: () => import('./fun/fun-page.component').then(m => m.FunPageComponent),
     title: 'Fun - Joshua Sevy',
-  },
-  {
-    path: 'fun/blogcoin-bonanza',
-    loadComponent: () =>
-      import('./fun/games/blogcoin-bonanza/blogcoin-bonanza.component').then(m => m.BlogcoinBonanzaComponent),
-    title: 'BlogCoin Bonanza',
-  },
-  {
-    path: 'fun/reaction',
-    loadComponent: () => import('./fun/games/reaction/reaction-game.component').then(m => m.ReactionGameComponent),
-    title: 'Lightning Tap',
-  },
-  {
-    path: 'fun/syntax-quiz',
-    loadComponent: () => import('./fun/games/syntax-quiz/syntax-quiz.component').then(m => m.SyntaxQuizComponent),
-    title: 'Guess the syntax',
   },
   {
     path: 'resume',

@@ -1,0 +1,59 @@
+<div class="fun-page max-w-3xl mx-auto px-4 py-10 text-slate-100">
+  <p class="text-sm text-sky-400 mb-2">
+    <a routerLink="/" class="hover:text-sky-300">← Home</a>
+  </p>
+
+  <h1 class="text-3xl font-bold tracking-tight mb-2">Fun zone</h1>
+  <p class="text-[var(--site-muted,#94a3b8)] mb-2 max-w-xl">
+    <span class="font-semibold text-amber-300/90">BlogCoin Bonanza</span> — catch the gold, dodge the dumps.
+    Fictional points only. Not financial advice. Obviously.
+  </p>
+
+  <div class="fun-hud flex flex-wrap items-center gap-4 mb-4 text-sm">
+    <span>Score: <strong class="text-amber-300">{{ score() }}</strong></span>
+    <span>Combo: <strong class="text-emerald-300">×{{ comboDisplay() }}</strong></span>
+    <span>Best: <strong class="text-slate-200">{{ highScore() }}</strong></span>
+  </div>
+
+  <div class="fun-canvas-wrap mb-6">
+    <canvas
+      #gameCanvas
+      class="fun-canvas"
+      [width]="canvasW"
+      [height]="canvasH"
+      (pointerdown)="onPointer($event)"
+      (pointermove)="onPointer($event)"
+      (pointerup)="onPointerUp()"
+      (pointercancel)="onPointerUp()"
+    ></canvas>
+  </div>
+
+  <div class="flex flex-wrap gap-3 mb-6">
+    @if (!playing()) {
+      <button
+        type="button"
+        class="px-5 py-2.5 rounded-lg bg-amber-500 text-slate-900 font-semibold hover:bg-amber-400 transition"
+        (click)="startGame()"
+      >
+        {{ score() > 0 ? 'Play again' : 'Start game' }}
+      </button>
+    } @else {
+      <button
+        type="button"
+        class="px-5 py-2.5 rounded-lg bg-slate-700 text-slate-100 font-semibold hover:bg-slate-600 transition"
+        (click)="endGame()"
+      >
+        Pause / end
+      </button>
+    }
+  </div>
+
+  <div class="rounded-lg border border-slate-700/80 bg-slate-900/50 p-4 text-sm text-slate-300 space-y-2">
+    <p><strong class="text-slate-100">How to play</strong></p>
+    <ul class="list-disc list-inside space-y-1 text-[var(--site-muted,#94a3b8)]">
+      <li>Move the wallet with your mouse, finger, or <kbd class="px-1 rounded bg-slate-800">←</kbd> <kbd class="px-1 rounded bg-slate-800">→</kbd> / <kbd class="px-1 rounded bg-slate-800">A</kbd> <kbd class="px-1 rounded bg-slate-800">D</kbd>.</li>
+      <li>Gold orbs = BlogCoin. Red blocks = “market correction.”</li>
+      <li>Combo grows when you catch coins in a row; a red hit resets it.</li>
+    </ul>
+  </div>
+</div>
