@@ -1,8 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { of } from 'rxjs';
+import { signal } from '@angular/core';
 
 import { BlogHomeComponent } from './blog-home.component';
-import { BlogService } from './services/blog.service';
+import { BlogPost } from './blog-post.model';
+import { BlogStore } from './state/blog.store';
 import { provideRouter } from '@angular/router';
 
 describe('BlogHomeComponent', () => {
@@ -14,7 +15,14 @@ describe('BlogHomeComponent', () => {
       imports: [BlogHomeComponent],
       providers: [
         provideRouter([]),
-        { provide: BlogService, useValue: { getPublishedPosts: () => of([]) } },
+        {
+          provide: BlogStore,
+          useValue: {
+            publishedPosts: signal<BlogPost[] | null>([]),
+            publishedLoading: signal(false),
+            ensurePublishedWatch: () => {},
+          },
+        },
       ],
     }).compileComponents();
 

@@ -5,6 +5,7 @@ import { provideServiceWorker } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 
 import { routes } from './app.routes';
+import { createApolloProvider } from './config/apollo.config';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -15,6 +16,6 @@ export const appConfig: ApplicationConfig = {
       enabled: environment.production,
       registrationStrategy: 'registerWhenStable:30000'
     }),
-    // Apollo Client is now lazy-loaded only for routes that need it (blog, resume)
+    ...createApolloProvider(),
   ],
 };

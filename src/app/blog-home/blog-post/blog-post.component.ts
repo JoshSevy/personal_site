@@ -1,36 +1,58 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, DestroyRef, OnInit, effect, inject } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-import { BlogService } from '../services/blog.service';
-import { BlogPost } from '../blog-post.model';
-import { AsyncPipe, DatePipe } from '@angular/common';
-import { NEVER, Observable, of } from 'rxjs';
-import { switchMap, take, tap } from 'rxjs/operators';
+import { DatePipe } from '@angular/common';
+import { take } from 'rxjs';
 import { MarkdownToHtmlPipe } from '../../pipes/markdown-to-html.pipe';
 import { HighlightCodeDirective } from '../../directives/highlight-syntax.directive';
 import { SeoService } from '../../services/seo.service';
+import { BlogStore } from '../state/blog.store';
 
 @Component({
   selector: 'app-blog-post',
   standalone: true,
-  imports: [AsyncPipe, DatePipe, MarkdownToHtmlPipe, HighlightCodeDirective, RouterLink],
+  imports: [DatePipe, MarkdownToHtmlPipe, HighlightCodeDirective, RouterLink],
   templateUrl: './blog-post.component.html',
   styleUrls: ['./blog-post.component.scss'],
 })
 export class BlogPostComponent implements OnInit {
-  post$: Observable<BlogPost | null | undefined> | undefined;
+  readonly blogStore = inject(BlogStore);
+  private readonly route = inject(ActivatedRoute);
+  private readonly router = inject(Router);
+  private readonly seo = inject(SeoService);
+  private readonly destroyRef = inject(DestroyRef);
 
-  constructor(
-    private route: ActivatedRoute,
-    private router: Router,
-    private blogService: BlogService,
-    private seo: SeoService
-  ) {}
+  constructor() {
+    effect(() => {
+      const post = this.blogStore.postBySlug();
+      if (!post) return;
+      const base = 'https://www.joshuasevy.com';
+      this.seo.updateMetaTags({
+        title: post.title,
+        description: post.excerpt || post.title,
+        url: `${base}/blog/${post.slug}`,
+        image: post.heroImageUrl,
+        type: 'article',
+      });
+      this.seo.addArticleStructuredData({
+        headline: post.title,
+        description: post.excerpt || post.title,
+        image: post.heroImageUrl || `${base}/manifest.json`,
+        datePublished: post.publishDate || new Date().toISOString(),
+        dateModified: post.updatedAt || post.publishDate || new Date().toISOString(),
+        author: {
+          name: post.author || 'Joshua Sevy',
+          url: base,
+        },
+      });
+    });
+  }
 
   ngOnInit(): void {
     const initial = this.route.snapshot.paramMap.get('slug');
     if (initial && /^\d+$/.test(initial)) {
-      this.blogService
-        .getPostById(initial)
+      this.blogStore
+        .fetchPostById(initial)
         .pipe(take(1))
         .subscribe((p) => {
           if (p) {
@@ -41,40 +63,16 @@ export class BlogPostComponent implements OnInit {
         });
     }
 
-    this.post$ = this.route.paramMap.pipe(
-      switchMap((pm) => {
-        const raw = pm.get('slug');
-        if (!raw) {
-          return of(null);
-        }
-        if (/^\d+$/.test(raw)) {
-          return NEVER;
-        }
-        return this.blogService.getPostBySlug(raw);
-      }),
-      tap((post) => {
-        if (post) {
-          const base = 'https://www.joshuasevy.com';
-          this.seo.updateMetaTags({
-            title: post.title,
-            description: post.excerpt || post.title,
-            url: `${base}/blog/${post.slug}`,
-            image: post.heroImageUrl,
-            type: 'article',
-          });
-          this.seo.addArticleStructuredData({
-            headline: post.title,
-            description: post.excerpt || post.title,
-            image: post.heroImageUrl || `${base}/manifest.json`,
-            datePublished: post.publishDate || new Date().toISOString(),
-            dateModified: post.updatedAt || post.publishDate || new Date().toISOString(),
-            author: {
-              name: post.author || 'Joshua Sevy',
-              url: base,
-            },
-          });
-        }
-      })
-    );
+    this.route.paramMap.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((pm) => {
+      const raw = pm.get('slug');
+      if (!raw) {
+        this.blogStore.requestPostBySlug(null);
+        return;
+      }
+      if (/^\d+$/.test(raw)) {
+        return;
+      }
+      this.blogStore.requestPostBySlug(raw);
+    });
   }
 }
