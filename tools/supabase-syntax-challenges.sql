@@ -114,6 +114,7 @@ values
 --   grant select on public.syntax_challenges to anon, authenticated;
 --   grant insert on public.syntax_challenges to authenticated;
 
--- Blog admin vs players: the site gates /admin on JWT app_metadata.blog_admin === true (see src/app/auth/blog-admin.ts).
--- In Supabase: Authentication → Users → your editor account → User Management → set App Metadata to {"blog_admin": true}.
--- Players who sign up for syntax submissions do not need this flag; they cannot open /admin.
+-- Blog admin: the site gates /admin on JWT app_metadata.blog_admin === true (see src/app/auth/blog-admin.ts).
+-- The syntax quiz UI is read-only; optional hardening—revoke client inserts if you only add rows via SQL/dashboard:
+--   revoke insert on public.syntax_challenges from authenticated;
+--   drop policy if exists "syntax_challenges_insert_community" on public.syntax_challenges;

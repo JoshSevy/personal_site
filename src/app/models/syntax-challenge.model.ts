@@ -11,13 +11,3 @@ export interface SyntaxChallenge {
   created_by?: string | null;
   created_at?: string;
 }
-
-export interface SyntaxChallengeSubmit {
-  language: string;
-  question: string;
-  code: string;
-  choices: string[];
-  correct_index: number;
-  /** Empty string becomes null in the database */
-  explanation: string;
-}

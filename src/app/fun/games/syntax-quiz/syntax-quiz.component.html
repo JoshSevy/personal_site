@@ -7,7 +7,7 @@
 
   <h1 class="text-3xl font-bold tracking-tight mb-2">Guess the syntax</h1>
   <p class="text-[var(--site-muted,#94a3b8)] text-sm mb-8">
-    Pick the line that fits the blank or completes the snippet. Challenges load from Supabase—add your own after signing in.
+    Pick the line that fits the blank or completes the snippet. Challenges are loaded from the site database.
   </p>
 
   @if (loading()) {
@@ -72,83 +72,4 @@
       </button>
     }
   }
-
-  <section class="mt-14 pt-10 border-t border-slate-800">
-    <h2 class="text-xl font-semibold mb-2">Add a challenge</h2>
-    <p class="text-sm text-[var(--site-muted)] mb-4">
-      @if (canSubmit()) {
-        Submissions are stored in Supabase as <code class="text-violet-300/90">source = community</code> and show up for everyone.
-      } @else {
-        <a routerLink="/login" [queryParams]="{ returnUrl: '/fun/syntax-quiz' }" class="text-sky-400 hover:underline">Sign in</a> to submit your own snippet (four choices required).
-      }
-    </p>
-
-    @if (canSubmit()) {
-      <form class="space-y-4 text-sm" (ngSubmit)="onSubmitForm()">
-        <div class="form-field">
-          <label class="block text-slate-400 mb-1" for="sq-lang">Language</label>
-          <input id="sq-lang" class="syntax-input" name="language" [(ngModel)]="submitForm.language" placeholder="e.g. TypeScript" />
-        </div>
-        <div class="form-field">
-          <label class="block text-slate-400 mb-1" for="sq-q">Question</label>
-          <input id="sq-q" class="syntax-input" name="question" [(ngModel)]="submitForm.question" placeholder="What keyword or operator…?" />
-        </div>
-        <div class="form-field">
-          <label class="block text-slate-400 mb-1" for="sq-code">Code snippet</label>
-          <textarea
-            id="sq-code"
-            class="syntax-input font-mono text-xs min-h-[120px]"
-            name="code"
-            [(ngModel)]="submitForm.code"
-            placeholder="Use ______ or a clear blank for the missing part."
-            rows="6"
-          ></textarea>
-        </div>
-        @for (i of [0, 1, 2, 3]; track i) {
-          <div class="form-field">
-            <label class="block text-slate-400 mb-1" [attr.for]="'sq-c' + i">Choice {{ i + 1 }}</label>
-            <input
-              [id]="'sq-c' + i"
-              class="syntax-input font-mono text-xs"
-              [name]="'choice' + i"
-              [(ngModel)]="submitForm.choices[i]"
-              [placeholder]="'Answer option ' + (i + 1)"
-            />
-          </div>
-        }
-        <div class="form-field">
-          <label class="block text-slate-400 mb-1" for="sq-correct">Correct choice</label>
-          <select id="sq-correct" class="syntax-input" name="correct_index" [(ngModel)]="submitForm.correct_index">
-            <option [ngValue]="0">1</option>
-            <option [ngValue]="1">2</option>
-            <option [ngValue]="2">3</option>
-            <option [ngValue]="3">4</option>
-          </select>
-        </div>
-        <div class="form-field">
-          <label class="block text-slate-400 mb-1" for="sq-ex">Explanation (optional)</label>
-          <textarea
-            id="sq-ex"
-            class="syntax-input text-xs min-h-[72px]"
-            name="explanation"
-            [(ngModel)]="submitForm.explanation"
-            placeholder="Why is that answer right?"
-            rows="3"
-          ></textarea>
-        </div>
-        @if (submitMessage(); as sm) {
-          <p class="text-sm" [class.text-emerald-400]="sm.startsWith('Thanks')" [class.text-amber-300]="!sm.startsWith('Thanks')">
-            {{ sm }}
-          </p>
-        }
-        <button
-          type="submit"
-          class="px-5 py-2.5 rounded-lg bg-slate-700 text-white font-medium hover:bg-slate-600 transition disabled:opacity-50"
-          [disabled]="submitBusy()"
-        >
-          {{ submitBusy() ? 'Submitting…' : 'Submit challenge' }}
-        </button>
-      </form>
-    }
-  </section>
 </div>

@@ -23,7 +23,7 @@ export const FUN_GAMES: FunGameMeta[] = [
   {
     slug: 'syntax-quiz',
     title: 'Guess the syntax',
-    tagline: 'Snippets from Supabase—curated plus community submissions.',
+    tagline: 'Snippets loaded from the database—pick the line that fits.',
     accent: 'Violet',
   },
 ];
