@@ -1,5 +1,6 @@
 # Contract for https://api.joshuasevy.com/graphql — deploy equivalent schema on the server before shipping this app.
-# Run: npm run codegen (after changing blog.operations.graphql or this file).
+# npm run codegen — uses committed SDL by default; set GRAPHQL_SCHEMA_URL to introspect a live endpoint.
+# npm run graphql:schema:pull — overwrite this file from GRAPHQL_SCHEMA_URL (default: production API).
 
 type Mutation {
   createPost(
