@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import { BlogService } from '../../blog-home/services/blog.service';
+import { BlogStore } from '../../blog-home/state/blog.store';
 import { MarkdownEditorComponent } from '../../editor/markdown-editor.component';
 import { SupabaseService } from '../../services/supabase.service';
 import { slugify } from '../../utils/slugify';
@@ -30,7 +30,7 @@ export class AddPostComponent {
   slugifyPreview = slugify;
 
   constructor(
-    private blogService: BlogService,
+    private blogStore: BlogStore,
     private router: Router,
     private supabase: SupabaseService
   ) {}
@@ -87,7 +87,7 @@ export class AddPostComponent {
       return;
     }
 
-    this.blogService
+    this.blogStore
       .createPost({
         title: this.title.trim(),
         slug: s,

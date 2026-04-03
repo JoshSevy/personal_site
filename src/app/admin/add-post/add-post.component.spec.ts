@@ -3,14 +3,14 @@ import { of } from 'rxjs';
 import { provideRouter } from '@angular/router';
 
 import { AddPostComponent } from './add-post.component';
-import { BlogService } from '../../blog-home/services/blog.service';
+import { BlogStore } from '../../blog-home/state/blog.store';
 import { SupabaseService } from '../../services/supabase.service';
 
 describe('AddPostComponent', () => {
   let component: AddPostComponent;
   let fixture: ComponentFixture<AddPostComponent>;
 
-  const blogServiceStub = {
+  const blogStoreStub = {
     createPost: () => of({}),
   };
 
@@ -23,7 +23,7 @@ describe('AddPostComponent', () => {
       imports: [AddPostComponent],
       providers: [
         provideRouter([]),
-        { provide: BlogService, useValue: blogServiceStub },
+        { provide: BlogStore, useValue: blogStoreStub },
         { provide: SupabaseService, useValue: supabaseStub },
       ],
     }).compileComponents();

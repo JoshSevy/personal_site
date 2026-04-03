@@ -1,9 +1,10 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { signal } from '@angular/core';
 import { of } from 'rxjs';
 import { ActivatedRoute, convertToParamMap, Router } from '@angular/router';
 
 import { BlogPostComponent } from './blog-post.component';
-import { BlogService } from '../services/blog.service';
+import { BlogStore } from '../state/blog.store';
 import { SeoService } from '../../services/seo.service';
 import { BlogPost } from '../blog-post.model';
 
@@ -17,11 +18,6 @@ const sample: BlogPost = {
   publishDate: '2024-01-01',
   published: true,
   tags: [],
-};
-
-const blogServiceStub = {
-  getPostById: () => of(sample),
-  getPostBySlug: () => of(sample),
 };
 
 const activatedRouteStub: Partial<ActivatedRoute> = {
@@ -48,7 +44,15 @@ describe('BlogPostComponent', () => {
     await TestBed.configureTestingModule({
       imports: [BlogPostComponent],
       providers: [
-        { provide: BlogService, useValue: blogServiceStub },
+        {
+          provide: BlogStore,
+          useValue: {
+            postBySlug: signal<BlogPost | null | undefined>(sample),
+            postBySlugLoading: signal(false),
+            requestPostBySlug: () => {},
+            fetchPostById: () => of(sample),
+          },
+        },
         { provide: ActivatedRoute, useValue: activatedRouteStub },
         { provide: Router, useValue: routerStub },
         { provide: SeoService, useValue: seoStub },

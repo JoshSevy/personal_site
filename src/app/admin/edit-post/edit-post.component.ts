@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import { BlogService } from '../../blog-home/services/blog.service';
+import { BlogStore } from '../../blog-home/state/blog.store';
 import { BlogPost } from '../../blog-home/blog-post.model';
 import { MarkdownEditorComponent } from '../../editor/markdown-editor.component';
 import { SupabaseService } from '../../services/supabase.service';
@@ -23,7 +23,7 @@ export class EditPostComponent implements OnInit {
   uploadError: string | null = null;
 
   constructor(
-    private blogService: BlogService,
+    private blogStore: BlogStore,
     private route: ActivatedRoute,
     private router: Router,
     private supabase: SupabaseService
@@ -46,7 +46,7 @@ export class EditPostComponent implements OnInit {
       return;
     }
 
-    this.blogService.getPostById(id).subscribe((p) => {
+    this.blogStore.fetchPostById(id).subscribe((p) => {
       if (!p) {
         void this.router.navigate(['/admin/posts']);
         return;
@@ -106,7 +106,7 @@ export class EditPostComponent implements OnInit {
       return;
     }
 
-    this.blogService
+    this.blogStore
       .updatePost(id, {
         title: this.post.title.trim(),
         slug: s,

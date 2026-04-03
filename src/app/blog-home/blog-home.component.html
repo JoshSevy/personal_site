@@ -1,57 +1,58 @@
-@let posts = posts$ | async;
+@let posts = blogStore.publishedPosts();
+@let loading = blogStore.publishedLoading();
 <div class="blog-list-page">
   <header class="blog-list-header">
     <h1 class="blog-list-title">Blog</h1>
     <p class="blog-list-lede">Notes on engineering, tools, and things I’m building.</p>
   </header>
 
-  @if (posts) {
-    @if (posts.length > 0) {
-      <ul class="blog-card-grid">
-        @for (post of posts; track post.id) {
-          <li class="blog-card bg-card rounded-xl border border-[var(--site-border)] overflow-hidden flex flex-col">
-            @if (post.heroImageUrl) {
-              <img [src]="post.heroImageUrl" alt="" class="blog-card-image w-full h-40 object-cover" />
+  @if (posts === null) {
+    <p class="text-center py-16 text-[var(--site-muted)]">
+      {{ loading ? 'Loading posts…' : 'Couldn’t load posts. Try refreshing the page.' }}
+    </p>
+  } @else if (posts.length > 0) {
+    <ul class="blog-card-grid">
+      @for (post of posts; track post.id) {
+        <li class="blog-card bg-card rounded-xl border border-[var(--site-border)] overflow-hidden flex flex-col">
+          @if (post.heroImageUrl) {
+            <img [src]="post.heroImageUrl" alt="" class="blog-card-image w-full h-40 object-cover" />
+          }
+          <div class="p-6 flex flex-col flex-1 gap-3">
+            <p class="text-xs uppercase tracking-wide text-[var(--site-muted)]">
+              @if (post.publishDate) {
+                {{ post.publishDate | date: 'mediumDate' }}
+              } @else {
+                Draft
+              }
+            </p>
+            <h2 class="text-xl font-semibold leading-snug">{{ post.title }}</h2>
+            @if (post.excerpt) {
+              <p class="text-sm text-[var(--site-muted)] line-clamp-3 flex-1">{{ post.excerpt }}</p>
             }
-            <div class="p-6 flex flex-col flex-1 gap-3">
-              <p class="text-xs uppercase tracking-wide text-[var(--site-muted)]">
-                @if (post.publishDate) {
-                  {{ post.publishDate | date: 'mediumDate' }}
-                } @else {
-                  Draft
+            @if (post.tags?.length) {
+              <div class="flex flex-wrap gap-1.5">
+                @for (tag of post.tags; track tag) {
+                  <span class="text-xs px-2 py-0.5 rounded-full bg-slate-700/60 text-slate-200">{{ tag }}</span>
                 }
-              </p>
-              <h2 class="text-xl font-semibold leading-snug">{{ post.title }}</h2>
-              @if (post.excerpt) {
-                <p class="text-sm text-[var(--site-muted)] line-clamp-3 flex-1">{{ post.excerpt }}</p>
-              }
-              @if (post.tags?.length) {
-                <div class="flex flex-wrap gap-1.5">
-                  @for (tag of post.tags; track tag) {
-                    <span class="text-xs px-2 py-0.5 rounded-full bg-slate-700/60 text-slate-200">{{ tag }}</span>
-                  }
-                </div>
-              }
-              <a [routerLink]="['/blog', post.slug]" class="text-sky-400 hover:text-sky-300 font-medium text-sm mt-auto">
-                Read post →
-              </a>
-            </div>
-          </li>
-        }
-      </ul>
-    } @else {
-      <div class="blog-empty">
-        <h3 class="text-xl font-semibold mb-2">No posts yet</h3>
-        <p class="text-[var(--site-muted)] text-sm mb-6 max-w-md mx-auto">
-          Nothing published right now. Check back later or explore the rest of the site.
-        </p>
-        <div class="flex justify-center gap-3">
-          <a routerLink="/resume" class="button-primary px-4 py-2 rounded-lg text-sm font-medium">Resume</a>
-          <a routerLink="/" class="px-4 py-2 rounded-lg text-sm font-medium border border-[var(--site-border)] hover:bg-white/5">Home</a>
-        </div>
-      </div>
-    }
+              </div>
+            }
+            <a [routerLink]="['/blog', post.slug]" class="text-sky-400 hover:text-sky-300 font-medium text-sm mt-auto">
+              Read post →
+            </a>
+          </div>
+        </li>
+      }
+    </ul>
   } @else {
-    <p class="text-center py-16 text-[var(--site-muted)]">Loading posts…</p>
+    <div class="blog-empty">
+      <h3 class="text-xl font-semibold mb-2">No posts yet</h3>
+      <p class="text-[var(--site-muted)] text-sm mb-6 max-w-md mx-auto">
+        Nothing published right now. Check back later or explore the rest of the site.
+      </p>
+      <div class="flex justify-center gap-3">
+        <a routerLink="/resume" class="button-primary px-4 py-2 rounded-lg text-sm font-medium">Resume</a>
+        <a routerLink="/" class="px-4 py-2 rounded-lg text-sm font-medium border border-[var(--site-border)] hover:bg-white/5">Home</a>
+      </div>
+    </div>
   }
 </div>

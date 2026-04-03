@@ -51,8 +51,7 @@ const typePolicies: Record<string, TypePolicy> = {
 
 /**
  * Creates Apollo provider configuration
- * This is only imported by routes that need Apollo (blog, resume, admin)
- * The bundler should code-split Apollo since it's not in app.config.ts
+ * Registered once in app.config so blog, resume, and admin share one Apollo cache.
  */
 export function createApolloProvider() {
   return [
