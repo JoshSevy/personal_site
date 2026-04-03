@@ -1,6 +1,10 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
 
+function safeFileName(name: string): string {
+  return name.replace(/[^\w.-]+/g, '_');
+}
+
 type OAuthProvider = 'google' | 'github' | 'azure' | 'gitlab' | 'bitbucket' | 'facebook' | 'twitter' | 'discord';
 
 @Injectable({
@@ -102,5 +106,28 @@ export class SupabaseService {
   async getUser() {
     const supabase = await this.getSupabaseClient();
     return supabase.auth.getUser();
+  }
+
+  /**
+   * Upload a public blog hero image. Requires `SUPABASE_BLOG_IMAGES_BUCKET` and a public bucket policy.
+   * Returns null if the bucket is not configured.
+   */
+  async uploadBlogHeroImage(file: File): Promise<string | null> {
+    const bucket = environment.blogImagesBucket;
+    if (!bucket || !file) {
+      return null;
+    }
+    const supabase = await this.getSupabaseClient();
+    const path = `heroes/${Date.now()}-${safeFileName(file.name)}`;
+    const { data, error } = await supabase.storage.from(bucket).upload(path, file, {
+      cacheControl: '3600',
+      upsert: false,
+      contentType: file.type || 'application/octet-stream',
+    });
+    if (error) {
+      throw error;
+    }
+    const { data: pub } = supabase.storage.from(bucket).getPublicUrl(data.path);
+    return pub.publicUrl;
   }
 }

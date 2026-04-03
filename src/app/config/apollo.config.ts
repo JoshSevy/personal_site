@@ -18,11 +18,17 @@ const typePolicies: Record<string, TypePolicy> = {
         }
       } as FieldPolicy,
       post: {
-        // Merge function for single post
         merge(existing: any = null, incoming: any) {
           return incoming;
         },
-        // Read function for single post
+        read(existing: any = null) {
+          return existing;
+        }
+      } as FieldPolicy,
+      postBySlug: {
+        merge(existing: any = null, incoming: any) {
+          return incoming;
+        },
         read(existing: any = null) {
           return existing;
         }

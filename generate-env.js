@@ -10,9 +10,9 @@ if (!process.env['VERCEL']) {
 const environmentFileContent = `
 export const environment = {
   production: ${process.env['NODE_ENV'] === 'production'},
-  mdcKey: "${process.env['MDC_KEY'] || ''}",
   superbaseUrl: "${process.env['SUPABASE_URL'] || ''}",
   superbaseKey: "${process.env['SUPABASE_ANON_KEY'] || ''}",
+  blogImagesBucket: "${process.env['SUPABASE_BLOG_IMAGES_BUCKET'] || ''}",
   appVersion: "${process.env['APP_VERSION'] || '1.0.0'}",
 };
 `;

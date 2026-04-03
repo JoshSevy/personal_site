@@ -1,60 +1,91 @@
 import { Component, OnInit } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { SeoService } from '../services/seo.service';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [],
+  imports: [RouterLink],
   template: `
-    <div class="container mx-auto px-4 py-8">
-      <div class="text-center mb-12">
-        <h1 class="text-4xl font-bold mb-4">Welcome to My Portfolio</h1>
-        <p class="text-xl text-gray-600">Full-Stack Developer & Software Engineer</p>
-      </div>
-      
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
-        <div class="bg-white p-6 rounded-lg shadow-lg">
-          <h2 class="text-2xl font-bold mb-4 text-gray-600">About Me</h2>
-          <p class="text-gray-600">
-            I'm a passionate full-stack developer with expertise in modern web technologies.
-            I love creating elegant solutions to complex problems.
+    <div class="home-shell max-w-5xl mx-auto px-4 py-12 md:py-16">
+      <header class="text-center mb-14 md:mb-20">
+        <p class="text-sm font-medium uppercase tracking-[0.2em] text-[var(--site-muted)] mb-3">
+          Joshua Sevy
+        </p>
+        <h1 class="text-4xl md:text-5xl font-bold tracking-tight mb-4 text-[var(--site-text)]">
+          Full-stack engineer
+        </h1>
+        <p class="text-lg text-[var(--site-muted)] max-w-2xl mx-auto leading-relaxed">
+          I build reliable web applications with Angular, TypeScript, and pragmatic architecture.
+        </p>
+        <div class="flex flex-wrap justify-center gap-3 mt-8">
+          <a
+            routerLink="/blog"
+            class="button-primary px-5 py-2.5 rounded-lg text-sm font-semibold"
+          >
+            Blog
+          </a>
+          <a
+            routerLink="/resume"
+            class="px-5 py-2.5 rounded-lg text-sm font-semibold border border-[var(--site-border)] hover:bg-white/5 transition"
+          >
+            Resume
+          </a>
+          <a
+            routerLink="/contact"
+            class="px-5 py-2.5 rounded-lg text-sm font-semibold border border-[var(--site-border)] hover:bg-white/5 transition"
+          >
+            Contact
+          </a>
+        </div>
+      </header>
+
+      <div class="grid md:grid-cols-2 gap-6">
+        <section class="bg-card rounded-xl p-6 border border-[var(--site-border)]">
+          <h2 class="text-lg font-semibold mb-3 text-[var(--site-text)]">Focus</h2>
+          <p class="text-[var(--site-muted)] text-sm leading-relaxed">
+            Product-quality frontends, clear APIs, and performance that holds up for real users—not
+            just demos.
           </p>
-        </div>
-        
-        <div class="bg-white p-6 rounded-lg shadow-lg">
-          <h2 class="text-2xl font-bold mb-4 text-gray-600">Skills</h2>
-          <ul class="list-disc list-inside text-gray-600">
-            <li>Frontend: Angular, React, TypeScript</li>
-            <li>Backend: Node.js, Python</li>
-            <li>Database: PostgreSQL, MongoDB</li>
-            <li>DevOps: Docker, AWS</li>
+        </section>
+        <section class="bg-card rounded-xl p-6 border border-[var(--site-border)]">
+          <h2 class="text-lg font-semibold mb-3 text-[var(--site-text)]">Stack</h2>
+          <ul class="text-sm text-[var(--site-muted)] space-y-2">
+            <li>Angular, TypeScript, RxJS</li>
+            <li>GraphQL, REST, Node</li>
+            <li>Testing, CI, accessibility-minded UI</li>
           </ul>
-        </div>
+        </section>
       </div>
     </div>
-  `
+  `,
 })
 export class HomeComponent implements OnInit {
   constructor(private seoService: SeoService) {}
 
   ngOnInit() {
-    // Update meta tags
     this.seoService.updateMetaTags({
-      title: 'Joshua Sevy - Full-Stack Developer',
-      description: 'Portfolio website of Joshua Sevy, a full-stack developer specializing in modern web technologies.',
-      keywords: ['full-stack developer', 'web development', 'Angular', 'React', 'TypeScript', 'Node.js'],
-      url: 'https://yourdomain.com'
+      title: 'Joshua Sevy — Full-stack engineer',
+      description:
+        'Portfolio and blog of Joshua Sevy: full-stack engineering with Angular, TypeScript, and modern web architecture.',
+      keywords: [
+        'full-stack developer',
+        'Angular',
+        'TypeScript',
+        'GraphQL',
+        'software engineer',
+      ],
+      url: 'https://www.joshuasevy.com',
     });
 
-    // Add structured data
     this.seoService.addPersonStructuredData({
       name: 'Joshua Sevy',
-      jobTitle: 'Full-Stack Developer',
-      url: 'https://yourdomain.com',
+      jobTitle: 'Full-stack engineer',
+      url: 'https://www.joshuasevy.com',
       sameAs: [
-        'https://github.com/yourusername',
-        'https://linkedin.com/in/yourusername'
-      ]
+        'https://github.com/JoshSevy',
+        'https://www.linkedin.com/in/joshua-sevy',
+      ],
     });
   }
 }

@@ -1,41 +1,41 @@
-import { NgForOf } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { BlogService } from '../../blog-home/services/blog.service';
+import { BlogPost } from '../../blog-home/blog-post.model';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-manage-posts',
   standalone: true,
-  imports: [
-    NgForOf
-  ],
+  imports: [RouterLink, DatePipe],
   templateUrl: './manage-posts.component.html',
-  styleUrls: ['./manage-posts.component.scss']
+  styleUrls: ['./manage-posts.component.scss'],
 })
 export class ManagePostsComponent implements OnInit {
-  posts: any[] = [];
+  posts: BlogPost[] = [];
 
-  constructor(private blogService: BlogService, private router: Router) {}
+  constructor(
+    private blogService: BlogService,
+    private router: Router
+  ) {}
 
   ngOnInit() {
     this.loadPosts();
   }
 
   loadPosts() {
-    this.blogService.getPosts().subscribe((data: any) => {
+    this.blogService.getAllPosts().subscribe((data) => {
       this.posts = data;
     });
   }
 
-  editPost(post: any) {
-    this.router.navigate(['/admin/posts/edit', post.id]);
+  editPost(post: BlogPost) {
+    void this.router.navigate(['/admin/posts/edit', post.id]);
   }
 
   confirmDelete(id: string) {
     if (confirm('Are you sure you want to delete this post?')) {
-      this.blogService.deletePost(id).subscribe(() => {
-        this.loadPosts();
-      });
+      this.blogService.deletePost(id).subscribe(() => this.loadPosts());
     }
   }
 }

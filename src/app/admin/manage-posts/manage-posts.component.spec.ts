@@ -1,15 +1,14 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
+import { provideRouter } from '@angular/router';
 
 import { ManagePostsComponent } from './manage-posts.component';
 import { BlogService } from '../../blog-home/services/blog.service';
 
 const blogServiceStub = {
-  getPosts: () => of([]),
-  deletePost: (id: string) => of({})
+  getAllPosts: () => of([]),
+  deletePost: () => of({}),
 };
-
-const routerStub = { navigate: () => {} };
 
 describe('ManagePostsComponent', () => {
   let component: ManagePostsComponent;
@@ -19,14 +18,12 @@ describe('ManagePostsComponent', () => {
     await TestBed.configureTestingModule({
       imports: [ManagePostsComponent],
       providers: [
+        provideRouter([]),
         { provide: BlogService, useValue: blogServiceStub },
-        { provide: 'Router', useValue: routerStub }
-      ]
-    })
-    .compileComponents();
+      ],
+    }).compileComponents();
 
-    // Stub window.confirm to avoid dialog
-    (window as any).confirm = () => true;
+    (window as unknown as { confirm: () => boolean }).confirm = () => true;
 
     fixture = TestBed.createComponent(ManagePostsComponent);
     component = fixture.componentInstance;
