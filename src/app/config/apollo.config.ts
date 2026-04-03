@@ -1,7 +1,9 @@
 import { inject } from '@angular/core';
 import { provideApollo } from 'apollo-angular';
 import { HttpLink } from 'apollo-angular/http';
-import { InMemoryCache, TypePolicy, FieldPolicy } from '@apollo/client/core';
+import { ApolloLink, InMemoryCache, TypePolicy, FieldPolicy } from '@apollo/client/core';
+import { setContext } from '@apollo/client/link/context';
+import { SupabaseService } from '../services/supabase.service';
 
 // Define type policies for better cache handling
 const typePolicies: Record<string, TypePolicy> = {
@@ -57,9 +59,22 @@ export function createApolloProvider() {
     HttpLink,
     provideApollo(() => {
       const httpLink = inject(HttpLink);
+      const supabase = inject(SupabaseService);
+
+      const authLink = setContext(async (_, prev) => {
+        const headers = { ...(prev['headers'] as Record<string, string> | undefined) };
+        const { data } = await supabase.getSession();
+        const token = data?.session?.access_token;
+        if (token) {
+          headers['Authorization'] = `Bearer ${token}`;
+        }
+        return { headers };
+      });
+
+      const http = httpLink.create({ uri: 'https://api.joshuasevy.com/graphql' });
 
       return {
-        link: httpLink.create({ uri: 'https://api.joshuasevy.com/graphql' }),
+        link: ApolloLink.from([authLink, http]),
         cache: new InMemoryCache({
           typePolicies,
           // Enable field-level caching

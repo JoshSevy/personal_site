@@ -1,29 +1,6 @@
-# Contract for https://api.joshuasevy.com/graphql — deploy equivalent schema on the server before shipping this app.
-# npm run codegen — uses committed SDL by default; set GRAPHQL_SCHEMA_URL to introspect a live endpoint.
-# npm run graphql:schema:pull — overwrite this file from GRAPHQL_SCHEMA_URL (default: production API).
-
 type Mutation {
-  createPost(
-    title: String!
-    slug: String!
-    content: String!
-    excerpt: String
-    author: String
-    published: Boolean
-    tags: [String!]
-    hero_image_url: String
-  ): Post
-  updatePost(
-    id: ID!
-    title: String
-    slug: String
-    content: String
-    excerpt: String
-    author: String
-    published: Boolean
-    tags: [String!]
-    hero_image_url: String
-  ): Post
+  createPost(title: String!, slug: String!, content: String!, excerpt: String, author: String, published: Boolean, tags: [String!], hero_image_url: String): Post
+  updatePost(id: ID!, title: String, slug: String, content: String, excerpt: String, author: String, published: Boolean, tags: [String!], hero_image_url: String): Post
   deletePost(id: ID!): Post
 }
 
