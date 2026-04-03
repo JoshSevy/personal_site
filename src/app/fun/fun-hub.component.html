@@ -1,0 +1,34 @@
+<div class="fun-hub max-w-3xl mx-auto px-4 py-10 text-slate-100">
+  <p class="text-sm text-sky-400 mb-2">
+    <a routerLink="/" class="hover:text-sky-300">← Home</a>
+  </p>
+
+  <h1 class="text-3xl font-bold tracking-tight mb-2">Fun</h1>
+  <p class="text-[var(--site-muted,#94a3b8)] mb-8 max-w-xl">
+    Tiny browser games—nothing serious. Pick one to play.
+  </p>
+
+  <ul class="grid gap-4 sm:grid-cols-2">
+    @for (game of games; track game.slug) {
+      <li>
+        <a
+          [routerLink]="['/fun', game.slug]"
+          class="fun-card block rounded-xl border bg-slate-900/40 p-6 h-full outline-none focus-visible:ring-2 focus-visible:ring-sky-500 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950"
+          [class.fun-card--amber]="game.accent === 'Amber'"
+          [class.fun-card--emerald]="game.accent === 'Emerald'"
+          [class.fun-card--violet]="game.accent === 'Violet'"
+        >
+          <span
+            class="text-xs font-semibold uppercase tracking-wider mb-2 block"
+            [class.text-amber-400/90]="game.accent === 'Amber'"
+            [class.text-emerald-400/90]="game.accent === 'Emerald'"
+            [class.text-violet-400/90]="game.accent === 'Violet'"
+          >{{ game.accent }}</span>
+          <h2 class="text-xl font-semibold text-white mb-2">{{ game.title }}</h2>
+          <p class="text-sm text-[var(--site-muted,#94a3b8)] mb-4">{{ game.tagline }}</p>
+          <span class="text-sm font-medium text-sky-400">Play →</span>
+        </a>
+      </li>
+    }
+  </ul>
+</div>

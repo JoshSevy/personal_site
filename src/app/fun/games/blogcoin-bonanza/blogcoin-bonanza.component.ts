@@ -30,13 +30,13 @@ interface Drop {
 }
 
 @Component({
-  selector: 'app-fun-page',
+  selector: 'app-blogcoin-bonanza',
   standalone: true,
   imports: [RouterLink],
-  templateUrl: './fun-page.component.html',
-  styleUrl: './fun-page.component.scss',
+  templateUrl: './blogcoin-bonanza.component.html',
+  styleUrl: './blogcoin-bonanza.component.scss',
 })
-export class FunPageComponent implements OnDestroy {
+export class BlogcoinBonanzaComponent implements OnDestroy {
   @ViewChild('gameCanvas') canvasRef!: ElementRef<HTMLCanvasElement>;
 
   readonly canvasW = CANVAS_W;

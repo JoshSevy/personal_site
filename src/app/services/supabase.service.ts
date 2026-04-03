@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
+import type { SyntaxChallenge, SyntaxChallengeSubmit } from '../models/syntax-challenge.model';
 
 function safeFileName(name: string): string {
   return name.replace(/[^\w.-]+/g, '_');
@@ -129,5 +130,52 @@ export class SupabaseService {
     }
     const { data: pub } = supabase.storage.from(bucket).getPublicUrl(data.path);
     return pub.publicUrl;
+  }
+
+  /** Published syntax quiz rows (anon + auth). */
+  async fetchSyntaxChallenges(limit = 120): Promise<{ data: SyntaxChallenge[] | null; error: Error | null }> {
+    const supabase = await this.getSupabaseClient();
+    const { data, error } = await supabase
+      .from('syntax_challenges')
+      .select('*')
+      .eq('is_published', true)
+      .limit(limit);
+    if (error) {
+      return { data: null, error: new Error(error.message) };
+    }
+    return { data: data as SyntaxChallenge[], error: null };
+  }
+
+  /** Requires signed-in user; RLS enforces `source = community` and `created_by`. */
+  async submitSyntaxChallenge(
+    row: SyntaxChallengeSubmit,
+  ): Promise<{ data: SyntaxChallenge | null; error: Error | null }> {
+    const supabase = await this.getSupabaseClient();
+    const {
+      data: { user },
+      error: userErr,
+    } = await supabase.auth.getUser();
+    if (userErr || !user) {
+      return { data: null, error: new Error('Sign in to submit a challenge.') };
+    }
+    const { data, error } = await supabase
+      .from('syntax_challenges')
+      .insert({
+        language: row.language.trim(),
+        question: row.question.trim(),
+        code: row.code,
+        choices: row.choices.map((c) => c.trim()).filter(Boolean),
+        correct_index: row.correct_index,
+        explanation: row.explanation.trim() ? row.explanation.trim() : null,
+        source: 'community',
+        is_published: true,
+        created_by: user.id,
+      })
+      .select()
+      .single();
+    if (error) {
+      return { data: null, error: new Error(error.message) };
+    }
+    return { data: data as SyntaxChallenge, error: null };
   }
 }

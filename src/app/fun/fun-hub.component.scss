@@ -1,0 +1,38 @@
+.fun-hub {
+  min-height: 60vh;
+}
+
+.fun-card {
+  transition: transform 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.fun-card:hover {
+  transform: translateY(-2px);
+}
+
+.fun-card--amber {
+  border-color: rgba(245, 158, 11, 0.35);
+}
+
+.fun-card--amber:hover {
+  border-color: rgba(245, 158, 11, 0.55);
+  box-shadow: 0 12px 40px -12px rgba(245, 158, 11, 0.15);
+}
+
+.fun-card--emerald {
+  border-color: rgba(52, 211, 153, 0.35);
+}
+
+.fun-card--emerald:hover {
+  border-color: rgba(52, 211, 153, 0.55);
+  box-shadow: 0 12px 40px -12px rgba(52, 211, 153, 0.12);
+}
+
+.fun-card--violet {
+  border-color: rgba(167, 139, 250, 0.35);
+}
+
+.fun-card--violet:hover {
+  border-color: rgba(167, 139, 250, 0.55);
+  box-shadow: 0 12px 40px -12px rgba(139, 92, 246, 0.14);
+}
