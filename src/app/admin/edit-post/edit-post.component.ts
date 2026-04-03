@@ -1,65 +1,128 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { BlogService } from '../../blog-home/services/blog.service';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { BlogService } from '../../blog-home/services/blog.service';
 import { BlogPost } from '../../blog-home/blog-post.model';
-import { EditorComponent } from '../../editor/editor.component';
+import { MarkdownEditorComponent } from '../../editor/markdown-editor.component';
+import { SupabaseService } from '../../services/supabase.service';
+import { slugify } from '../../utils/slugify';
 
 @Component({
   selector: 'app-edit-post',
   standalone: true,
-  imports: [FormsModule, EditorComponent],
+  imports: [FormsModule, MarkdownEditorComponent, RouterLink],
   templateUrl: './edit-post.component.html',
   styleUrls: ['./edit-post.component.scss'],
 })
 export class EditPostComponent implements OnInit {
-  post = {} as BlogPost;
+  post: BlogPost | null = null;
+  slugManual = '';
+  slugTouched = false;
+  tagsInput = '';
+  uploading = false;
+  uploadError: string | null = null;
 
   constructor(
     private blogService: BlogService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private supabase: SupabaseService
   ) {}
+
+  slugifyPreview = slugify;
+
+  get slug(): string {
+    const manual = this.slugManual.trim();
+    if (manual) {
+      return slugify(manual);
+    }
+    return this.post ? slugify(this.post.title) : '';
+  }
 
   ngOnInit() {
     const id = this.route.snapshot.paramMap.get('id');
     if (!id) {
-      console.error('Post ID is missing.');
+      void this.router.navigate(['/admin/posts']);
       return;
     }
 
-    this.blogService.getPostById(id).subscribe((post) => {
-      if (post && post.content) {
-        this.post = { ...post };
-      } else {
-        console.error('Post content is missing.');
+    this.blogService.getPostById(id).subscribe((p) => {
+      if (!p) {
+        void this.router.navigate(['/admin/posts']);
+        return;
       }
+      this.post = { ...p };
+      this.slugManual = p.slug;
+      this.slugTouched = true;
+      this.tagsInput = (p.tags ?? []).join(', ');
     });
+  }
+
+  onTitleChange(): void {
+    if (!this.slugTouched && this.post) {
+      this.slugManual = slugify(this.post.title);
+    }
+  }
+
+  parseTags(): string[] {
+    return this.tagsInput
+      .split(',')
+      .map((t) => t.trim())
+      .filter(Boolean);
+  }
+
+  async onHeroFile(event: Event) {
+    const input = event.target as HTMLInputElement;
+    const file = input.files?.[0];
+    if (!file || !this.post) {
+      return;
+    }
+    this.uploading = true;
+    this.uploadError = null;
+    try {
+      const url = await this.supabase.uploadBlogHeroImage(file);
+      if (url) {
+        this.post.heroImageUrl = url;
+      } else {
+        this.uploadError =
+          'Image upload is disabled (set SUPABASE_BLOG_IMAGES_BUCKET) or upload failed.';
+      }
+    } catch (e: unknown) {
+      this.uploadError = e instanceof Error ? e.message : 'Upload failed';
+    } finally {
+      this.uploading = false;
+      input.value = '';
+    }
   }
 
   updatePost() {
     const id = this.route.snapshot.paramMap.get('id');
-    if (!id) {
-      console.error('Post ID is missing.');
+    if (!id || !this.post) {
+      return;
+    }
+    const s = this.slug;
+    if (!this.post.title.trim() || !s || !this.post.content.trim()) {
+      alert('Title, slug, and content are required.');
       return;
     }
 
-    const updatedPost = {
-      title: this.post.title,
-      content: this.post.content,
-      author: this.post.author,
-    };
-
-    console.log('Updated Post:', updatedPost);
-
-    this.blogService.updatePost(id, updatedPost).subscribe(
-      () => {
-        console.log('Post updated successfully.');
-        this.router.navigate(['/admin/posts']);
-      },
-      (error: Error) => {
-        console.error('Error updating post:', error);
-      }
-    );
+    this.blogService
+      .updatePost(id, {
+        title: this.post.title.trim(),
+        slug: s,
+        content: this.post.content,
+        excerpt: this.post.excerpt.trim() || undefined,
+        author: this.post.author.trim() || undefined,
+        published: this.post.published,
+        tags: this.parseTags().length ? this.parseTags() : undefined,
+        hero_image_url: this.post.heroImageUrl?.trim() || undefined,
+      })
+      .subscribe({
+        next: () => void this.router.navigate(['/admin/posts']),
+        error: (err: unknown) => {
+          console.error(err);
+          alert('Could not update post. Check the GraphQL API schema.');
+        },
+      });
   }
 }

@@ -1,32 +1,62 @@
-<section>
-  <h2 class="text-2xl font-semibold mb-4">Manage Blog Posts</h2>
-  <table class="w-full border-collapse border border-gray-300">
-    <thead>
-    <tr class="bg-gray-100">
-      <th class="border border-gray-300 px-4 py-2 text-left">Title</th>
-      <th class="border border-gray-300 px-4 py-2 text-left">Author</th>
-      <th class="border border-gray-300 px-4 py-2 text-left">Actions</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr *ngFor="let post of posts" class="hover:bg-gray-100">
-      <td class="border border-gray-300 px-4 py-2">{{ post.title }}</td>
-      <td class="border border-gray-300 px-4 py-2">{{ post.author }}</td>
-      <td class="border border-gray-300 px-4 py-2">
-        <button
-          (click)="editPost(post)"
-          class="text-blue-500 hover:underline"
-        >
-          Edit
-        </button>
-        <button
-          (click)="confirmDelete(post.id)"
-          class="text-red-500 hover:underline ml-4"
-        >
-          Delete
-        </button>
-      </td>
-    </tr>
-    </tbody>
-  </table>
+<section class="manage-posts">
+  <div class="flex flex-wrap items-center justify-between gap-4 mb-6">
+    <h2 class="text-2xl font-semibold">Posts</h2>
+    <a
+      routerLink="/admin/posts/add"
+      class="button-primary px-4 py-2 rounded-lg text-sm font-medium"
+    >
+      New post
+    </a>
+  </div>
+
+  <div class="overflow-x-auto rounded-lg border border-[var(--site-border)]">
+    <table class="w-full text-left text-sm">
+      <thead class="bg-[var(--site-surface)] text-[var(--site-muted)] uppercase text-xs tracking-wide">
+        <tr>
+          <th class="px-4 py-3 font-semibold">Title</th>
+          <th class="px-4 py-3 font-semibold">Slug</th>
+          <th class="px-4 py-3 font-semibold">Status</th>
+          <th class="px-4 py-3 font-semibold">Updated</th>
+          <th class="px-4 py-3 font-semibold text-right">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (post of posts; track post.id) {
+          <tr class="border-t border-[var(--site-border)] hover:bg-white/5">
+            <td class="px-4 py-3 font-medium">{{ post.title }}</td>
+            <td class="px-4 py-3 font-mono text-xs text-[var(--site-muted)]">{{ post.slug }}</td>
+            <td class="px-4 py-3">
+              @if (post.published) {
+                <span class="text-emerald-400 text-xs font-medium">Live</span>
+              } @else {
+                <span class="text-amber-400 text-xs font-medium">Draft</span>
+              }
+            </td>
+            <td class="px-4 py-3 text-[var(--site-muted)]">
+              @if (post.updatedAt || post.publishDate) {
+                {{ (post.updatedAt || post.publishDate) | date: 'mediumDate' }}
+              } @else {
+                —
+              }
+            </td>
+            <td class="px-4 py-3 text-right space-x-3">
+              <button type="button" (click)="editPost(post)" class="text-sky-400 hover:underline text-sm">
+                Edit
+              </button>
+              <button type="button" (click)="confirmDelete(post.id)" class="text-red-400 hover:underline text-sm">
+                Delete
+              </button>
+            </td>
+          </tr>
+        } @empty {
+          <tr>
+            <td colspan="5" class="px-4 py-10 text-center text-[var(--site-muted)]">
+              No posts yet.
+              <a routerLink="/admin/posts/add" class="text-sky-400 ml-1">Create one</a>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
 </section>

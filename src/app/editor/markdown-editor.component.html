@@ -1,0 +1,22 @@
+<div class="editor-grid">
+  <div class="editor-pane">
+    <label class="editor-label" for="md-body">Markdown</label>
+    <textarea
+      id="md-body"
+      name="markdown"
+      class="editor-textarea"
+      [ngModel]="content"
+      (ngModelChange)="contentChange.emit($event)"
+      rows="22"
+      spellcheck="true"
+      placeholder="Write in Markdown. Use ``` for code fences."
+    ></textarea>
+  </div>
+  <div class="editor-pane preview-pane">
+    <span class="editor-label">Preview</span>
+    <div
+      class="prose dark:prose-invert prose-sm max-w-none preview-body"
+      [innerHTML]="content | markdownToHtml"
+    ></div>
+  </div>
+</div>

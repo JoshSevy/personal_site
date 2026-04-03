@@ -1,5 +1,14 @@
 @use 'variables' as *;
 
+/* Design tokens (use in templates as var(--site-*) or in SCSS) */
+:root {
+  --site-muted: #94a3b8;
+  --site-border: #334155;
+  --site-surface: #1e293b;
+  --site-surface-2: #0f172a;
+  --site-text: #f1f5f9;
+}
+
 /* Smooth Transition for Dark Mode */
 html {
   transition: background-color 0.5s ease, color 0.5s ease;

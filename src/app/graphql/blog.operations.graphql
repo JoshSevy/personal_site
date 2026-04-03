@@ -1,0 +1,106 @@
+fragment PostListFields on Post {
+  id
+  title
+  slug
+  excerpt
+  author
+  publish_date
+  updated_at
+  published
+  tags
+  hero_image_url
+}
+
+fragment PostFields on Post {
+  id
+  title
+  slug
+  content
+  excerpt
+  author
+  publish_date
+  updated_at
+  published
+  tags
+  hero_image_url
+}
+
+query GetPublishedPosts {
+  posts(publishedOnly: true) {
+    ...PostListFields
+  }
+}
+
+query GetAllPosts {
+  posts {
+    ...PostListFields
+  }
+}
+
+query GetPostById($id: ID!) {
+  post(id: $id) {
+    ...PostFields
+  }
+}
+
+query GetPostBySlug($slug: String!) {
+  postBySlug(slug: $slug) {
+    ...PostFields
+  }
+}
+
+mutation CreatePost(
+  $title: String!
+  $slug: String!
+  $content: String!
+  $excerpt: String
+  $author: String
+  $published: Boolean
+  $tags: [String!]
+  $hero_image_url: String
+) {
+  createPost(
+    title: $title
+    slug: $slug
+    content: $content
+    excerpt: $excerpt
+    author: $author
+    published: $published
+    tags: $tags
+    hero_image_url: $hero_image_url
+  ) {
+    ...PostFields
+  }
+}
+
+mutation UpdatePost(
+  $id: ID!
+  $title: String
+  $slug: String
+  $content: String
+  $excerpt: String
+  $author: String
+  $published: Boolean
+  $tags: [String!]
+  $hero_image_url: String
+) {
+  updatePost(
+    id: $id
+    title: $title
+    slug: $slug
+    content: $content
+    excerpt: $excerpt
+    author: $author
+    published: $published
+    tags: $tags
+    hero_image_url: $hero_image_url
+  ) {
+    ...PostFields
+  }
+}
+
+mutation DeletePost($id: ID!) {
+  deletePost(id: $id) {
+    id
+  }
+}

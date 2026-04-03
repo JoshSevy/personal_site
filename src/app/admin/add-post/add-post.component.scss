@@ -1,4 +1,28 @@
-@use '../../../styles/index' as styles;
+.admin-form-page {
+  max-width: 56rem;
+  margin: 0 auto;
+  padding: 1.5rem;
+}
 
-/* copied from add-post.component.css (empty) */
-:host { display: block; }
+.admin-form .form-field label {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 600;
+  margin-bottom: 0.35rem;
+  color: var(--site-text);
+}
+
+.form-input {
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.5rem;
+  border: 1px solid var(--site-border);
+  background: var(--site-surface);
+  color: var(--site-text);
+}
+
+.form-hint {
+  font-size: 0.75rem;
+  color: var(--site-muted);
+  margin-top: 0.25rem;
+}

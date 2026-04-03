@@ -39,10 +39,10 @@ export const routes: Routes = [
     providers: [...createApolloProvider(), BlogService]
   },
   {
-    path: 'blog/:id',
+    path: 'blog/:slug',
     loadComponent: () => import('./blog-home/blog-post/blog-post.component').then(m => m.BlogPostComponent),
     canActivate: [TrailingSlashGuard],
-    providers: [...createApolloProvider(), BlogService]
+    providers: [...createApolloProvider(), BlogService],
   },
 
   // Admin Routes - Lazy loaded
@@ -50,7 +50,7 @@ export const routes: Routes = [
     path: 'admin',
     loadComponent: () => import('./admin/admin-dashboard/admin-dashboard.component').then(m => m.AdminDashboardComponent),
     canActivate: [AuthGuard],
-    providers: [...createApolloProvider()],
+    providers: [...createApolloProvider(), BlogService],
     children: [
       { path: '', redirectTo: 'posts', pathMatch: 'full' },
       {

@@ -3,9 +3,7 @@ import { of } from 'rxjs';
 
 import { BlogHomeComponent } from './blog-home.component';
 import { BlogService } from './services/blog.service';
-import { ActivatedRoute, RouterLink } from '@angular/router';
-import { AsyncPipe } from '@angular/common';
-import { SanitizeHtmlPipe } from '../pipes/sanitize-html.pipe';
+import { provideRouter } from '@angular/router';
 
 describe('BlogHomeComponent', () => {
   let component: BlogHomeComponent;
@@ -13,13 +11,12 @@ describe('BlogHomeComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [BlogHomeComponent, RouterLink, AsyncPipe, SanitizeHtmlPipe],
+      imports: [BlogHomeComponent],
       providers: [
-        { provide: BlogService, useValue: { getPosts: () => of([]) } },
-        { provide: ActivatedRoute, useValue: () => {} },
+        provideRouter([]),
+        { provide: BlogService, useValue: { getPublishedPosts: () => of([]) } },
       ],
-    })
-    .compileComponents();
+    }).compileComponents();
 
     fixture = TestBed.createComponent(BlogHomeComponent);
     component = fixture.componentInstance;

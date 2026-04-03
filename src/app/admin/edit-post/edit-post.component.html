@@ -1,34 +1,85 @@
-<div class="max-w-7xl mx-auto p-6">
-  <h1 class="text-3xl font-bold mb-6">Edit Blog Post</h1>
-  <form (ngSubmit)="updatePost()" class="space-y-6">
-    <div>
-      <label for="title" class="block text-sm font-medium">Title</label>
-      <input
-        id="title"
-        name="title"
-        [(ngModel)]="post.title"
-        class="w-full px-4 py-2 border rounded-md"
-        required
-      />
-    </div>
-    <div>
-      <label for="content" class="block text-sm font-medium">Content</label>
-      <app-editor [(content)]="post.content"></app-editor>
-    </div>
-    <div>
-      <label for="author" class="block text-sm font-medium">Author</label>
-      <input
-        id="author"
-        name="author"
-        [(ngModel)]="post.author"
-        class="w-full px-4 py-2 border rounded-md"
-      />
-    </div>
-    <button
-      type="submit"
-      class="px-6 py-2 bg-blue-700 text-white font-semibold rounded-lg hover:bg-blue-800"
-    >
-      Update Post
-    </button>
-  </form>
-</div>
+@if (post) {
+  <div class="admin-form-page">
+    <h1 class="text-2xl font-bold mb-6">Edit post</h1>
+
+    <form (ngSubmit)="updatePost()" class="admin-form space-y-5">
+      <div class="form-field">
+        <label for="title">Title</label>
+        <input
+          id="title"
+          name="title"
+          [(ngModel)]="post.title"
+          (ngModelChange)="onTitleChange()"
+          required
+          class="form-input"
+        />
+      </div>
+
+      <div class="form-field">
+        <label for="slug">URL slug</label>
+        <input
+          id="slug"
+          name="slug"
+          [(ngModel)]="slugManual"
+          (ngModelChange)="slugTouched = true"
+          class="form-input font-mono text-sm"
+        />
+        <p class="form-hint">Public URL: <code class="text-sky-400">/blog/{{ slug }}</code></p>
+      </div>
+
+      <div class="form-field">
+        <label for="excerpt">Excerpt</label>
+        <textarea
+          id="excerpt"
+          name="excerpt"
+          [(ngModel)]="post.excerpt"
+          rows="3"
+          class="form-input"
+        ></textarea>
+      </div>
+
+      <div class="form-field">
+        <label for="tags">Tags</label>
+        <input id="tags" name="tags" [(ngModel)]="tagsInput" class="form-input" />
+      </div>
+
+      <div class="form-field">
+        <label for="author">Author</label>
+        <input id="author" name="author" [(ngModel)]="post.author" class="form-input" />
+      </div>
+
+      <div class="form-field flex items-center gap-2">
+        <input id="published" type="checkbox" name="published" [(ngModel)]="post.published" />
+        <label for="published" class="!mb-0">Published</label>
+      </div>
+
+      <div class="form-field">
+        <span class="block mb-1">Hero image</span>
+        <input type="file" accept="image/*" (change)="onHeroFile($event)" class="text-sm" />
+        @if (uploading) {
+          <p class="form-hint">Uploading…</p>
+        }
+        @if (uploadError) {
+          <p class="text-amber-400 text-sm mt-1">{{ uploadError }}</p>
+        }
+        @if (post.heroImageUrl) {
+          <img [src]="post.heroImageUrl" alt="" class="mt-2 max-h-32 rounded border border-[var(--site-border)]" />
+        }
+      </div>
+
+      <div class="form-field">
+        <span class="block mb-2">Body (Markdown)</span>
+        <app-markdown-editor [(content)]="post.content"></app-markdown-editor>
+      </div>
+
+      <div class="flex gap-3 pt-2">
+        <button type="submit" class="button-primary px-5 py-2.5 rounded-lg font-medium">Save changes</button>
+        <a routerLink="/admin/posts" class="px-5 py-2.5 rounded-lg border border-[var(--site-border)] self-center text-sm">
+          Cancel
+        </a>
+      </div>
+    </form>
+  </div>
+} @else {
+  <p class="p-6 text-[var(--site-muted)]">Loading post…</p>
+}
