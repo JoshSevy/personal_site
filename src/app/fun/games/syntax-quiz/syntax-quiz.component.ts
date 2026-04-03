@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { SupabaseService } from '../../../services/supabase.service';
@@ -20,8 +20,9 @@ function shuffle<T>(items: T[]): T[] {
   templateUrl: './syntax-quiz.component.html',
   styleUrl: './syntax-quiz.component.scss',
 })
-export class SyntaxQuizComponent implements OnInit {
+export class SyntaxQuizComponent implements OnInit, OnDestroy {
   private readonly supabase = inject(SupabaseService);
+  private authUnsubscribe: (() => void) | null = null;
 
   readonly loadError = signal<string | null>(null);
   readonly loading = signal(true);
@@ -46,13 +47,22 @@ export class SyntaxQuizComponent implements OnInit {
 
   async ngOnInit(): Promise<void> {
     void this.refreshSubmitGate();
+    void this.supabase.subscribeAuthState((signedIn) => this.canSubmit.set(signedIn)).then((u) => {
+      this.authUnsubscribe = u;
+    });
     const { data, error } = await this.supabase.fetchSyntaxChallenges();
     this.loading.set(false);
     if (error) {
+      const msg = error.message;
+      const permission =
+        /permission denied|42501/i.test(msg) ||
+        msg.toLowerCase().includes('row-level security');
       this.loadError.set(
-        error.message.includes('relation') || error.message.includes('does not exist')
+        msg.includes('relation') || msg.includes('does not exist')
           ? 'The syntax_challenges table is not set up yet. Run tools/supabase-syntax-challenges.sql in the Supabase SQL editor.'
-          : error.message,
+          : permission
+            ? 'Database blocked reading syntax_challenges. In the Supabase SQL editor, run the GRANT lines (and policies) from tools/supabase-syntax-challenges.sql.'
+            : msg,
       );
       return;
     }
@@ -159,5 +169,9 @@ export class SyntaxQuizComponent implements OnInit {
       this.index.set(0);
       this.loadError.set(null);
     }
+  }
+
+  ngOnDestroy(): void {
+    this.authUnsubscribe?.();
   }
 }

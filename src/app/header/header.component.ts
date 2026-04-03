@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { SupabaseService } from '../services/supabase.service';
+import { isBlogAdminUser } from '../auth/blog-admin';
 
 @Component({
   selector: 'app-header',
@@ -10,48 +11,36 @@ import { SupabaseService } from '../services/supabase.service';
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
 })
-export class HeaderComponent implements OnInit {
+export class HeaderComponent implements OnInit, OnDestroy {
   mobileMenuOpen = false;
-  isAdminLoggedIn = false;
-  private adminCheckDone = false;
+  /** Any Supabase session (syntax quiz, etc.) */
+  isSignedIn = false;
+  /** Can open /admin (app_metadata.blog_admin) */
+  isBlogAdmin = false;
+  private authUnsubscribe: (() => void) | null = null;
 
-  constructor(private router: Router, private supabase: SupabaseService) {
-    // Don't check admin login in constructor - lazy load Supabase only when needed
-  }
+  constructor(private router: Router, private supabase: SupabaseService) {}
 
   ngOnInit() {
-    // Check admin status after a short delay to avoid blocking initial render
-    // This allows the page to load first, then check admin status
-    setTimeout(() => {
-      void this.checkAdminLogin();
-    }, 100);
+    void this.supabase.subscribeAuthState((signedIn, user) => {
+      this.isSignedIn = signedIn;
+      this.isBlogAdmin = isBlogAdminUser(user ?? null);
+    }).then((unsub) => {
+      this.authUnsubscribe = unsub;
+    });
   }
 
-  /**
-   * Lazy check admin login status - only loads Supabase when called
-   */
-  async checkAdminLogin() {
-    if (this.adminCheckDone) {
-      return;
-    }
-
-    try {
-      const { data } = await this.supabase.getUser();
-      const user = data?.user;
-      this.isAdminLoggedIn = !!(user && user.role === 'authenticated');
-      this.adminCheckDone = true;
-    } catch (error) {
-      // Supabase not loaded yet or user not authenticated - silently fail
-      this.isAdminLoggedIn = false;
-    }
+  ngOnDestroy() {
+    this.authUnsubscribe?.();
   }
 
   async logout() {
     try {
       const { error } = await this.supabase.signOut();
       if (error) throw error;
-      this.isAdminLoggedIn = false;
-      this.router.navigate([ '/' ]); // Redirect to home page after logout
+      this.isSignedIn = false;
+      this.isBlogAdmin = false;
+      void this.router.navigate([ '/' ]);
     } catch (err: any) {
       console.error('Error logging out:', err.message);
     }

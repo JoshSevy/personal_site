@@ -46,7 +46,13 @@
         class="text-sm font-semibold text-gray-200 hover:text-teal-300 transition"
       >Fun</a
       >
-      @if (isAdminLoggedIn) {
+      @if (isBlogAdmin) {
+        <a
+          routerLink="/admin"
+          class="text-sm font-semibold text-gray-200 hover:text-teal-300 transition"
+        >Admin</a>
+      }
+      @if (isSignedIn) {
         <div class="flex items-center space-x-4">
           <button
             (click)="logout()"
@@ -158,7 +164,14 @@
         class="block rounded-lg px-3 py-2 text-base font-semibold text-gray-200 hover:bg-teal-700 hover:text-white transition"
       >Fun</a
       >
-      @if (isAdminLoggedIn) {
+      @if (isBlogAdmin) {
+        <a
+          routerLink="/admin"
+          (click)="closeMobileMenu()"
+          class="block rounded-lg px-3 py-2 text-base font-semibold text-gray-200 hover:bg-teal-700 hover:text-white transition"
+        >Admin</a>
+      }
+      @if (isSignedIn) {
         <div class="flex items-center space-x-4">
           <button
             (click)="logout()"

@@ -28,7 +28,7 @@ export class LoginComponent {
     private readonly router: Router,
     private readonly route: ActivatedRoute,
   ) {
-    this.returnUrl = this.route.snapshot.queryParamMap.get('returnUrl') ?? '/admin';
+    this.returnUrl = this.route.snapshot.queryParamMap.get('returnUrl') ?? '/blog';
   }
 
   private buildCallbackUrl() {

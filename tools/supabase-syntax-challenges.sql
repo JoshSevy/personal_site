@@ -24,6 +24,11 @@ create index if not exists syntax_challenges_published_idx
 
 alter table public.syntax_challenges enable row level security;
 
+-- Table privileges: RLS still applies, but anon/authenticated must have GRANTs or PostgREST returns empty/errors.
+grant usage on schema public to anon, authenticated;
+grant select on public.syntax_challenges to anon, authenticated;
+grant insert on public.syntax_challenges to authenticated;
+
 -- Public: only published rows (play the game without login)
 create policy "syntax_challenges_select_published"
   on public.syntax_challenges
@@ -103,3 +108,12 @@ values
 );
 
 -- Run this seed block once per project. Re-running inserts duplicate rows unless you truncate first.
+
+-- If the table already existed before GRANTs were added, run only:
+--   grant usage on schema public to anon, authenticated;
+--   grant select on public.syntax_challenges to anon, authenticated;
+--   grant insert on public.syntax_challenges to authenticated;
+
+-- Blog admin vs players: the site gates /admin on JWT app_metadata.blog_admin === true (see src/app/auth/blog-admin.ts).
+-- In Supabase: Authentication → Users → your editor account → User Management → set App Metadata to {"blog_admin": true}.
+-- Players who sign up for syntax submissions do not need this flag; they cannot open /admin.

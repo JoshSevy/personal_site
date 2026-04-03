@@ -75,6 +75,24 @@ export class SupabaseService {
   }
 
   /**
+   * Subscribe to auth changes (login, logout, token refresh). Returns an unsubscribe function.
+   */
+  async subscribeAuthState(
+    callback: (signedIn: boolean, user: { app_metadata?: Record<string, unknown>; role?: string } | null) => void,
+  ): Promise<() => void> {
+    const supabase = await this.getSupabaseClient();
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange(
+      (_event: string, session: { user?: { app_metadata?: Record<string, unknown>; role?: string } } | null) => {
+        const user = session?.user ?? null;
+        callback(!!user && user.role === 'authenticated', user);
+      },
+    );
+    return () => subscription.unsubscribe();
+  }
+
+  /**
    * Used by /auth/callback to finalize OAuth/magic-link flows.
    */
   async handleAuthCallback() {

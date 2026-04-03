@@ -43,7 +43,7 @@ export class AuthCallbackComponent implements OnInit {
       return;
     }
 
-    const next = this.route.snapshot.queryParamMap.get('next') || '/admin';
+    const next = this.route.snapshot.queryParamMap.get('next') || '/blog';
     await this.router.navigateByUrl(next);
   }
 

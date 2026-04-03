@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { CanActivate, Router, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { SupabaseService } from '../../services/supabase.service';
 import { LoaderService } from '../../services/admin-loader.service';
+import { isBlogAdminUser } from '../../auth/blog-admin';
 
 @Injectable({
   providedIn: 'root',
@@ -24,7 +25,12 @@ export class AuthGuard implements CanActivate {
         return false;
       }
 
-      // Allow access if the session exists
+      if (!isBlogAdminUser(session.user)) {
+        console.warn('Access denied: Not a blog admin (set app_metadata.blog_admin in Supabase)');
+        await this.router.navigate([ '/blog' ]);
+        return false;
+      }
+
       return true;
     } catch (err) {
       console.error('Unexpected error in AuthGuard:', err);

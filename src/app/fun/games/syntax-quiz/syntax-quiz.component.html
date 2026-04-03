@@ -79,7 +79,7 @@
       @if (canSubmit()) {
         Submissions are stored in Supabase as <code class="text-violet-300/90">source = community</code> and show up for everyone.
       } @else {
-        <a routerLink="/login" class="text-sky-400 hover:underline">Sign in</a> to submit your own snippet (four choices required).
+        <a routerLink="/login" [queryParams]="{ returnUrl: '/fun/syntax-quiz' }" class="text-sky-400 hover:underline">Sign in</a> to submit your own snippet (four choices required).
       }
     </p>
 
