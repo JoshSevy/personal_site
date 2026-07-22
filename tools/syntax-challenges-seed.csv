@@ -1,0 +1,82 @@
+"language","question","code","choices","correct_index","explanation","source","is_published"
+"TypeScript","What operator narrows a union inside an `if`?","type Shape = { kind: ""circle""; r: number } | { kind: ""square""; s: number };
+function area(x: Shape) {
+  if (x.kind === ""circle"") return Math.PI * x.r * x.r;
+  return x.______ * x.s;
+}","{""s"",""side"",""size"",""length""}","0","After narrowing on circle, TypeScript knows x is the square variant; its field is s.","curated","true"
+"TypeScript","Which utility type makes every property optional?","type User = { id: string; name: string };
+type PartialUser = ________<User>;","{""Partial"",""Pick"",""Omit"",""Readonly""}","0","Partial of T maps all keys to optional.","curated","true"
+"TypeScript","What keyword asserts a value type to the compiler?","const el = document.getElementById(""root"") ______ HTMLDivElement;","{""as"",""is"",""satisfies"",""instanceof""}","0","as is a type assertion (no runtime check).","curated","true"
+"JavaScript","What calls a function with a given `this` and arguments as an array?","function greet(a, b) { return this.x + a + b; }
+const obj = { x: 1 };
+greet.______(obj, [2, 3]);","{""apply"",""call"",""bind"",""invoke""}","0","Function.prototype.apply takes (thisArg, argsArray).","curated","true"
+"JavaScript","Which method returns a shallow copy of part of an array?","const a = [1, 2, 3, 4, 5];
+const b = a.______(1, 3);","{""slice"",""splice"",""split"",""substring""}","0","slice is non-mutating; splice mutates the array.","curated","true"
+"JavaScript","What is the value of typeof null in JavaScript?","console.log(typeof null);
+// ______","{""object"",""null"",""undefined"",""boolean""}","0","Historical quirk: typeof null is the string object.","curated","true"
+"Python","What method name starts a context manager?","class CM:
+    def ______(self):
+        return self
+    def __exit__(self, *e):
+        pass","{""__enter__"",""__open__"",""__with__"",""__context__""}","0","dunder enter and dunder exit implement the context manager protocol.","curated","true"
+"Python","What keyword yields the next value from a generator?","def count():
+    n = 0
+    while True:
+        ______ n
+        n += 1","{""yield"",""return"",""raise"",""continue""}","0","yield pauses the generator and produces a value.","curated","true"
+"Python","What decorator registers a static method?","class C:
+    ______
+    def id():
+        return 1","{""@staticmethod"",""@classmethod"",""@property"",""@abstractmethod""}","0","staticmethod does not pass cls or self.","curated","true"
+"SQL (PostgreSQL)","Which operator does case-insensitive pattern match?","SELECT * FROM users WHERE email _____ '%@GMAIL.COM';","{""ILIKE"",""LIKE"",""~"",""SIMILAR TO""}","0","ILIKE is Postgres case-insensitive LIKE.","curated","true"
+"SQL (PostgreSQL)","What clause removes duplicates from result rows?","SELECT _____ email FROM subscribers;","{""DISTINCT"",""UNIQUE"",""DEDUP"",""GROUP BY""}","0","SELECT DISTINCT collapses duplicate rows.","curated","true"
+"SQL (PostgreSQL)","Which join keeps all rows from the left table?","SELECT * FROM posts _____ comments ON posts.id = comments.post_id;","{""LEFT JOIN"",""INNER JOIN"",""RIGHT JOIN"",""CROSS JOIN""}","0","LEFT JOIN preserves left-side rows without a match.","curated","true"
+"CSS","What unit is relative to the root element font size?",".title { font-size: 1.25______; }","{""rem"",""em"",""vh"",""ch""}","0","rem means root em.","curated","true"
+"CSS","Which property distributes flex items on the main axis?",".row { display: flex; ______: space-between; }","{""justify-content"",""align-items"",""gap"",""place-items""}","0","Main-axis distribution uses justify-content.","curated","true"
+"CSS","Which at-rule imports another stylesheet?","______ url(""theme.css"");","{""@import"",""@use"",""@include"",""@require""}","0","import pulls in CSS; bundlers often replace this.","curated","true"
+"HTML","Which element is appropriate for the primary navigation landmark?","<body>
+  <______ aria-label=""Main"">
+    <a href=""/"">Home</a>
+  </______>
+</body>","{""nav"",""menu"",""navigation"",""header""}","0","Use nav for major navigation blocks.","curated","true"
+"HTML","What attribute associates a label with an input?","<label _____=""email"">Email</label>
+<input id=""email"" type=""email"" />","{""for"",""href"",""name"",""target""}","0","for must match the input id.","curated","true"
+"JSON","Which value is valid JSON?","Pick the valid JSON literal.","{""A double-quoted string like \""hello\"""",""Single quotes around text"",""undefined literal"",""Keys without quotes""}","0","JSON strings must use double quotes.","curated","true"
+"JSON","What separates key-value pairs in a JSON object?","{ ""a"": 1 ______ ""b"": 2 }","{""comma"",""semicolon"",""ampersand"",""pipe""}","0","Object members are separated by commas.","curated","true"
+"YAML","What starts a folded block scalar in YAML?","description: ______
+  Line one continues
+  Line two","{"">"",""|"","">-"",""<<""}","0","Greater-than folds newlines to spaces; pipe preserves them.","curated","true"
+"Bash","Redirect stderr to the same destination as stdout:","myapp >out.txt ______","{""2>&1"",""1>&2"",""2>out.txt"",""&>>""}","0","2>&1 sends file descriptor 2 to wherever 1 goes.","curated","true"
+"Regex","What describes `*?` matching as few characters as possible?","/<tag>.*?<\\/tag>/ uses ______ repetition.","{""lazy"",""greedy"",""global"",""possessive""}","0","*? is lazy (non-greedy) repetition.","curated","true"
+"Go","How do you start a goroutine?","func main() {
+  _____ printHello()
+}","{""go"",""async"",""spawn"",""thread""}","0","The go keyword starts a goroutine.","curated","true"
+"Rust","Which method extracts T from Option<T> or panics on None?","let x = opt._____();","{""unwrap"",""take"",""get"",""expect""}","0","unwrap panics on None; expect adds a message.","curated","true"
+"Dockerfile","Which instruction sets default command or args for the container?","FROM node:20
+______ [""node"", ""server.js""]","{""CMD"",""RUN"",""ENTRYPOINT"",""EXEC""}","0","CMD supplies defaults and can be overridden at run time.","curated","true"
+"Git","What subcommand creates and switches to a new branch (modern)?","git ______ -b feature/login","{""switch"",""checkout"",""branch"",""new""}","0","git switch -b or git checkout -b both work.","curated","true"
+"HTTP","Which status code means Created after a successful POST?","POST /items returns ______","{""201"",""200"",""204"",""301""}","0","RFC 9110: 201 Created for resource creation.","curated","true"
+"GraphQL","Which root type holds read operations?","type ______ {
+  post(id: ID!): Post
+}","{""Query"",""Mutation"",""Subscription"",""Schema""}","0","Reads are declared on type Query.","curated","true"
+"Angular","Which function creates a writable signal?","import { ______ } from ""@angular/core"";
+const n = signal(0);","{""signal"",""computed"",""effect"",""model""}","0","signal() creates a writable signal.","curated","true"
+"React","Which hook runs side effects after paint?","import { ______ } from ""react"";","{""useEffect"",""useLayoutEffect"",""useMemo"",""useCallback""}","0","useEffect schedules work after the browser paints.","curated","true"
+"Markdown","What prefix creates a level-1 heading in CommonMark?","______ Page title","{""#"",""##"",""H1"",""angle h1 tag""}","0","One hash at line start is an ATX H1.","curated","true"
+"C#","What marks a nullable reference type (nullable context enabled)?","string______ name = null;","{""?"",""!"",""*"",""^""}","0","string? is nullable in nullable reference type mode.","curated","true"
+"SQL","What clause defines groups for aggregate functions?","SELECT category, COUNT(*) FROM products _____ category;","{""GROUP BY"",""ORDER BY"",""PARTITION BY"",""HAVING""}","0","GROUP BY defines aggregation buckets.","curated","true"
+"TypeScript","Which type disables static checking for a value?","function log(x: ______) {
+  console.log(x);
+}","{""any"",""unknown"",""void"",""never""}","0","any opts out of checking; unknown is the safer escape hatch.","curated","true"
+"JavaScript","What is the result of [] + []?","console.log([] + []);
+// ______","{""empty string"",""[]"",""0"",""NaN""}","0","Arrays stringify; two empty arrays become two empty strings concatenated.","curated","true"
+"Python","What built-in yields index and value while iterating?","for i, v in ______(items):
+    print(i, v)","{""enumerate"",""zip"",""range"",""iter""}","0","enumerate pairs each item with its index.","curated","true"
+"CSS","What pseudo-class matches the document root?","______ { font-size: 18px; }","{"":root"","":html"","":document"","":host""}","0",":root is usually the html element.","curated","true"
+"HTML","What attribute defers script execution until HTML is parsed?","<script src=""app.js""______></script>","{""defer"",""async"",""lazy"",""module""}","0","defer preserves order; async runs when downloaded.","curated","true"
+"Shell","Inside a bash function, how do you return status 1 to the caller?","missing() { _____ 1; }","{""return"",""exit"",""break"",""false""}","0","return sets the function exit code; exit kills the shell.","curated","true"
+"JavaScript","What is [] + {}?","console.log([] + {});
+// ______","{""[object Object]"",""{}"",""0"",""undefined""}","0","Array becomes empty string; object stringifies to [object Object].","curated","true"
+"Python","What does // do in Python 3?","x = 10 ______ 3","{""//"",""/"",""%"",""^""}","0","// is floor division.","curated","true"
+"SQL","Which constraint enforces uniqueness across rows?","CREATE TABLE t ( email text ______ );","{""UNIQUE"",""PRIMARY KEY"",""DISTINCT"",""CHECK""}","0","UNIQUE rejects duplicate values in the column.","curated","true"
+"TypeScript","What operator forms an intersection of two types?","type U = A ______ B;","{""&"",""|"",""&&"",""??""}","0","Ampersand creates an intersection type A and B.","curated","true"

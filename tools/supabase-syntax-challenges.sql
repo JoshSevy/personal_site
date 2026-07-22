@@ -109,6 +109,13 @@ values
 
 -- Run this seed block once per project. Re-running inserts duplicate rows unless you truncate first.
 
+-- CSV bulk import: tools/syntax-challenges-seed.csv (43 curated rows, mixed languages).
+-- Supabase Dashboard → Table Editor → syntax_challenges → Insert → Import data from CSV.
+-- Map columns: language, question, code, choices, correct_index, explanation, source, is_published.
+-- Omit id (uses default gen_random_uuid). Omit created_at and created_by or leave them empty.
+-- The choices column must stay in PostgreSQL array text form, e.g. {"a","b","c","d"} (already in the CSV).
+-- If the importer rejects multiline code cells, use psql \copy or paste smaller batches from the CSV.
+
 -- If the table already existed before GRANTs were added, run only:
 --   grant usage on schema public to anon, authenticated;
 --   grant select on public.syntax_challenges to anon, authenticated;
