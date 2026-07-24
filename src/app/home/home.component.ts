@@ -16,7 +16,7 @@ import { SeoService } from '../services/seo.service';
           Technical Manager & Full-Stack Engineer
         </h1>
         <p class="text-lg text-[var(--site-muted)] max-w-2xl mx-auto leading-relaxed">
-          I lead engineering teams while staying hands-on in the codebase — architecting Angular
+          I lead engineering teams while staying hands-on in the codebase: architecting Angular
           systems, building AI-assisted engineering workflows, and helping teams ship
           independently.
         </p>
@@ -47,7 +47,7 @@ import { SeoService } from '../services/seo.service';
           <h2 class="text-lg font-semibold mb-3 text-[var(--site-text)]">Focus</h2>
           <p class="text-[var(--site-muted)] text-sm leading-relaxed">
             Player-coach leadership: architecture and delivery on one hand, team growth and
-            process on the other — plus scaling AI-assisted workflows so engineers ship
+            process on the other, plus scaling AI-assisted workflows so engineers ship
             consistently without bottlenecking on one person.
           </p>
         </section>
@@ -69,7 +69,7 @@ export class HomeComponent implements OnInit {
 
   ngOnInit() {
     this.seoService.updateMetaTags({
-      title: 'Joshua Sevy — Technical Manager & Full-Stack Engineer',
+      title: 'Joshua Sevy: Technical Manager & Full-Stack Engineer',
       description:
         'Portfolio and blog of Joshua Sevy: technical leadership and full-stack engineering with Angular, GraphQL, and AI-assisted development workflows.',
       keywords: [
