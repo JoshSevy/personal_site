@@ -13,10 +13,12 @@ import { SeoService } from '../services/seo.service';
           Joshua Sevy
         </p>
         <h1 class="text-4xl md:text-5xl font-bold tracking-tight mb-4 text-[var(--site-text)]">
-          Full-stack engineer
+          Technical Manager & Full-Stack Engineer
         </h1>
         <p class="text-lg text-[var(--site-muted)] max-w-2xl mx-auto leading-relaxed">
-          I build reliable web applications with Angular, TypeScript, and pragmatic architecture.
+          I lead engineering teams while staying hands-on in the codebase — architecting Angular
+          systems, building AI-assisted engineering workflows, and helping teams ship
+          independently.
         </p>
         <div class="flex flex-wrap justify-center gap-3 mt-8">
           <a
@@ -44,15 +46,17 @@ import { SeoService } from '../services/seo.service';
         <section class="bg-card rounded-xl p-6 border border-[var(--site-border)]">
           <h2 class="text-lg font-semibold mb-3 text-[var(--site-text)]">Focus</h2>
           <p class="text-[var(--site-muted)] text-sm leading-relaxed">
-            Product-quality frontends, clear APIs, and performance that holds up for real users—not
-            just demos.
+            Player-coach leadership: architecture and delivery on one hand, team growth and
+            process on the other — plus scaling AI-assisted workflows so engineers ship
+            consistently without bottlenecking on one person.
           </p>
         </section>
         <section class="bg-card rounded-xl p-6 border border-[var(--site-border)]">
           <h2 class="text-lg font-semibold mb-3 text-[var(--site-text)]">Stack</h2>
           <ul class="text-sm text-[var(--site-muted)] space-y-2">
-            <li>Angular, TypeScript, RxJS</li>
-            <li>GraphQL, REST, Node</li>
+            <li>Angular (signals, standalone, OnPush), TypeScript, RxJS</li>
+            <li>GraphQL (Apollo), REST, Node</li>
+            <li>AI-assisted engineering tooling, agentic workflows</li>
             <li>Testing, CI, accessibility-minded UI</li>
           </ul>
         </section>
@@ -65,14 +69,17 @@ export class HomeComponent implements OnInit {
 
   ngOnInit() {
     this.seoService.updateMetaTags({
-      title: 'Joshua Sevy — Full-stack engineer',
+      title: 'Joshua Sevy — Technical Manager & Full-Stack Engineer',
       description:
-        'Portfolio and blog of Joshua Sevy: full-stack engineering with Angular, TypeScript, and modern web architecture.',
+        'Portfolio and blog of Joshua Sevy: technical leadership and full-stack engineering with Angular, GraphQL, and AI-assisted development workflows.',
       keywords: [
+        'technical manager',
+        'engineering leadership',
         'full-stack developer',
         'Angular',
         'TypeScript',
         'GraphQL',
+        'AI-assisted development',
         'software engineer',
       ],
       url: 'https://www.joshuasevy.com',
@@ -80,7 +87,7 @@ export class HomeComponent implements OnInit {
 
     this.seoService.addPersonStructuredData({
       name: 'Joshua Sevy',
-      jobTitle: 'Full-stack engineer',
+      jobTitle: 'Technical Manager & Full-Stack Engineer',
       url: 'https://www.joshuasevy.com',
       sameAs: [
         'https://github.com/JoshSevy',
