@@ -62,5 +62,25 @@ describe('LoginComponent', () => {
     expect(router.navigateByUrl).toHaveBeenCalledWith('/admin');
   });
 
+  it('renders the error message in the DOM after a failed login', async () => {
+    const supabase = TestBed.inject(SupabaseService) as any;
+    supabase.signInWithPassword.mockResolvedValueOnce({
+      data: null,
+      error: { message: 'Invalid credentials' },
+    });
+
+    component.email = 'test@example.com';
+    component.password = 'wrong';
+    // login() resolves the error after an await, outside the click handler's
+    // synchronous window. Regression guard for the bug where errorMessage was
+    // a plain field: under OnPush that write would never reach the DOM.
+    await component.login();
+    fixture.detectChanges();
+
+    const text = (fixture.nativeElement as HTMLElement).textContent ?? '';
+    expect(text).toContain('Invalid credentials');
+    expect(component.loading()).toBe(false);
+  });
+
   // Magic link intentionally disabled for this site.
 });

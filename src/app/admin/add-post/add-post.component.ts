@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { BlogStore } from '../../blog-home/state/blog.store';
@@ -11,7 +11,6 @@ import { slugify } from '../../utils/slugify';
   standalone: true,
   imports: [FormsModule, MarkdownEditorComponent, RouterLink],
   templateUrl: './add-post.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrls: ['./add-post.component.scss'],
 })
 export class AddPostComponent {
@@ -23,9 +22,11 @@ export class AddPostComponent {
   author = '';
   tagsInput = '';
   published = false;
-  heroImageUrl = '';
-  uploading = false;
-  uploadError: string | null = null;
+  // Written after an `await` inside onHeroFile, so these need to be signals
+  // for the upload status/preview to actually reach the DOM under OnPush.
+  readonly heroImageUrl = signal('');
+  readonly uploading = signal(false);
+  readonly uploadError = signal<string | null>(null);
 
   /** For template placeholder preview */
   slugifyPreview = slugify;
@@ -63,20 +64,21 @@ export class AddPostComponent {
     if (!file) {
       return;
     }
-    this.uploading = true;
-    this.uploadError = null;
+    this.uploading.set(true);
+    this.uploadError.set(null);
     try {
       const url = await this.supabase.uploadBlogHeroImage(file);
       if (url) {
-        this.heroImageUrl = url;
+        this.heroImageUrl.set(url);
       } else {
-        this.uploadError =
-          'Image upload is disabled (set SUPABASE_BLOG_IMAGES_BUCKET) or upload failed.';
+        this.uploadError.set(
+          'Image upload is disabled (set SUPABASE_BLOG_IMAGES_BUCKET) or upload failed.',
+        );
       }
     } catch (e: unknown) {
-      this.uploadError = e instanceof Error ? e.message : 'Upload failed';
+      this.uploadError.set(e instanceof Error ? e.message : 'Upload failed');
     } finally {
-      this.uploading = false;
+      this.uploading.set(false);
       input.value = '';
     }
   }
@@ -97,7 +99,7 @@ export class AddPostComponent {
         author: this.author.trim() || undefined,
         published: this.published,
         tags: this.parseTags().length ? this.parseTags() : undefined,
-        hero_image_url: this.heroImageUrl.trim() || undefined,
+        hero_image_url: this.heroImageUrl().trim() || undefined,
       })
       .subscribe({
         next: () => void this.router.navigate(['/admin/posts']),

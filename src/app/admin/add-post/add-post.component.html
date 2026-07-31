@@ -66,15 +66,15 @@
     <div class="form-field">
       <span class="block mb-1">Hero image</span>
       <input type="file" accept="image/*" (change)="onHeroFile($event)" class="text-sm" />
-      @if (uploading) {
+      @if (uploading()) {
         <p class="form-hint">Uploading…</p>
       }
-      @if (uploadError) {
-        <p class="text-amber-400 text-sm mt-1">{{ uploadError }}</p>
+      @if (uploadError()) {
+        <p class="text-amber-400 text-sm mt-1">{{ uploadError() }}</p>
       }
-      @if (heroImageUrl) {
-        <p class="form-hint mt-2 break-all">URL: {{ heroImageUrl }}</p>
-        <img [src]="heroImageUrl" alt="" class="mt-2 max-h-32 rounded border border-[var(--site-border)]" />
+      @if (heroImageUrl()) {
+        <p class="form-hint mt-2 break-all">URL: {{ heroImageUrl() }}</p>
+        <img [src]="heroImageUrl()" alt="" class="mt-2 max-h-32 rounded border border-[var(--site-border)]" />
       }
     </div>
 

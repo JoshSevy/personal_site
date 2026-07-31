@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnDestroy, OnInit, signal } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { SupabaseService } from '../services/supabase.service';
 import { isBlogAdminUser } from '../auth/blog-admin';
@@ -9,23 +9,26 @@ import { isBlogAdminUser } from '../auth/blog-admin';
     RouterLink
   ],
   templateUrl: './header.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit, OnDestroy {
-  mobileMenuOpen = false;
+  readonly mobileMenuOpen = signal(false);
   /** Any Supabase session (syntax quiz, etc.) */
-  isSignedIn = false;
+  readonly isSignedIn = signal(false);
   /** Can open /admin (app_metadata.blog_admin) */
-  isBlogAdmin = false;
+  readonly isBlogAdmin = signal(false);
   private authUnsubscribe: (() => void) | null = null;
 
   constructor(private router: Router, private supabase: SupabaseService) {}
 
   ngOnInit() {
+    // This callback fires from Supabase's own auth listener, entirely outside
+    // any template event or existing signal write. Under OnPush that means
+    // plain field writes here would never schedule a re-render, so this state
+    // has to be signals for the header to update on login/logout.
     void this.supabase.subscribeAuthState((signedIn, user) => {
-      this.isSignedIn = signedIn;
-      this.isBlogAdmin = isBlogAdminUser(user ?? null);
+      this.isSignedIn.set(signedIn);
+      this.isBlogAdmin.set(isBlogAdminUser(user ?? null));
     }).then((unsub) => {
       this.authUnsubscribe = unsub;
     });
@@ -39,8 +42,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
     try {
       const { error } = await this.supabase.signOut();
       if (error) throw error;
-      this.isSignedIn = false;
-      this.isBlogAdmin = false;
+      this.isSignedIn.set(false);
+      this.isBlogAdmin.set(false);
       void this.router.navigate([ '/' ]);
     } catch (err: any) {
       console.error('Error logging out:', err.message);
@@ -48,10 +51,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   toggleMobileMenu() {
-    this.mobileMenuOpen = !this.mobileMenuOpen;
+    this.mobileMenuOpen.update((open) => !open);
   }
 
   closeMobileMenu() {
-    this.mobileMenuOpen = false;
+    this.mobileMenuOpen.set(false);
   }
 }
