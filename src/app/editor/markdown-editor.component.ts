@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MarkdownToHtmlPipe } from '../pipes/markdown-to-html.pipe';
 
@@ -7,6 +7,7 @@ import { MarkdownToHtmlPipe } from '../pipes/markdown-to-html.pipe';
   standalone: true,
   imports: [FormsModule, MarkdownToHtmlPipe],
   templateUrl: './markdown-editor.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrls: ['./markdown-editor.component.scss'],
 })
 export class MarkdownEditorComponent {

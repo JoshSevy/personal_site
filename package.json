@@ -2,7 +2,7 @@
   "name": "personal-website",
   "version": "0.0.2",
   "engines": {
-    "node": ">=20.0.0",
+    "node": "^22.22.3 || ^24.15.0 || >=26.0.0",
     "npm": ">=10.0.0"
   },
   "scripts": {
@@ -22,20 +22,20 @@
   },
   "private": true,
   "dependencies": {
-    "@angular/animations": "^21.2.19",
-    "@angular/common": "^21.2.19",
-    "@angular/compiler": "^21.2.19",
-    "@angular/core": "^21.2.19",
-    "@angular/forms": "^21.2.19",
-    "@angular/platform-browser": "^21.2.19",
-    "@angular/platform-browser-dynamic": "^21.2.19",
-    "@angular/router": "^21.2.19",
-    "@angular/service-worker": "^21.2.19",
+    "@angular/animations": "^22.1.0",
+    "@angular/common": "^22.1.0",
+    "@angular/compiler": "^22.1.0",
+    "@angular/core": "^22.1.0",
+    "@angular/forms": "^22.1.0",
+    "@angular/platform-browser": "^22.1.0",
+    "@angular/platform-browser-dynamic": "^22.1.0",
+    "@angular/router": "^22.1.0",
+    "@angular/service-worker": "^22.1.0",
     "@apollo/client": "^4.0.0",
     "@supabase/supabase-js": "^2.49.1",
     "@tailwindcss/postcss": "^4.0.3",
     "@tailwindcss/typography": "^0.5.16",
-    "apollo-angular": "^13.0.0",
+    "apollo-angular": "^14.1.0",
     "dompurify": "^3.4.12",
     "graphql": "^16.10.0",
     "marked": "^15.0.12",
@@ -45,9 +45,9 @@
   },
   "devDependencies": {
     "@analogjs/vite-plugin-angular": "^2.6.4",
-    "@angular-devkit/build-angular": "^21.2.19",
-    "@angular/cli": "^21.2.19",
-    "@angular/compiler-cli": "^21.2.19",
+    "@angular-devkit/build-angular": "^22.1.2",
+    "@angular/cli": "^22.1.2",
+    "@angular/compiler-cli": "^22.1.0",
     "@apollo/rover": "^0.37.0",
     "@graphql-codegen/cli": "^6.2.1",
     "@graphql-codegen/schema-ast": "^5.0.1",
@@ -66,7 +66,7 @@
     "postcss": "^8.5.1",
     "sass": "^1.97.2",
     "tailwindcss": "^4.0.3",
-    "typescript": "~5.9.3",
+    "typescript": "~6.0.3",
     "vitest": "^4.1.10"
   }
 }

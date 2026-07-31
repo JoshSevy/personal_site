@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { FUN_GAMES } from './fun-games';
 
@@ -7,6 +7,7 @@ import { FUN_GAMES } from './fun-games';
   standalone: true,
   imports: [RouterLink],
   templateUrl: './fun-hub.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './fun-hub.component.scss',
 })
 export class FunHubComponent {

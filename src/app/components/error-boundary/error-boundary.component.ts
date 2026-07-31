@@ -1,10 +1,11 @@
-import { Component, ErrorHandler, Input, OnInit } from '@angular/core';
+import { Component, ErrorHandler, Input, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-error-boundary',
   standalone: true,
   imports: [CommonModule],
+  changeDetection: ChangeDetectionStrategy.Eager,
   template: `
     <ng-container *ngIf="!hasError; else errorTemplate">
       <ng-content></ng-content>
