@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { SeoService } from '../services/seo.service';
 
@@ -6,6 +6,7 @@ import { SeoService } from '../services/seo.service';
   selector: 'app-home',
   standalone: true,
   imports: [RouterLink],
+  changeDetection: ChangeDetectionStrategy.Eager,
   template: `
     <div class="home-shell max-w-5xl mx-auto px-4 py-12 md:py-16">
       <header class="text-center mb-14 md:mb-20">

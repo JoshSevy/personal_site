@@ -40,7 +40,7 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kB",
+                  "maximumWarning": "560kB",
                   "maximumError": "1MB"
                 },
                 {
@@ -99,7 +99,9 @@
           "options": {
             "buildTarget": "plans:build:development",
             "tsConfig": "tsconfig.spec.json",
-            "browsers": ["chromium"]
+            "browsers": [
+              "chromium"
+            ]
           }
         }
       }

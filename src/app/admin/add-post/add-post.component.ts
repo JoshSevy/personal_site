@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { BlogStore } from '../../blog-home/state/blog.store';
@@ -11,6 +11,7 @@ import { slugify } from '../../utils/slugify';
   standalone: true,
   imports: [FormsModule, MarkdownEditorComponent, RouterLink],
   templateUrl: './add-post.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrls: ['./add-post.component.scss'],
 })
 export class AddPostComponent {

@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { SupabaseService } from '../services/supabase.service';
 import { isBlogAdminUser } from '../auth/blog-admin';
@@ -9,6 +9,7 @@ import { isBlogAdminUser } from '../auth/blog-admin';
     RouterLink
   ],
   templateUrl: './header.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit, OnDestroy {

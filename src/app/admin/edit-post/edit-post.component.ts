@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { BlogStore } from '../../blog-home/state/blog.store';
@@ -12,6 +12,7 @@ import { slugify } from '../../utils/slugify';
   standalone: true,
   imports: [FormsModule, MarkdownEditorComponent, RouterLink],
   templateUrl: './edit-post.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrls: ['./edit-post.component.scss'],
 })
 export class EditPostComponent implements OnInit {

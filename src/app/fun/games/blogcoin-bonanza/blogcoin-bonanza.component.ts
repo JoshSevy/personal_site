@@ -6,6 +6,7 @@ import {
   OnDestroy,
   signal,
   ViewChild,
+  ChangeDetectionStrategy
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
@@ -34,6 +35,7 @@ interface Drop {
   standalone: true,
   imports: [RouterLink],
   templateUrl: './blogcoin-bonanza.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './blogcoin-bonanza.component.scss',
 })
 export class BlogcoinBonanzaComponent implements OnDestroy {

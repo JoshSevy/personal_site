@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, ChangeDetectionStrategy } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { BlogStore } from '../../blog-home/state/blog.store';
 import { BlogPost } from '../../blog-home/blog-post.model';
@@ -9,6 +9,7 @@ import { DatePipe } from '@angular/common';
   standalone: true,
   imports: [RouterLink, DatePipe],
   templateUrl: './manage-posts.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrls: ['./manage-posts.component.scss'],
 })
 export class ManagePostsComponent implements OnInit {

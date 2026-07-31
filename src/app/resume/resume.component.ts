@@ -1,4 +1,4 @@
-import { Component, OnInit, computed, inject, signal } from '@angular/core';
+import { Component, OnInit, computed, inject, signal, ChangeDetectionStrategy } from '@angular/core';
 import { Apollo } from 'apollo-angular';
 import { catchError, map } from 'rxjs/operators';
 import { EMPTY } from 'rxjs';
@@ -25,6 +25,7 @@ interface GithubStats {
   standalone: true,
   imports: [],
   templateUrl: './resume.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrls: ['./resume.component.scss'],
 })
 export class ResumeComponent implements OnInit {

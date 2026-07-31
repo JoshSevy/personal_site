@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SupabaseService } from '../../services/supabase.service';
 import { CommonModule } from '@angular/common';
@@ -7,6 +7,7 @@ import { CommonModule } from '@angular/common';
   selector: 'app-auth-callback',
   standalone: true,
   imports: [CommonModule],
+  changeDetection: ChangeDetectionStrategy.Eager,
   template: `
     <div class="max-w-md mx-auto mt-20 p-6 bg-black rounded-lg shadow-md">
       <h2 class="text-xl font-bold text-center mb-2">
