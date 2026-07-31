@@ -3,7 +3,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Apollo } from 'apollo-angular';
 import { ApolloQueryResult } from '@apollo/client/core';
 import { EMPTY, Observable, Subject } from 'rxjs';
-import { map, switchMap, tap } from 'rxjs/operators';
+import { catchError, map, switchMap, tap } from 'rxjs/operators';
 import { BlogPost } from '../blog-post.model';
 import {
   CreatePostDocument,
@@ -94,7 +94,16 @@ export class BlogStore {
             variables: { slug },
             fetchPolicy: 'cache-and-network',
             notifyOnNetworkStatusChange: true,
-          }).valueChanges;
+          }).valueChanges.pipe(
+            // Keep the switchMap chain alive on network errors so later
+            // slug requests aren't silently dropped for the rest of the session.
+            catchError((err) => {
+              console.error('Failed to load post by slug', err);
+              this.postBySlugLoading.set(false);
+              this.postBySlug.set(null);
+              return EMPTY;
+            }),
+          );
         }),
         takeUntilDestroyed(this.destroyRef),
       )
@@ -119,7 +128,14 @@ export class BlogStore {
         fetchPolicy: 'cache-and-network',
         notifyOnNetworkStatusChange: true,
       })
-      .valueChanges.pipe(takeUntilDestroyed(this.destroyRef))
+      .valueChanges.pipe(
+        catchError((err) => {
+          console.error('Failed to load published posts', err);
+          this.publishedLoading.set(false);
+          return EMPTY;
+        }),
+        takeUntilDestroyed(this.destroyRef),
+      )
       .subscribe((result: ApolloQueryResult<GQLGetPublishedPostsQuery>) => {
         if (result.data?.posts != null) {
           const list = result.data.posts
@@ -143,7 +159,14 @@ export class BlogStore {
         fetchPolicy: 'cache-and-network',
         notifyOnNetworkStatusChange: true,
       })
-      .valueChanges.pipe(takeUntilDestroyed(this.destroyRef))
+      .valueChanges.pipe(
+        catchError((err) => {
+          console.error('Failed to load all posts', err);
+          this.allPostsLoading.set(false);
+          return EMPTY;
+        }),
+        takeUntilDestroyed(this.destroyRef),
+      )
       .subscribe((result: ApolloQueryResult<GQLGetAllPostsQuery>) => {
         if (result.data?.posts != null) {
           const list = result.data.posts

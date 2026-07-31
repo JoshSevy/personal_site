@@ -37,6 +37,7 @@
     "@tailwindcss/postcss": "^4.0.3",
     "@tailwindcss/typography": "^0.5.16",
     "apollo-angular": "^13.0.0",
+    "dompurify": "^3.4.12",
     "graphql": "^16.10.0",
     "marked": "^15.0.12",
     "prismjs": "1.30.0",
