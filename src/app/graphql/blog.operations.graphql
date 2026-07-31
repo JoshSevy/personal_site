@@ -104,3 +104,16 @@ mutation DeletePost($id: ID!) {
     id
   }
 }
+
+query GetGithubStats($username: String!) {
+  githubStats(username: $username) {
+    username
+    publicRepos
+    sourceRepos
+    memberSince
+    topLanguages {
+      name
+      repoCount
+    }
+  }
+}

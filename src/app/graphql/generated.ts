@@ -17,6 +17,21 @@ export type Scalars = {
   Float: { input: number; output: number; }
 };
 
+export type GQLGithubLanguage = {
+  __typename?: 'GithubLanguage';
+  name: Scalars['String']['output'];
+  repoCount: Scalars['Int']['output'];
+};
+
+export type GQLGithubStats = {
+  __typename?: 'GithubStats';
+  memberSince: Scalars['String']['output'];
+  publicRepos: Scalars['Int']['output'];
+  sourceRepos: Scalars['Int']['output'];
+  topLanguages: Array<GQLGithubLanguage>;
+  username: Scalars['String']['output'];
+};
+
 export type GQLMutation = {
   __typename?: 'Mutation';
   createPost?: Maybe<GQLPost>;
@@ -71,10 +86,15 @@ export type GQLPost = {
 
 export type GQLQuery = {
   __typename?: 'Query';
+  githubStats?: Maybe<GQLGithubStats>;
   post?: Maybe<GQLPost>;
   postBySlug?: Maybe<GQLPost>;
   posts?: Maybe<Array<Maybe<GQLPost>>>;
-  trophies?: Maybe<Scalars['String']['output']>;
+};
+
+
+export type GQLQueryGithubStatsArgs = {
+  username: Scalars['String']['input'];
 };
 
 
@@ -90,11 +110,6 @@ export type GQLQueryPostBySlugArgs = {
 
 export type GQLQueryPostsArgs = {
   publishedOnly?: InputMaybe<Scalars['Boolean']['input']>;
-};
-
-
-export type GQLQueryTrophiesArgs = {
-  username: Scalars['String']['input'];
 };
 
 export type GQLPostListFieldsFragment = { __typename?: 'Post', id: string, title: string, slug: string, excerpt?: string | null, author?: string | null, publish_date?: string | null, updated_at?: string | null, published: boolean, tags?: Array<string> | null, hero_image_url?: string | null };
@@ -161,12 +176,12 @@ export type GQLDeletePostMutationVariables = Exact<{
 
 export type GQLDeletePostMutation = { __typename?: 'Mutation', deletePost?: { __typename?: 'Post', id: string } | null };
 
-export type GQLGetGithubTrophiesQueryVariables = Exact<{
+export type GQLGetGithubStatsQueryVariables = Exact<{
   username: Scalars['String']['input'];
 }>;
 
 
-export type GQLGetGithubTrophiesQuery = { __typename?: 'Query', trophies?: string | null };
+export type GQLGetGithubStatsQuery = { __typename?: 'Query', githubStats?: { __typename?: 'GithubStats', username: string, publicRepos: number, sourceRepos: number, memberSince: string, topLanguages: Array<{ __typename?: 'GithubLanguage', name: string, repoCount: number }> } | null };
 
 export const PostListFieldsFragmentDoc = gql`
     fragment PostListFields on Post {
@@ -342,17 +357,26 @@ export const DeletePostDocument = gql`
       super(apollo);
     }
   }
-export const GetGithubTrophiesDocument = gql`
-    query GetGithubTrophies($username: String!) {
-  trophies(username: $username)
+export const GetGithubStatsDocument = gql`
+    query GetGithubStats($username: String!) {
+  githubStats(username: $username) {
+    username
+    publicRepos
+    sourceRepos
+    memberSince
+    topLanguages {
+      name
+      repoCount
+    }
+  }
 }
     `;
 
   @Injectable({
     providedIn: 'root'
   })
-  export class GQLGetGithubTrophiesGQL extends Apollo.Query<GQLGetGithubTrophiesQuery, GQLGetGithubTrophiesQueryVariables> {
-    override document = GetGithubTrophiesDocument;
+  export class GQLGetGithubStatsGQL extends Apollo.Query<GQLGetGithubStatsQuery, GQLGetGithubStatsQueryVariables> {
+    override document = GetGithubStatsDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
