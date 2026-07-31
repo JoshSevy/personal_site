@@ -42,7 +42,8 @@
           >
             <!-- Inline envelope SVG -->
             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-              <path d="M2.25 4.5A2.25 2.25 0 014.5 2.25h15A2.25 2.25 0 0121.75 4.5v15a2.25 2.25 0 01-2.25 2.25H4.5A2.25 2.25 0 012.25 19.5v-15zM4.5 6.38v-.13L12 11.44l7.5-5.19v.13L12 13.06 4.5 6.38z"/>
+              <path d="M1.5 8.67v8.58a3 3 0 003 3h15a3 3 0 003-3V8.67l-8.928 5.493a3 3 0 01-3.144 0L1.5 8.67z"/>
+              <path d="M22.5 6.908V6.75a3 3 0 00-3-3h-15a3 3 0 00-3 3v.158l9.714 5.978a1.5 1.5 0 001.572 0L22.5 6.908z"/>
             </svg>
           </a>
         </li>
@@ -89,20 +90,35 @@
       <p class="text-sm mb-4">
         Stay updated with the latest posts and news. Subscribe to the newsletter!
       </p>
-      <form class="flex flex-col space-y-2">
-        <input
-          type="email"
-          placeholder="Your email"
-          class="px-4 py-2 rounded-lg text-gray-900 focus:ring-2 focus:ring-teal-500 focus:outline-none"
-          aria-label="Email Address"
-        />
-        <button
-          type="submit"
-          class="px-4 py-2 bg-teal-700 text-white rounded-lg hover:bg-teal-800 focus:ring-2 focus:ring-teal-500 focus:outline-none transition ease-in-out duration-300"
-        >
-          Subscribe
-        </button>
-      </form>
+      @if (subscribed()) {
+        <p class="text-sm text-teal-300">Thanks for subscribing!</p>
+      } @else {
+        <form class="flex flex-col space-y-2" (ngSubmit)="onSubscribe()">
+          <input
+            type="email"
+            name="email"
+            placeholder="Your email"
+            required
+            [(ngModel)]="subscribeEmail"
+            [disabled]="subscribing()"
+            class="px-4 py-2 rounded-lg text-gray-900 focus:ring-2 focus:ring-teal-500 focus:outline-none"
+            aria-label="Email Address"
+          />
+          <button
+            type="submit"
+            [disabled]="subscribing()"
+            class="px-4 py-2 bg-teal-700 text-white rounded-lg hover:bg-teal-800 focus:ring-2 focus:ring-teal-500 focus:outline-none transition ease-in-out duration-300 disabled:opacity-60"
+          >
+            {{ subscribing() ? 'Subscribing...' : 'Subscribe' }}
+          </button>
+          @if (subscribeError()) {
+            <p class="text-sm text-red-300">{{ subscribeError() }}</p>
+          }
+        </form>
+        <a routerLink="/unsubscribe" class="text-xs text-gray-400 hover:text-teal-300 transition mt-2 inline-block">
+          Unsubscribe
+        </a>
+      }
     </div>
   </div>
 

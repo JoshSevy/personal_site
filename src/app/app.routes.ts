@@ -84,6 +84,11 @@ export const routes: Routes = [
     ],
   },
 
+  {
+    path: 'unsubscribe',
+    loadComponent: () => import('./unsubscribe/unsubscribe.component').then(m => m.UnsubscribeComponent)
+  },
+
   // Legal Routes - Lazy loaded
   {
     path: 'privacy-policy',
