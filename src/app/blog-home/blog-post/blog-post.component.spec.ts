@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { signal } from '@angular/core';
 import { of } from 'rxjs';
-import { ActivatedRoute, convertToParamMap, Router } from '@angular/router';
+import { ActivatedRoute, convertToParamMap, provideRouter } from '@angular/router';
 
 import { BlogPostComponent } from './blog-post.component';
 import { BlogStore } from '../state/blog.store';
@@ -27,10 +27,6 @@ const activatedRouteStub: Partial<ActivatedRoute> = {
   } as ActivatedRoute['snapshot'],
 };
 
-const routerStub: Partial<Router> = {
-  navigate: () => Promise.resolve(true),
-};
-
 const seoStub: Partial<SeoService> = {
   updateMetaTags: () => {},
   addArticleStructuredData: () => {},
@@ -53,8 +49,10 @@ describe('BlogPostComponent', () => {
             fetchPostById: () => of(sample),
           },
         },
+        // RouterLink in the template subscribes to Router.events, so it needs
+        // a real Router rather than a navigate-only stub.
+        provideRouter([]),
         { provide: ActivatedRoute, useValue: activatedRouteStub },
-        { provide: Router, useValue: routerStub },
         { provide: SeoService, useValue: seoStub },
       ],
     }).compileComponents();
