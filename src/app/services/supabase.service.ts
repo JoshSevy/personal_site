@@ -163,4 +163,24 @@ export class SupabaseService {
     }
     return { data: data as SyntaxChallenge[], error: null };
   }
+
+  /** Adds an email to the newsletter subscribers list, clearing any prior unsubscribe. */
+  async subscribeToNewsletter(email: string): Promise<{ error: Error | null }> {
+    const supabase = await this.getSupabaseClient();
+    const { error } = await supabase.rpc('subscribe_email', { p_email: email });
+    if (error) {
+      return { error: new Error(error.message) };
+    }
+    return { error: null };
+  }
+
+  /** Opts an email out of future notifications (email, and any future channels e.g. SMS). */
+  async unsubscribeEmail(email: string): Promise<{ error: Error | null }> {
+    const supabase = await this.getSupabaseClient();
+    const { error } = await supabase.rpc('unsubscribe_email', { p_email: email });
+    if (error) {
+      return { error: new Error(error.message) };
+    }
+    return { error: null };
+  }
 }

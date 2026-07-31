@@ -1,0 +1,42 @@
+<div class="min-h-screen bg-light dark:bg-gray-900 text-primary px-6 py-12 fade-in">
+  <div class="max-w-md mx-auto text-center">
+    <h1 class="text-4xl font-bold mb-6 text-[var(--site-text)]">Unsubscribe</h1>
+
+    @if (done()) {
+      <p class="text-lg text-secondary leading-relaxed">
+        You've been unsubscribed. You won't receive any further emails or notifications from us.
+      </p>
+    } @else {
+      <p class="text-lg text-secondary leading-relaxed mb-8">
+        Enter the email address you'd like to stop hearing from us at.
+      </p>
+
+      <form (ngSubmit)="onUnsubscribe()" class="bg-card dark:bg-gray-800 p-6 rounded-lg shadow-md text-left">
+        <label for="email" class="block text-lg font-medium">Email</label>
+        <input
+          type="email"
+          id="email"
+          name="email"
+          required
+          [(ngModel)]="email"
+          [disabled]="submitting()"
+          class="w-full p-3 mt-1 rounded-md bg-gray-200 dark:bg-gray-700 dark:text-white
+                 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+        />
+
+        <button
+          type="submit"
+          [disabled]="submitting()"
+          class="w-full mt-4 px-6 py-3 bg-blue-500 text-white font-semibold rounded-lg
+                 shadow-md hover:bg-blue-600 transition disabled:opacity-60"
+        >
+          {{ submitting() ? 'Unsubscribing...' : 'Unsubscribe' }}
+        </button>
+
+        @if (errorMessage()) {
+          <p class="text-sm text-red-500 mt-3">{{ errorMessage() }}</p>
+        }
+      </form>
+    }
+  </div>
+</div>
