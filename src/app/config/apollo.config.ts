@@ -35,16 +35,9 @@ const typePolicies: Record<string, TypePolicy> = {
           return existing;
         }
       } as FieldPolicy,
-      trophies: {
-        // Merge function for trophies
-        merge(existing: any = null, incoming: any) {
-          return incoming;
-        },
-        // Read function for trophies
-        read(existing: any = null) {
-          return existing;
-        }
-      } as FieldPolicy
+      // Deliberately no field policy for githubStats. A read() that returns
+      // `existing` makes cache-first treat an empty cache as a hit and resolve
+      // to null without ever fetching. Default caching is correct here.
     }
   }
 };
@@ -62,10 +55,18 @@ export function createApolloProvider() {
 
       const authLink = setContext(async (_, prev) => {
         const headers = { ...(prev['headers'] as Record<string, string> | undefined) };
-        const { data } = await supabase.getSession();
-        const token = data?.session?.access_token;
-        if (token) {
-          headers['Authorization'] = `Bearer ${token}`;
+        // Attaching a token is best-effort. If Supabase is unreachable or
+        // unconfigured, creating its client throws, and letting that escape
+        // here rejects the link before the request is ever sent, which
+        // silently stalls every query including public ones that need no auth.
+        try {
+          const { data } = await supabase.getSession();
+          const token = data?.session?.access_token;
+          if (token) {
+            headers['Authorization'] = `Bearer ${token}`;
+          }
+        } catch (err) {
+          console.warn('Could not attach Supabase auth token; continuing anonymously', err);
         }
         return { headers };
       });
