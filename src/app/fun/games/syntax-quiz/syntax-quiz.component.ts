@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { SupabaseService } from '../../../services/supabase.service';
 import type { SyntaxChallenge } from '../../../models/syntax-challenge.model';
@@ -17,7 +17,6 @@ function shuffle<T>(items: T[]): T[] {
   standalone: true,
   imports: [RouterLink],
   templateUrl: './syntax-quiz.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './syntax-quiz.component.scss',
 })
 export class SyntaxQuizComponent implements OnInit {

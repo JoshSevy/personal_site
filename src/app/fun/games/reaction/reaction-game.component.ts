@@ -1,4 +1,4 @@
-import { Component, HostListener, OnDestroy, signal, ChangeDetectionStrategy } from '@angular/core';
+import { Component, HostListener, OnDestroy, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
 const STORAGE_KEY = 'lightning-tap-best-ms';
@@ -10,7 +10,6 @@ type Phase = 'intro' | 'waiting' | 'go' | 'result' | 'early';
   standalone: true,
   imports: [RouterLink],
   templateUrl: './reaction-game.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './reaction-game.component.scss',
 })
 export class ReactionGameComponent implements OnDestroy {

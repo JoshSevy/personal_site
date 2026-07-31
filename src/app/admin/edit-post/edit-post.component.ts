@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { BlogStore } from '../../blog-home/state/blog.store';
@@ -12,16 +12,18 @@ import { slugify } from '../../utils/slugify';
   standalone: true,
   imports: [FormsModule, MarkdownEditorComponent, RouterLink],
   templateUrl: './edit-post.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrls: ['./edit-post.component.scss'],
 })
 export class EditPostComponent implements OnInit {
-  post: BlogPost | null = null;
+  // Loaded inside a BlogStore subscribe callback, which resolves outside any
+  // template event or existing signal write. Needs to be a signal for the
+  // null -> loaded transition to reach the DOM under OnPush.
+  readonly post = signal<BlogPost | null>(null);
   slugManual = '';
   slugTouched = false;
   tagsInput = '';
-  uploading = false;
-  uploadError: string | null = null;
+  readonly uploading = signal(false);
+  readonly uploadError = signal<string | null>(null);
 
   constructor(
     private blogStore: BlogStore,
@@ -37,7 +39,8 @@ export class EditPostComponent implements OnInit {
     if (manual) {
       return slugify(manual);
     }
-    return this.post ? slugify(this.post.title) : '';
+    const post = this.post();
+    return post ? slugify(post.title) : '';
   }
 
   ngOnInit() {
@@ -52,16 +55,21 @@ export class EditPostComponent implements OnInit {
         void this.router.navigate(['/admin/posts']);
         return;
       }
-      this.post = { ...p };
+      // slugManual/slugTouched/tagsInput are plain fields, but that's safe:
+      // they're only read inside the `@if (post(); as p)` block, and the
+      // post.set() call right below triggers the CD pass that picks them
+      // all up together.
       this.slugManual = p.slug;
       this.slugTouched = true;
       this.tagsInput = (p.tags ?? []).join(', ');
+      this.post.set({ ...p });
     });
   }
 
   onTitleChange(): void {
-    if (!this.slugTouched && this.post) {
-      this.slugManual = slugify(this.post.title);
+    const post = this.post();
+    if (!this.slugTouched && post) {
+      this.slugManual = slugify(post.title);
     }
   }
 
@@ -75,48 +83,50 @@ export class EditPostComponent implements OnInit {
   async onHeroFile(event: Event) {
     const input = event.target as HTMLInputElement;
     const file = input.files?.[0];
-    if (!file || !this.post) {
+    if (!file || !this.post()) {
       return;
     }
-    this.uploading = true;
-    this.uploadError = null;
+    this.uploading.set(true);
+    this.uploadError.set(null);
     try {
       const url = await this.supabase.uploadBlogHeroImage(file);
       if (url) {
-        this.post.heroImageUrl = url;
+        this.post.update((p) => (p ? { ...p, heroImageUrl: url } : p));
       } else {
-        this.uploadError =
-          'Image upload is disabled (set SUPABASE_BLOG_IMAGES_BUCKET) or upload failed.';
+        this.uploadError.set(
+          'Image upload is disabled (set SUPABASE_BLOG_IMAGES_BUCKET) or upload failed.',
+        );
       }
     } catch (e: unknown) {
-      this.uploadError = e instanceof Error ? e.message : 'Upload failed';
+      this.uploadError.set(e instanceof Error ? e.message : 'Upload failed');
     } finally {
-      this.uploading = false;
+      this.uploading.set(false);
       input.value = '';
     }
   }
 
   updatePost() {
     const id = this.route.snapshot.paramMap.get('id');
-    if (!id || !this.post) {
+    const post = this.post();
+    if (!id || !post) {
       return;
     }
     const s = this.slug;
-    if (!this.post.title.trim() || !s || !this.post.content.trim()) {
+    if (!post.title.trim() || !s || !post.content.trim()) {
       alert('Title, slug, and content are required.');
       return;
     }
 
     this.blogStore
       .updatePost(id, {
-        title: this.post.title.trim(),
+        title: post.title.trim(),
         slug: s,
-        content: this.post.content,
-        excerpt: this.post.excerpt.trim() || undefined,
-        author: this.post.author.trim() || undefined,
-        published: this.post.published,
+        content: post.content,
+        excerpt: post.excerpt.trim() || undefined,
+        author: post.author.trim() || undefined,
+        published: post.published,
         tags: this.parseTags().length ? this.parseTags() : undefined,
-        hero_image_url: this.post.heroImageUrl?.trim() || undefined,
+        hero_image_url: post.heroImageUrl?.trim() || undefined,
       })
       .subscribe({
         next: () => void this.router.navigate(['/admin/posts']),

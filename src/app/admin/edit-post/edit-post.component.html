@@ -1,4 +1,4 @@
-@if (post) {
+@if (post(); as p) {
   <div class="admin-form-page">
     <h1 class="text-2xl font-bold mb-6">Edit post</h1>
 
@@ -8,7 +8,7 @@
         <input
           id="title"
           name="title"
-          [(ngModel)]="post.title"
+          [(ngModel)]="p.title"
           (ngModelChange)="onTitleChange()"
           required
           class="form-input"
@@ -32,7 +32,7 @@
         <textarea
           id="excerpt"
           name="excerpt"
-          [(ngModel)]="post.excerpt"
+          [(ngModel)]="p.excerpt"
           rows="3"
           class="form-input"
         ></textarea>
@@ -45,31 +45,31 @@
 
       <div class="form-field">
         <label for="author">Author</label>
-        <input id="author" name="author" [(ngModel)]="post.author" class="form-input" />
+        <input id="author" name="author" [(ngModel)]="p.author" class="form-input" />
       </div>
 
       <div class="form-field flex items-center gap-2">
-        <input id="published" type="checkbox" name="published" [(ngModel)]="post.published" />
+        <input id="published" type="checkbox" name="published" [(ngModel)]="p.published" />
         <label for="published" class="!mb-0">Published</label>
       </div>
 
       <div class="form-field">
         <span class="block mb-1">Hero image</span>
         <input type="file" accept="image/*" (change)="onHeroFile($event)" class="text-sm" />
-        @if (uploading) {
+        @if (uploading()) {
           <p class="form-hint">Uploading…</p>
         }
-        @if (uploadError) {
-          <p class="text-amber-400 text-sm mt-1">{{ uploadError }}</p>
+        @if (uploadError()) {
+          <p class="text-amber-400 text-sm mt-1">{{ uploadError() }}</p>
         }
-        @if (post.heroImageUrl) {
-          <img [src]="post.heroImageUrl" alt="" class="mt-2 max-h-32 rounded border border-[var(--site-border)]" />
+        @if (p.heroImageUrl) {
+          <img [src]="p.heroImageUrl" alt="" class="mt-2 max-h-32 rounded border border-[var(--site-border)]" />
         }
       </div>
 
       <div class="form-field">
         <span class="block mb-2">Body (Markdown)</span>
-        <app-markdown-editor [(content)]="post.content"></app-markdown-editor>
+        <app-markdown-editor [(content)]="p.content"></app-markdown-editor>
       </div>
 
       <div class="flex gap-3 pt-2">

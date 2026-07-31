@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SupabaseService } from '../../services/supabase.service';
 import { FormsModule } from '@angular/forms';
@@ -8,7 +8,6 @@ import { CommonModule } from '@angular/common';
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
-  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     CommonModule,
     FormsModule
@@ -18,9 +17,12 @@ export class LoginComponent {
   email = '';
   password = '';
 
-  loading = false;
-  errorMessage = '';
-  infoMessage = '';
+  // These are all read after an `await`, outside the synchronous window that
+  // triggers a re-render for the event handler that kicked things off.
+  // Signals notify on write regardless of when that happens.
+  readonly loading = signal(false);
+  readonly errorMessage = signal('');
+  readonly infoMessage = signal('');
 
   private readonly returnUrl: string;
 
@@ -40,14 +42,14 @@ export class LoginComponent {
   }
 
   async login() {
-    this.loading = true;
-    this.errorMessage = '';
-    this.infoMessage = '';
+    this.loading.set(true);
+    this.errorMessage.set('');
+    this.infoMessage.set('');
 
     try {
       const { data, error } = await this.supabase.signInWithPassword(this.email, this.password);
       if (error) {
-        this.errorMessage = error.message;
+        this.errorMessage.set(error.message);
         return;
       }
 
@@ -55,28 +57,28 @@ export class LoginComponent {
         await this.router.navigateByUrl(this.returnUrl);
       }
     } catch (e: any) {
-      this.errorMessage = e?.message ?? 'Login failed';
+      this.errorMessage.set(e?.message ?? 'Login failed');
     } finally {
-      this.loading = false;
+      this.loading.set(false);
     }
   }
 
   async continueWithGoogle() {
-    this.loading = true;
-    this.errorMessage = '';
-    this.infoMessage = '';
+    this.loading.set(true);
+    this.errorMessage.set('');
+    this.infoMessage.set('');
 
     try {
       const callbackUrl = this.buildCallbackUrl();
       const { error } = await this.supabase.signInWithGoogle(callbackUrl);
       if (error) {
-        this.errorMessage = error.message;
+        this.errorMessage.set(error.message);
       }
       // On success, Supabase redirects away—no navigation needed here.
     } catch (e: any) {
-      this.errorMessage = e?.message ?? 'Google sign-in failed';
+      this.errorMessage.set(e?.message ?? 'Google sign-in failed');
     } finally {
-      this.loading = false;
+      this.loading.set(false);
     }
   }
 }

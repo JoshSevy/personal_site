@@ -1,4 +1,4 @@
-import { Component, DestroyRef, OnInit, effect, inject, ChangeDetectionStrategy } from '@angular/core';
+import { Component, DestroyRef, OnInit, effect, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { DatePipe } from '@angular/common';
@@ -13,7 +13,6 @@ import { BlogStore } from '../state/blog.store';
   standalone: true,
   imports: [DatePipe, MarkdownToHtmlPipe, HighlightCodeDirective, RouterLink],
   templateUrl: './blog-post.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrls: ['./blog-post.component.scss'],
 })
 export class BlogPostComponent implements OnInit {
