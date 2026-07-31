@@ -6,7 +6,9 @@ import { SupabaseService } from '../services/supabase.service';
 
 const supabaseStub: Partial<SupabaseService> = {
   getUser: async () => ({ data: { user: null } }),
-  signOut: async () => ({ error: null })
+  signOut: async () => ({ error: null }),
+  // ngOnInit subscribes to auth state on init, so the stub has to provide it.
+  subscribeAuthState: async () => () => undefined
 };
 
 
